@@ -257,7 +257,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-lg-3">
-                                    <fieldset :disabled="sharedData.clienteSeleccionado && !sharedData.permisoModificarTerritorios">
+                                    <fieldset>
                                         <div class="form-group">
                                             <label>Tipo de cliente</label>
                                             <select class="form-control" id="dg_tipoCliente" @change="consultaTipoDeCliente($event)" v-model="datosGenerales.tipoCliente">
@@ -272,7 +272,7 @@
                                     </fieldset>
                                 </div>
                                 <div class="col-6 col-lg-3">
-                                    <fieldset :disabled="(datosGenerales.tipoCliente != 3 && datosGenerales.tipoCliente != -1) || (sharedData.clienteSeleccionado && !sharedData.permisoModificarTerritorios)">
+                                    <fieldset :disabled="(datosGenerales.tipoCliente != 3 && datosGenerales.tipoCliente != -1)">
                                         <div class="form-group">
                                             <label>Cuenta corporativa</label>
                                             <select class="form-control" id="dg_cuentaCorporativa" v-model="datosGenerales.cuentaCorporativa">
