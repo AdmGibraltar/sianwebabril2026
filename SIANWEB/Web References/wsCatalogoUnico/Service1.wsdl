@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SGCUPTodos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id_Prd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SGCUPTodosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SGCUPTodosResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SGCUPListaCorta">
+        <s:complexType />
+      </s:element>
+      <s:element name="SGCUPListaCortaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SGCUPListaCortaResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SGCUPAplSubf">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id_Prd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SGCUPAplSubfResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SGCUPAplSubfResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XMLSGCUP_Interno">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id_Prd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XMLSGCUP_InternoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLSGCUP_InternoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SGCUPTodosSoapIn">
+    <wsdl:part name="parameters" element="tns:SGCUPTodos" />
+  </wsdl:message>
+  <wsdl:message name="SGCUPTodosSoapOut">
+    <wsdl:part name="parameters" element="tns:SGCUPTodosResponse" />
+  </wsdl:message>
+  <wsdl:message name="SGCUPListaCortaSoapIn">
+    <wsdl:part name="parameters" element="tns:SGCUPListaCorta" />
+  </wsdl:message>
+  <wsdl:message name="SGCUPListaCortaSoapOut">
+    <wsdl:part name="parameters" element="tns:SGCUPListaCortaResponse" />
+  </wsdl:message>
+  <wsdl:message name="SGCUPAplSubfSoapIn">
+    <wsdl:part name="parameters" element="tns:SGCUPAplSubf" />
+  </wsdl:message>
+  <wsdl:message name="SGCUPAplSubfSoapOut">
+    <wsdl:part name="parameters" element="tns:SGCUPAplSubfResponse" />
+  </wsdl:message>
+  <wsdl:message name="XMLSGCUP_InternoSoapIn">
+    <wsdl:part name="parameters" element="tns:XMLSGCUP_Interno" />
+  </wsdl:message>
+  <wsdl:message name="XMLSGCUP_InternoSoapOut">
+    <wsdl:part name="parameters" element="tns:XMLSGCUP_InternoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="SGCUPTodos">
+      <wsdl:input message="tns:SGCUPTodosSoapIn" />
+      <wsdl:output message="tns:SGCUPTodosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPListaCorta">
+      <wsdl:input message="tns:SGCUPListaCortaSoapIn" />
+      <wsdl:output message="tns:SGCUPListaCortaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPAplSubf">
+      <wsdl:input message="tns:SGCUPAplSubfSoapIn" />
+      <wsdl:output message="tns:SGCUPAplSubfSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Interno">
+      <wsdl:input message="tns:XMLSGCUP_InternoSoapIn" />
+      <wsdl:output message="tns:XMLSGCUP_InternoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SGCUPTodos">
+      <soap:operation soapAction="http://tempuri.org/SGCUPTodos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPListaCorta">
+      <soap:operation soapAction="http://tempuri.org/SGCUPListaCorta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPAplSubf">
+      <soap:operation soapAction="http://tempuri.org/SGCUPAplSubf" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Interno">
+      <soap:operation soapAction="http://tempuri.org/XMLSGCUP_Interno" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SGCUPTodos">
+      <soap12:operation soapAction="http://tempuri.org/SGCUPTodos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPListaCorta">
+      <soap12:operation soapAction="http://tempuri.org/SGCUPListaCorta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SGCUPAplSubf">
+      <soap12:operation soapAction="http://tempuri.org/SGCUPAplSubf" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Interno">
+      <soap12:operation soapAction="http://tempuri.org/XMLSGCUP_Interno" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://40.124.41.101/wssgcup/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://40.124.41.101/wssgcup/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

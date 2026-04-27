@@ -1,0 +1,142 @@
+﻿<%@ Master Language="C#"
+    AutoEventWireup="true"
+    CodeBehind="MasterPageModal.master.cs"
+    Inherits="SIANWEB.MasterPage.MasterPageModal" %>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        .iicon {
+            font-size:22px;
+            color:orange;
+            margin-right:10px
+        }
+        #spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 0.2s;
+        }
+
+        #spinner img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        #spinner {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        #spinner.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body onload="load()">
+    <div id="spinner">
+        <img runat="server" src="../Imagenes/ajax-loader.gif" />
+    </div>
+
+    <form runat="server">
+        <asp:ContentPlaceHolder ID="content" runat="server" /> 
+    </form>
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog" tabindex="-1" id="alert_success" >
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">
+                        <i style="color:green" class="bi bi-check-circle iicon"></i>
+                        Ok!
+                    </h6>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <span id="messageSuccess" class="align-self-center"></span>
+                        <button onclick="hideAlertSuccess()" class="btn btn-info ml-auto mr-3">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog" tabindex="-1" id="alert_error" >
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">
+                        <i class="bi bi-exclamation-triangle iicon"></i>
+                        Alerta
+                    </h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="messageError"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function load() {
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler)
+        }
+
+        function endRequestHandler() {
+            hideLoader()
+        }
+
+        function showLoader() {
+            jQuery('#spinner').addClass('show')
+        }
+
+        function hideLoader() {
+            jQuery('#spinner').removeClass('show')
+        }
+
+        function closeThisWindow() {
+            parent.closeModalWindow()
+        }
+
+        function closeThisWindow(operation = '') {
+            parent.closeModalWindow(operation)
+        }
+
+        function showAlertError(message) {
+            jQuery('#messageError').text(message)
+            jQuery('#alert_error').modal('show')
+        }
+        window.closeAll = false
+        function showAlertSuccess(message, closeParent = false) {
+            jQuery('#messageSuccess').text(message)
+            jQuery('#alert_success').modal('show')
+            window.closeAll = closeParent
+        }
+
+        function hideAlertSuccess() {
+            jQuery('#alert_success').modal('hide')
+            if (window.closeAll) {
+                closeThisWindow()
+                window.closeAll = false
+            }
+        }
+    </script>
+</body>
+</html>

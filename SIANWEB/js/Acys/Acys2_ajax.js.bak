@@ -1,0 +1,979 @@
+﻿/*
+Key Quimica Dic 2018 
+24 Dic 2018 RFH 
+MAY06-2020 RFH Actualizado
+*/
+
+// 18ENE 2020
+
+function Consulta_Producto(Id_Prd, rowno, Spinner, CALLBACK) {
+
+    var Estatus = '';
+    var FolioIni = '';
+    var FolioFin = '';
+    var Territorio = 0;
+    var Id_Cte = 0;
+    var IdRik = 0;
+
+    Spinner.css('display', 'block');
+
+    Id_Cte = $('#tbAcys_CteNumero').val();
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatProductoConsulta/' +
+            '?Id_Cte=' + Id_Cte + '&Id_Prd=' + Id_Prd,
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Consulta_Producto, null, $, Id_Prd, rowno, Spinner, CALLBACK);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+
+        var res = response.Datos;
+        var estado = response.Estado;
+        var mensaje = response.Mensaje;
+
+        Spinner.css('display', 'none');
+
+        if (estado == 1) {
+
+            if (res == null) {
+                var REG = {
+                    "Id_Prd": Id_Prd
+                    , "Prd_Descripcion": "* EL PRODUCTO NO EXISTE *"
+                    , "Prd_Presentacion": ""
+                    , "Uni_Descripcion": ""
+                    , "Acs_Precio": ""
+                    , "Acs_Cantidad": ""
+                    , "Acs_Frecuencia": ""
+                    , "Acs_Documento": ""
+                    , "PrecioLista": 0
+                }
+            } else {
+                // se psa el resultado a la clas que entienda el call back 
+                var REG = {
+                    "Id_Prd": res._Id_Prd
+                    , "Prd_Descripcion": res._Prd_Descripcion
+                    , "Prd_Presentacion": res._Prd_Presentacion
+                    , "Uni_Descripcion": res._Prd_UniNs
+                    , "Acs_Precio": res._Prd_Precio
+                    , "Acs_Cantidad": 1
+                    , "Acs_Frecuencia": 1
+                    , "Acs_Documento": 0
+                    , "Prd_PrecioLista": res._Prd_PrecioLista
+                }
+            }
+
+        } else {
+
+            var REG = {
+                "Id_Prd": Id_Prd
+                , "Prd_Descripcion": "ERROR: " + mensaje
+                , "Prd_Presentacion": ""
+                , "Uni_Descripcion": ""
+                , "Acs_Precio": ""
+                , "Acs_Cantidad": ""
+                , "Acs_Frecuencia": ""
+                , "Acs_Documento": ""
+                , "Prd_PrecioLista": ""
+            }
+
+        }
+
+        if (CALLBACK) {
+            CALLBACK(REG, rowno);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        Spinner.css('display', 'none');
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Consulta_Producto.');
+        }
+    });
+}
+
+function Cargar_AcysById_Ajax(Id_Acys, Acs_Version, CALLBACK, CALLBACK_Error) {
+    var Estatus = '';
+    var FolioIni = '';
+    var FolioFin = '';
+    var Territorio = 0;
+    var IdCte = 0;
+    var IdRik = 0;
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/' +
+            '?IdAcys=' + Id_Acys +
+            '&AcsVersion=' + Acs_Version +
+            '&ver2=0',
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Cargar_AcysById_Ajax, null, $, Id_Acys, Acs_Version, CALLBACK, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var RES = response.Datos;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+            if (CALLBACK) {
+                CALLBACK(RES);
+            }
+        }
+
+        if (Estado == -1) {
+            CALLBACK_Error();
+        }
+
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Error: funcion Cargar_AcysById_Ajax.');
+        }
+    });
+}
+
+
+function ConsultaExisteAcisByClienteId(Id_Cte, CALLBACK, CALLBACK_Error) {
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/ConsultaExisteAcisByClienteId' +
+            '?Id_Cte=' + Id_Cte,
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var RES = response.Datos;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+
+            if (CALLBACK) {
+                CALLBACK(RES, Estado);
+            }
+        }
+
+        if (Estado == -1) {
+            CALLBACK_Error(RES,Estado);
+        }
+
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Error: funcion ConsultaExisteAcisByClienteId.');
+        }
+    });
+}
+function EXEC_spCapAcys2_GetLogs_Ajax(Id_Acs, Acs_Version, CALLBACK_Exito, CALLBACK_Error) {
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/GetLogs' +
+            '?Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&LogId=0',
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Cargar_AcysByIdDetalle_Ajax, null, $, Id_Acys, Acs_Version, Acs_Estatus, CALLBACK);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var lst = response.Datos;
+        var Mensaje = response.Mensaje;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+            if (CALLBACK_Exito) {
+                CALLBACK_Exito(lst);
+            }
+        }
+
+        if (Estado == -1) {
+            //alertify.success('Error :EXEC_spCapAcys2_GetLogs_Ajax (' + Mensaje + ')');
+            CALLBACK_Error(Mensaje);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Error: funcion EXEC_spCapAcys2_GetLogs_Ajax.');
+        }
+    });
+}
+
+function Cargar_AcysByIdDetalle_Ajax(Id_Acys, Acs_Version, Acs_Estatus, CALLBACK_Exito) {
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcysDet/GetList' +
+            '?IdAcys=' + Id_Acys +
+            '&AcsVersion=' + Acs_Version + '&Param1=0',
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Cargar_AcysByIdDetalle_Ajax, null, $, Id_Acys, Acs_Version, Acs_Estatus, CALLBACK);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var lst = response.Datos;
+        var Mensaje = response.Mensaje;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+            if (CALLBACK_Exito) {
+                CALLBACK_Exito(lst, Acs_Estatus);
+            }
+        } else {
+            if (Estado == -1) {
+                alertify.error('Error: ' + Mensaje);
+                console.log('Error: ' + Mensaje);
+            } else {
+                alertify.error('Error: ' + Mensaje);
+                console.log('Error: ' + Mensaje);
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.error('Error: funcion Cargar_AcysByIdDetalle_Ajax.');
+        }
+    });
+}
+
+function Acys2_Guardar(eACyS2, Spinner, CALLBACK_Exito, CALLBACK_Error) {
+    Spinner.css('display', 'block');
+    var sJSON = JSON.stringify(eACyS2);
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/InsertUpdate',
+        data: sJSON,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        async: false,
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_Guardar, null, $, eACyS2, Spinner, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        Spinner.css('display', 'none');
+        var RES = response.Datos;
+        var Estado = response.Estado;
+        if (Estado == 1 || Estado == 2) {
+
+            CALLBACK_Exito(RES, Estado);
+
+            /*
+            if (Estado == 2) {
+                //alertify.success('Se generado un nuevo ducmento ACyS:'+ RES+'.');    
+                alertify.alert('Se ha generado un nuevo documento ACyS:' + RES + '.');
+            } else {
+                alertify.alert('Se actualizo el documento ACyS:' + RES + '.');
+            }
+            */
+
+        }
+        if (Estado == -1) {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        Spinner.css('display', 'none');
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_Guardar.');
+        }
+    });
+}
+
+function Acys2_Eliminar(Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error) {
+
+    $('#spinner_AcysIndice').css('display', 'block');
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Eliminar?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Acs_Version + '&Id_Cte=' + Id_Cte + '&Id_Ter=0&Eliminar=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_Eliminar, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        //Export_Excel_Informe1(response);
+        //console.log(response);
+        var RES = response.Datos;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+            if (RES == 3) {
+                alertify.alert('<b>Mensaje</b> </br></br>El usuario actual no es el dueño del documento');
+            }
+            if (RES == 4) {
+                alertify.alert('<b>Mensaje</b> </br></br>Se elimino con usuario Gerente');
+            }
+            if (RES == 5) {
+                // lo elimina el usuario dueño.
+                CALLBACK_Exito(RES);
+            }
+            if (RES == 2) {
+                //alertify.success('No se puede aplicar NUEVAMENTE el estatus Eliminado.');
+                alertify.alert('<b>Mensaje</b> </br></br>No se puede aplicar NUEVAMENTE el estatus Eliminado');
+            }
+        } else {
+            CALLBACK_Error(RES);
+        }
+        $('#spinner_AcysIndice').css('display', 'none');
+
+    }).fail(function (jqXHR, textStatus, error) {
+        $('#spinner_AcysIndice').css('display', 'none');
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_Eliminar.');
+        }
+    });
+}
+
+function Acys2_Enviar(Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error) {
+
+    $('#spinner_AcysIndice').css('display', 'block');
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar?Id_Acs=' + Id_Acs + '&Acs_Version=' + Acs_Version + '&Id_Cte=' + Id_Cte + '&Id_Ter=' + Id_Ter + '&Enviar=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_Enviar, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var RES = response.Datos;
+        var Estado = response.Estado;
+
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_Enviar.');
+        }
+    });
+}
+
+// Autorizacion GERENTE
+function Enviar_Autorizacion_Gerente_Ajax(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, iTipoDoc,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+
+    $('#btnEnviar_Autorizacion_Gerente').prop('disabled', true);
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar_Autorizacion_Gerente?' +
+            'Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=0' +
+            '&Acs_ReqAutGerente=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#btnEnviar_Autorizacion_Gerente').prop('disabled', false);
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 1) {
+            $('#btnEnviar_Autorizacion_Gerente').prop('disabled', false);
+            CALLBACK_Exito(RES);
+        } else {
+            if (Estado == 9) {
+                $('#btnEnviar_Autorizacion_Gerente').prop('disabled', false);
+
+                alertify.alert('<b>Error en Validación del Documento(424)</b></br>' +
+                    'Verificar:</br>' +
+                    '1) Frecuencia de productos (La semanas NO pude ser 0)</br>' +
+                    '2) Columna "Doc. de Entrega" en Listado de Productos</br>' +
+                    '3) Columna "Requiere Orden Compra" en Listado de Productos</br>' +
+                    '4) Vigencia semana Inicial.');
+
+            } else {
+                $('#btnEnviar_Autorizacion_Gerente').prop('disabled', false);
+                CALLBACK_Error(RES);
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        $('#btnEnviar_Autorizacion_Gerente').prop('disabled', false);
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Enviar_Autorizacion_Gerente_Ajax.');
+        }
+    });
+}
+
+// AUTORIZACION JEFE OP 
+function Enviar_Autorizacion_JefeOp_Ajax(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, iTipoDoc,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', true);
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar_Autorizacion_JefeOperacion?' +
+            'Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=0' +
+            '&Acs_ReqAutJefeOp=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', false);
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 1) {
+            $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', false);
+            CALLBACK_Exito(RES);
+        } else {
+
+            if (Estado == 9) {
+                $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', false);
+
+                alertify.alert('<b>Error en Validación del Documento(424)</b></br>' +
+                    'Verificar:</br>' +
+                    '1) Frecuencia de productos (La semanas NO pude ser 0)</br>' +
+                    '2) Columna "Doc. de Entrega" en Listado de Productos</br>' +
+                    '3) Columna "Requiere Orden Compra" en Listado de Productos</br>' +
+                    '4) Vigencia semana Inicial.');
+
+            } else {
+                $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', false);
+                CALLBACK_Error(RES);
+            }
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        $('#btnEnviarAutorizacion_ControlOrden').prop('disabled', false);
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Enviar_Autorizacion_JefeOp_Ajax.');
+        }
+    });
+}
+
+function Acys2_EsAutorizable_TipoDoc(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, iTipoDoc,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/EsAutorizable_TipoDoc?' +
+            'Id_Acs=' + Id_Acs +
+            '&Id_AcsVersion=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=' + Id_Ter +
+            '&IdAutoriza=1' +
+            '&iTipoDoc=' + iTipoDoc,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_EsAutorizable_TipoDoc.');
+        }
+    });
+}
+
+function Acys2_EsAutorizable(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, iTipoDoc,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/EsAutorizable?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Acs_Version + '&Id_Cte=' + Id_Cte + '&Id_Ter=' + Id_Ter + '&IdAutoriza=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_EsAutorizable.');
+        }
+    });
+}
+
+function Acys2_Reactivar(Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Reactivar?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Acs_Version + '&Id_Cte=' + Id_Cte + '&Id_Ter=' + Id_Ter + '&Reactivar=1',
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_Reactivar, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_Reactivar.');
+        }
+    });
+}
+
+function Acys2_Renovar(Id_Acs, Acs_Version, CALLBACK_Exito, CALLBACK_Error) {
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Renovar?Id_Acs=' + Id_Acs + '&Acs_version=' + Acs_Version,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_Renovar, null, $, Id_Acs, Acs_Version, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var RES = response.Datos;
+        var Estado = response.Estado;
+        if (Estado == 1) {
+            alertify.alert('El Acuerdo se ha Renovado Exitosamente.');
+            $('#btnCargarListado').trigger('click');
+            CALLBACK_Exito(RES);
+        } else if (Estado == 0 || Estado == 2 || Estado == 3 || Estado == -2) {
+            if (Estado == 2) {
+                alertify.alert('El Acuerdo comercial aún se encuentra Vigente.');
+            }
+            if (Estado == 3) {
+                alertify.alert('El Acuerdo comercial se encuentra en estatus no válido para realizar la renovación.');
+            }
+            if (Estado == -2) {
+                $('#btnAcys_Editar_' + Id_Acs).prop('disabled', false);
+                $('#btnAcys_Editar_' + Id_Acs).css('color', 'black');
+                alertify.alert('La frecuencia y tipo de frecuencia de tus productos no está definida o </br>actualizada, ' +
+                    'realiza por favor las modificaciones en tu venta instalada e intenta nuevamente ACyS #: ' +
+                    Id_Acs + '</br> (Se habilita modificación)');
+            }
+
+            // 2 .- El acuerdo comecial no esta vencido.
+            //CALLBACK_Error(RES);
+        } else {
+            alertify.alert('Estatus: ' + Estado);
+        }
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_Renovar.');
+        }
+    });
+}
+
+var Acys_ProductosGuardar = {
+
+    // GUARDAR LIASTADO PRODCUTOS ACYS - LOCAL
+    // TipoAcys : 1 Local, 2 CC, 3 Cuenta Nacional
+
+    Acys2_DetalleProductos: function (Id_Acs, Id_AcsVersion, TipoAcys, Lst_eACyS2, CALLBACK_Exito, CALLBACK_Error) {
+        var sJSON = JSON.stringify(Lst_eACyS2);
+        $.ajax({
+            url: _ApplicationUrl + '/api/CatAcysDet/InsertUpdate?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Id_AcsVersion + '&TipoAcys=' + TipoAcys,
+            data: sJSON,
+            cache: false,
+            type: 'PUT',
+            contentType: "application/json; utf-8",
+            dataType: "json",
+            statusCode: {
+                401: function (jqXHR, textStatus, errorThrown) {
+                    $('#dvDialogoInicioSesion').appendTo("body").modal();
+                    _onLoginSuccessful = $.proxy(Acys2_DetalleProductos, null, $, Id_Acs, Id_AcsVersion, Lst_eACyS2, CALLBACK_Exito, CALLBACK_Error);
+                }
+            }
+        }).done(function (response, textStatus, jqXHR) {
+            var RES = response.Datos;
+            var Estado = response.Estado;
+            if (Estado == 1) {
+                CALLBACK_Exito(RES);
+            } else {
+                CALLBACK_Error(RES);
+            }
+
+        }).fail(function (jqXHR, textStatus, error) {
+            if (jqXHR.status == 401) {
+                alert('La sessión ha expirado.');
+                $('#dvModalPropuestaTE_ver2').modal('hide');
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+            } else {
+                alertify.success('Ocurrió una error: funcion Acys2_DetalleProductos.');
+            }
+        });
+    }
+
+    /*
+    // GUARDAR LIASTADO PRODCUTOS ACYS - CN y COORDINADA
+    Acys2_DetalleProductosCN: function (Id_Acs, Id_AcsVersion, eACyS2, CALLBACK_Exito, CALLBACK_Error) {
+        var sJSON = JSON.stringify(eACyS2);
+        $.ajax({
+            url: _ApplicationUrl + '/api/CatAcysDet/InsertUpdate?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Id_AcsVersion,
+            data: sJSON,
+            cache: false,
+            type: 'PUT',
+            contentType: "application/json; utf-8",
+            dataType: "json",
+            statusCode: {
+                401: function (jqXHR, textStatus, errorThrown) {
+                    $('#dvDialogoInicioSesion').appendTo("body").modal();
+                    _onLoginSuccessful = $.proxy(Acys2_DetalleProductos, null, $, Id_Acs, Id_AcsVersion, eACyS2, CALLBACK_Exito, CALLBACK_Error);
+                }
+            }
+        }).done(function (response, textStatus, jqXHR) {
+            var RES = response.Datos;
+            var Estado = response.Estado;
+            if (Estado == 1) {
+                CALLBACK_Exito(RES);
+            } else {
+                CALLBACK_Error(RES);
+            }
+        }).fail(function (jqXHR, textStatus, error) {
+            if (jqXHR.status == 401) {
+                alert('La sessión ha expirado.');
+                $('#dvModalPropuestaTE_ver2').modal('hide');
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+            } else {
+                alertify.success('Ocurrió una error: funcion Cargar_PropuestaTecnoEconomica.');
+            }
+        });
+        
+    }
+    */
+
+}
+
+// GUARDAR LIASTADO PRODCUTOS ACYS - LOCAL
+function Acys2_DetalleProductos(Id_Acs, Id_AcsVersion, eACyS2, CALLBACK_Exito, CALLBACK_Error) {
+    var sJSON = JSON.stringify(eACyS2);
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcysDet/InsertUpdate?Id_Acs=' + Id_Acs + '&Id_AcsVersion=' + Id_AcsVersion,
+        data: sJSON,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_DetalleProductos, null, $, Id_Acs, Id_AcsVersion, eACyS2, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var RES = response.Datos;
+        var Estado = response.Estado;
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion Acys2_DetalleProductos.');
+        }
+    });
+}
+
+function btnAutorizarAcys_Gerente_Ajax(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, Acs_ReqAutGerente,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar_Autorizacion_Gerente?' +
+            'Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=0' +
+            '&Acs_ReqAutGerente=' + Acs_ReqAutGerente,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        /*if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            CALLBACK_Error(RES);
+        }*/
+
+        if (Estado == 1) {
+            CALLBACK_Exito(RES);
+        } else {
+            if (Estado == 9) {
+
+                alertify.alert('<b>Error en Validación de Documento(757)</b></br>' +
+                    'Verificar:</br>' +
+                    'Frecuencia de productos (La semanas NO pude ser 0),</br>' +
+                    'Tipo de documento en listado de productos,</br>' +
+                    'Vigencia semana Inicial.');
+
+            } else {
+                CALLBACK_Error(RES);
+            }
+        }
+
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion btnAutorizarAcys_Gerente_Ajax.');
+        }
+    });
+}
+
+function btnAutorizarControlDeOrden_JefeOp_Ajax(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, Acs_ReqAutJefeOp,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar_Autorizacion_JefeOperacion?' +
+            'Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=0' +
+            '&Acs_ReqAutJefeOp=' + Acs_ReqAutJefeOp,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 1 || Estado == 4 || Estado == 9) {
+            if (Estado == 9) {
+                alertify.alert('<b>No es posible aplicar la Autorización</b></br>' +
+                    '* Atención Verificar *</br>' +
+                    'El Listado de Productos Puede Estar Incompleto</br>' +
+                    'Rechazar el Documento para que el RIk pueda hacer</br>' +
+                    'las Correcciones.</br>');
+            } else {
+                CALLBACK_Exito(RES);
+            }
+        } else {
+            CALLBACK_Error(RES);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion btnAutorizarControlDeOrden_JefeOp_Ajax.');
+        }
+    });
+}
+
+function btnAutorizarControlDeOrden_JefeOp_Rechazo_Ajax(
+    Id_Acs, Acs_Version, Id_Cte, Id_Ter, Notas, TipoUsuario,
+    CALLBACK_Exito, CALLBACK_Error
+) {
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatAcys/Enviar_Rechazo_JefeOperacion?' +
+            'Id_Acs=' + Id_Acs +
+            '&Acs_Version=' + Acs_Version +
+            '&Id_Cte=' + Id_Cte +
+            '&Id_Ter=0' +
+            '&Notas=' + Notas +
+            '&TipoUsuario=' + TipoUsuario,
+        cache: false,
+        type: 'PUT',
+        contentType: "application/json; utf-8",
+        dataType: "json",
+        statusCode: {
+            401: function (jqXHR, textStatus, errorThrown) {
+                $('#dvDialogoInicioSesion').appendTo("body").modal();
+                _onLoginSuccessful = $.proxy(Acys2_EsAutorizable, null, $, Id_Acs, Acs_Version, Id_Cte, Id_Ter, CALLBACK_Exito, CALLBACK_Error);
+            }
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Estado = response.Estado;
+        var RES = response.Datos;
+
+        if (Estado == 2) { // SI ES 2 TODO SE APLICO CORRECTAMENTE
+            CALLBACK_Exito(Estado);
+        } else {
+            CALLBACK_Error(Estado);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            $('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion btnAutorizarControlDeOrden_JefeOp_Rechazo_Ajax.');
+        }
+    });
+}
+
+$(document).ready(function () {
+    //
+});

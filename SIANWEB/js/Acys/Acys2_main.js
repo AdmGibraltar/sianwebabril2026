@@ -1,0 +1,377 @@
+﻿/*
+MAY06-2020 Actualizado 
+*/
+
+function CambiarContenedorAplicar() {
+
+    var chbPorFechas = $('#chbPorFechas').is(':checked');
+    var chbPorFolios = $('#chbPorFolios').is(':checked');
+    var chbPorCliente = $('#chbPorCliente').is(':checked');
+    var ContenedorBotonAplicar = '';
+
+    var Contenedor = 0;
+
+    if (chbPorFechas) {
+        Contenedor = 1;
+    }
+    if (chbPorFolios) {
+        Contenedor = 2;
+    }
+    if (chbPorCliente) {
+        Contenedor = 3;
+    }
+
+    if (ACyS_ContenedorBtnAplicar == Contenedor) {
+        // No lo cambia ya que es el mismo
+    } else {
+        // Si no es igual . lo toma de donde este
+        switch (ACyS_ContenedorBtnAplicar) {
+            case 0:
+                // Es el mismo , no hace nada                 
+                ContenedorBotonAplicar = $('#ContenedorBtnAplicar').html();
+                $('#ContenedorBtnAplicar').html('');
+                break;
+            case 1:
+                ContenedorBotonAplicar = $('#ContenedorFechas').html();
+                $('#ContenedorFechas').html('');
+                break;
+            case 2:
+                ContenedorBotonAplicar = $('#ContenedorFolio').html();
+                $('#ContenedorFolio').html('');
+                break;
+            case 3:
+                ContenedorBotonAplicar = $('#ContenedorCliente').html();
+                $('#ContenedorCliente').html('');
+                break;
+        }
+        switch (Contenedor) {
+            case 0:
+                $('#ContenedorBtnAplicar').html(ContenedorBotonAplicar);
+                break;
+            case 1:
+                $('#ContenedorFechas').html(ContenedorBotonAplicar);
+                break;
+            case 2:
+                $('#ContenedorFolio').html(ContenedorBotonAplicar);
+                break;
+            case 3:
+                $('#ContenedorCliente').html(ContenedorBotonAplicar);
+                break;
+        }
+        ACyS_ContenedorBtnAplicar = Contenedor;
+    }
+}
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+function btnCargarListado_Evento() {
+    ACyS_PaginaActual = 1;
+    Cargar_Indice(1, ACyS_RenglonesXPagina);
+}
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+$(document).ready(function () {
+
+    //Paginacion_Inicializar(1, 100);
+    //Cargar_Indice(1, ACyS_RenglonesXPagina);
+    //$('.date').datepicker({ format: 'dd/mm/yyyy' });
+
+    /*
+    $('.date').datepicker({
+    'format': 'dd/mm/yyyy',
+    'autoclose': true
+    });
+    */
+
+    $('.datepicker').Zebra_DatePicker({
+        format: 'd/m/Y'
+    });
+
+    $('.datepicker_sololunes').Zebra_DatePicker({
+        format: 'd/m/Y',
+        direction: true,
+        disabled_dates: ['* * * 0,2,3,4,5,6'],
+        onSelect: function () {
+            $(this).change();
+        }
+    });
+
+    $('#btnCargarListado').click(function () {
+        //console.log('btnCargarListado');
+        //Cargar_Indice(1, ACyS_RenglonesXPagina);
+    });
+
+    // CheckBox Fecha
+    $('#chbPorFechas').click(function () {
+        var chbPorFechas = $('#chbPorFechas').is(':checked');
+        if (chbPorFechas) {
+            $('#rowFechas').css('display', 'block');
+        } else {
+            $('#rowFechas').css('display', 'none');
+        }
+        CambiarContenedorAplicar();
+    });
+
+    // CheckBox Folios
+    $('#chbPorFolios').click(function () {
+        var chbPorFechas = $('#chbPorFolios').is(':checked');
+        if (chbPorFechas) {
+            $('#rowFolios').css('display', 'block');
+        } else {
+            $('#rowFolios').css('display', 'none');
+        }
+        CambiarContenedorAplicar();
+    });
+    // CheckBox Cliente
+    $('#chbPorCliente').click(function () {
+        var chbPorFechas = $('#chbPorCliente').is(':checked');
+        if (chbPorFechas) {
+            $('#rowCliente').css('display', 'block');
+        } else {
+            $('#rowCliente').css('display', 'none');
+        }
+        CambiarContenedorAplicar();
+    });
+
+    // Botones de accion del modal acys
+
+    $('#btnAcys_Cancelar').click(function () {
+        $('#modalAcys').modal('hide');
+    });
+    /*
+    $('#btnAcys_Cancelar').click(function () {
+        $('#modalEnviarAutorizacion').modal('hide');
+    });
+    */
+
+    // GUARDAR ACUERDO
+    $('#btnAcys_Guardar').click(function () {
+        var ReporteVI = $('#hfReporteVI').val();
+        if (ReporteVI == 1) {
+            ACyS_Guardar(function () {
+                $('#btnCargarListado').click();
+            });
+        } else {
+            ACyS_Guardar();
+        }
+    });
+
+    $('#btnExpandirVentana').click(function () {
+        $('#modalAcys').find('.modal-dialog').css({
+            width: '100%', //probably not needed
+            height: 'auto', //probably not needed 
+            'max-height': '100%'
+        });
+
+        $('#btnExpandirVentana').css('display', 'none');
+        $('#btnReducirVentana').css('display', 'block');
+    });
+
+    $('#btnReducirVentana').click(function () {
+        $('#modalAcys').find('.modal-dialog').css({
+            width: '800px', //probably not needed
+            height: 'auto', //probably not needed 
+            'max-height': '100%'
+        });
+
+        $('#btnExpandirVentana').css('display', 'block');
+        $('#btnReducirVentana').css('display', 'none');
+    });
+
+    /*
+    //$(".date").datepicker("option", "dateFormat", "dd/mm/yyyy");
+    $(document).on('change', 'input[id^="tbCodigo_"]', function (event) {
+    var x = $(this).keypress();
+    var key = event.key;
+    var input = $(this);
+    var rowno = $(this).data('rowno');
+    var Id_Prd = input.val();
+    //alert(val);
+    BuscarYCarga_InformacionDeProducto(Id_Prd, rowno);
+    });
+    */
+
+    $('#tbAcys_CteNumero').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            //alert('Cambiar cliente');
+            var CteNumero = $('#tbAcys_CteNumero').val();
+
+            Cliente_ConsultarPorId_ACyS(CteNumero,
+                function (Datos) {
+
+                    $('#Cliente_Alert').css('display', 'none');
+                    $('#Cliente_Alert_Texto').text('');
+
+                    DatosCliente_Limpiar();
+
+                    $('#tbAcys_CteNombre').val(Datos.Cte_NomComercial);
+                    $('#tbAcys_CteNumero').val(Datos.Id_Cte);
+                    $('#tbAcys_CteDireccion').val(Datos.Cte_FacCalle);
+                    $('#tbAcys_CteCol').val(Datos.Cte_FacColonia);
+                    $('#tbAcys_CteMunicipio').val(Datos.Cte_FacMunicipio);
+                    $('#tbAcys_CteCP').val(Datos.Cte_FacCp);
+                    $('#tbAcys_CteRFC').val(Datos.Cte_FacRfc);
+                    $('#tbAcys_CteTerritorio').val(Datos.Id_Terr);
+                    // Territorio
+                    ClienteDet_TerritoriosCte(Datos.Id_Cte, function (lst) {
+
+                        var selCteTerritorio = $('#selCteTerritorio').empty();
+                        for (var i = 1; i < lst.length + 1; i++) {
+                            SelRespuesta.append(
+                                $('<option>').val(i).text(lst.Id_Terr)
+                            );
+                        }
+                    });
+                },
+                function (Mensaje) {
+                    $('#Cliente_Alert').css('display', 'block');
+                    $('#Cliente_Alert_Texto').text(Mensaje + '(No.:' + CteNumero + ')');
+                });
+        }
+    });
+
+
+    $('#btnAgregarRenglon').click(function () {
+        ListadoProductos_PreAddRow(1);
+    });
+
+    $('#btnAgregarRenglon_CC').click(function () {
+        ListadoProductos_PreAddRow(3);
+    });
+
+    // boton Buscar en Catalogo
+    $('#btnBuscarCliente_Buscar').click(function (e) {
+        var tb = $('#tbBuscarCliente_Texto').val();
+        tb = tb.trim();
+
+        if (tb.length < 3) {
+            $('#trBuscarCliente_TextoError').css('display', 'block');
+        } else {
+            $('#trBuscarCliente_TextoError').css('display', 'none');
+            // Ejecutar la busqueda
+            BuscarCliente_wcb(tb, function () {
+                alert('Exito');
+            });
+
+
+            var text1 = $('#lbBuscarCliente_TieneACYS');
+            text1.html("");
+
+            var tblAplicar = $('#tbBuscarCliente_Listado');
+            tblAplicar.show();
+
+            var text2 = $('#lbBuscarCliente_TieneACYSNoAcuerdo');
+            text2.html("");
+
+            var valoresAceptados = /^[0-9]+$/;
+            if (tb.match(valoresAceptados)) {
+            
+
+
+            var res = ConsultaExisteAcisByClienteId(tb,
+                function (RES,Estado) {
+
+                    if (RES != null) {
+
+                        if (RES.Id_Cte != '') {
+
+                            var text1 = $('#lbBuscarCliente_TieneACYS');
+                            text1.html("El cliente: " + RES.Id_Cte + " ya cuenta con un acuerdo");
+
+                             var tblAplicar = $('#tbBuscarCliente_Listado');
+                              tblAplicar.hide();
+
+                            var text2 = $('#lbBuscarCliente_TieneACYSNoAcuerdo');
+                            text2.html("Numero de Acuerdo: " + RES.Id_Acs);
+
+
+                        }
+          
+                    }
+                    
+                        
+                }, function () {
+                    $('#tbAcs_Semana').val('Error');
+            });
+                console.log(res);
+            }
+
+        }
+    });
+
+    $('#tbBuscarCliente_Texto').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var tb = $('#tbBuscarCliente_Texto').val();
+            tb = tb.trim();
+            BuscarCliente_wcb(tb, function () {
+                alert('Exito');
+            });
+        }
+    });
+
+    $("#tbAcs_VigenciaAPartir").change(function () {
+        var Fecha = $("#tbAcs_VigenciaAPartir").val();
+        ConsultaSemanaActual(Fecha,
+            function (RES) {
+                $('#tbAcs_Semana').val(RES.Id_Sem);
+            }, function () {
+                $('#tbAcs_Semana').val('Error');
+            });
+    });
+
+    $('#btnConsultarAcys').click(function (e) {
+        var Id_Acs = $('#hfId_Acs').val();
+        $('#modalOrdenCliente').modal('hide');
+        $('#btnAcys_Editar_' + Id_Acs).click();
+    });
+
+    $('#btnActualizarColumna').click(function (e) {
+
+        $('#modalActualizarDatos').appendTo("body").modal('show');
+
+    });
+
+    $('#btnUploadExcel').click(function (e) {
+        const inputFile = document.getElementById('CargarExcelAcys');
+        // Limpiar el valor del elemento input file
+        inputFile.value = '';
+        mostrarLoaderCargaExcel(false);
+        $('#modalCargaExcel').appendTo("body").modal('show');
+
+    });
+
+    $('#btnSubirExcel_Guarar').click(function (e) {
+        const input = document.getElementById('CargarExcelAcys');
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                // Ahora puedes trabajar con el objeto workbook, por ejemplo, accediendo a las hojas (worksheets):
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+                console.log(jsonData);
+                if (jsonData.length <= 0) {
+                    alertify.alert('El documento no tiene registros.');
+                    return false;
+                }
+                mostrarLoaderCargaExcel(true);
+
+                Guarda_CargaExcel(jsonData);
+            };
+
+            reader.readAsArrayBuffer(file);
+        } else {
+            alertify.alert('Seleccione un documento.');
+        }
+    });
+
+    //
+});

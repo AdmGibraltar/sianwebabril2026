@@ -1,0 +1,59 @@
+﻿body {
+}
+
+
+/* COLUMNAS PROPUESTA TECNO_E */
+
+.Col_Codigo
+{
+    width:100px;
+    text-align:center; 
+    vertical-align: bottom!important;     
+}
+.Col_Producto
+{
+    text-align:center; 
+    vertical-align: bottom!important;     
+}
+
+.Col_Precio 
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;   
+}
+
+.Col_SubTotal
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;   
+}
+
+.Col_ConsumoM
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;   
+}
+
+.Col_Cantidad
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;       
+}
+
+.Col_Unidad
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;    
+}
+
+.Col_Presentacion
+{
+    width:100px;    
+    text-align:center; 
+    vertical-align: bottom!important;    
+}

@@ -1,0 +1,577 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Http;
+using CapaEntidad;
+using CapaNegocios;
+using CapaDatos;
+using CapaModelo;
+using SIANWEB.WebAPI.Models;
+using System.Net.Http;
+using SIANWEB.Core.Web.API;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
+using System.Net.Mime;
+
+namespace SIANWEB.WebService.PortalRIK.GestionPromocion
+{
+    /// <summary>
+    /// Controlador de la entidad Leads
+    /// </summary>
+
+    public class CrmLeadsController : ApiController
+    {
+
+        //[HttpGet]
+        //public eResponse<List<CapaEntidad.Leads>> Get(int idEmp, int idCd, int idRik int d)
+        //{
+        //    eResponse<List<CapaEntidad.Leads>> result = new eResponse<List<CapaEntidad.Leads>>();
+        //    List<CapaEntidad.Leads> lst = new List<CapaEntidad.Leads>();
+        //    result.Estado = 0;
+
+        //    try
+        //    {
+        //        CN_Leads CN = new CN_Leads();
+        //        CapaEntidad.Leads E = new CapaEntidad.Leads();
+
+        //        E.Id_Emp = Sesion.Id_Emp;
+        //        E.Id_Cd = Sesion.Id_Cd;
+
+        //        CN.ConsultaLeadsRik(idEmp, 10, E, "",
+        //            idRik, -1,
+        //            Sesion.Emp_Cnx, ref lst);
+
+        //        result.Datos = lst;
+        //        result.Estado = 1;
+        //    }
+        //    catch
+        //    {
+        //        result.Datos = null;
+        //        result.Estado = 1;
+        //    }
+
+        //    return result;
+        //}
+
+
+        [HttpGet]
+        public IEnumerable<CapAcy> Get(int idEmp, int idCd, int idRik, int idPantalla)
+        {
+            //idpantalla   0 ( de la consulta de administrar leads ) trae todo 
+            //idPantalla   1 ( es de la de gerentes )  todo menos activo = 4
+            //idPantalla   2 ( de la de riks en presupuestos) solo estatus 3
+            //iPantalla    3 ( de la consulta de riks )  Solo estatus 3
+
+            List<CapAcy> resultado2 = new List<CapAcy>();
+
+            List<Leads> resultado = new List<Leads>();
+
+
+            eResponse<List<CapaEntidad.Leads>> result = new eResponse<List<CapaEntidad.Leads>>();
+            List<CapaEntidad.Leads> lst = new List<CapaEntidad.Leads>();
+            result.Estado = 0;
+
+            try
+            {
+                CN_Leads CN = new CN_Leads();
+                CapaEntidad.Leads E = new CapaEntidad.Leads();
+
+                E.Id_Emp = Sesion.Id_Emp;
+                E.Id_Cd = Sesion.Id_Cd;
+
+                CN.ConsultaLeadsRik(idEmp, 10, E, "",
+                    idRik, idPantalla,
+                    Sesion.Emp_Cnx, ref lst);
+
+
+                result.Datos = lst;
+                result.Estado = 1;
+            }
+            catch
+            {
+                result.Datos = null;
+                result.Estado = 1;
+            }
+            //return result;
+            //prueba
+            CapAcy epro = new CapAcy();
+
+            foreach (Leads lds in lst)
+            {
+                epro = new CapAcy();
+                epro.Acs_NomComercial = lds.NombreEmpresa;
+                epro.Id_Cte = Convert.ToInt32(lds.IdLeads);
+                epro.Id_Acs = Convert.ToInt32(lds.IdLeads);
+                epro.Acs_Notas = lds.ProductoInteres;
+                epro.Acs_Contacto2 = lds.GiroEmpresa;
+                epro.Id_Cd = lds.Id_Cd;
+                epro.Acs_Fecha = lds.FechaAlta;
+                epro.Acs_Contacto3 = lds.MedioComunicacion;
+                epro.Acs_Contacto = lds.NombreContacto;
+                epro.Acs_email = lds.Correo;
+                epro.Acs_Puesto = lds.Telefono;
+                epro.Acs_RecOtroDesc = lds.Comentarios;
+                //JFCV Control de cambio colores 2 mzo 2021
+                epro.Acs_Estatus = Convert.ToString(lds.Activo);
+                epro.Acs_Modalidad = lds.PresentarEstatus;
+                epro.Acs_Contacto6 = lds.ColorEstatus;
+                epro.Acs_Contacto4 = lds.Color;
+                epro.Acs_Contacto5 = lds.HistorialLeads;
+
+
+                resultado2.Add(epro);
+
+            }
+            //epro.Id_Cd = 110;
+            //epro.Id_CrmProspecto = 1222;
+            //epro.Id_CrmTipoCliente = 12;
+            //epro.Id_Cte = 122;
+            //epro.Id_Rik = 410;
+            //epro.Cte_NomComercial = "CEMEX CONCRETOS SA DE CV COPIA";
+            //epro.Id_Cte = 31213;
+
+
+
+            return resultado2;
+        }
+
+
+        //Eliminar un Lead 
+        [HttpDelete]
+        public HttpResponseMessage Delete(int IdLead, int tipocancelacion, string motivocancelacion)
+        {
+            CN_Leads cnLeads = new CN_Leads();
+            string Conexion = System.Configuration.ConfigurationManager.AppSettings["strConnectionCentral"];
+
+            int iEliminado = 0;
+            try
+            {
+                iEliminado = cnLeads.CancelaLeads(IdLead, tipocancelacion, motivocancelacion, Sesion, Conexion);
+
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse((System.Net.HttpStatusCode)521, ex); //Error                
+            }
+
+            //if (iEliminado <= 0)
+            //{
+            //    return Request.CreateErrorResponse((System.Net.HttpStatusCode)512, "El prospecto tiene proyectos en seguimiento, No se puede eliminar.");
+            //}
+
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, "Ejecución completa.");
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody] WebAPI.Models.Post.CapLeads data)
+        {
+
+            try
+            {
+                CN_Leads cnLeads = new CN_Leads();
+                string Conexion = System.Configuration.ConfigurationManager.AppSettings["strConnectionCentral"];
+
+                int result = cnLeads.asociarLeadAProspecto(Sesion, data.IdCte, data.IdRik, data.IdLead, Conexion);
+                return Request.CreateResponse(System.Net.HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(System.Net.HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+
+
+        [HttpGet]
+        public eResponse<List<eUsuarioRik>> GetSucursales_combo(int idCd, int idtipoSuc)
+        {
+            eResponse<List<eUsuarioRik>> result = new eResponse<List<eUsuarioRik>>();
+            List<eUsuarioRik> lst = new List<eUsuarioRik>();
+            result.Estado = 0;
+            try
+            {
+
+                string Conexion = System.Configuration.ConfigurationManager.AppSettings["strConnectionSIANCentral"];
+
+                CN_Leads cn = new CN_Leads();
+                System.Collections.Generic.List<Comun> Lista = new System.Collections.Generic.List<Comun>();
+                cn.LlenaCombo(Conexion, "spCatCDI_ComboLeads", ref Lista);
+                Console.WriteLine(Conexion);
+                //  lst = cn.Lista_Combo(Sesion.Id_Emp, Sesion.Id_Cd, Id_TU, Id_Uen, TipoRik, Sesion.Emp_Cnx);
+                eUsuarioRik epro = new eUsuarioRik();
+                foreach (Comun lds in Lista)
+                {
+                    epro = new eUsuarioRik();
+                    epro.U_Nombre = lds.Descripcion;
+                    epro.Id_U = Convert.ToInt32(lds.Id);
+
+                    lst.Add(epro);
+
+                }
+
+
+                result.Estado = 1;
+                result.Datos = lst;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = lst;
+                result.Mensaje = ex.Message;
+            }
+            return result;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        //public HttpResponseMessage ActualizarAgente([FromBody]WebAPI.Models.Post.CapLeads data)
+        public HttpResponseMessage ActualizarAgente(int idlead, int idCDNuevo, int idRik)
+        {
+
+            try
+            {
+                CN_Leads cnLeads = new CN_Leads();
+                string Conexion = System.Configuration.ConfigurationManager.AppSettings["strConnectionCentral"];
+
+                int result = cnLeads.ActualizarAgente(Sesion, idCDNuevo, idRik, idlead, Conexion);
+                if (result == 0)
+                {
+                    throw new Exception("Por favor seleccione un Rik o una sucursal no puede dejarlos en blanco o seleccionar los dos.");
+
+                    //return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, "Por favor seleccione un Rik o una sucursal");
+                }
+                else
+                {
+                    ///21 junio en de correo asignación a Rik
+                    ///
+                    try
+                    {
+                        EnviarCorreo(Sesion, idCDNuevo, idRik, idlead, Conexion);
+                    }
+                    catch (Exception)
+                    {
+                        return Request.CreateResponse(System.Net.HttpStatusCode.OK, result);
+                    }
+                    //fin 21 junio en de correo asignación a Rik
+                    return Request.CreateResponse(System.Net.HttpStatusCode.OK, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(System.Net.HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        //JFCV 21 junio
+        private void EnviarCorreo(Sesion sesion, int idCD, int idRik, int idLead, string conexion)
+        {
+
+            CD_Leads cdLeads = new CD_Leads();
+            int iEstatus = 0;
+            string Conexioncentral = System.Configuration.ConfigurationManager.AppSettings["strConnectionCentral"];
+            //si no recibio Id_cd entonces le mando el de el sistema 
+            // y no habría cambios pero si le mando uno diferente entonces lo paso tal como viene.
+
+            string mesAnioInicial = "2020-01-01";
+            string mesAniofinal = System.DateTime.Now.AddDays(30).ToString();
+
+            List<Leads> listaLeads = new List<Leads>();
+            Leads CapLeads = new Leads();
+
+            CapLeads.Id_Emp = sesion.Id_Emp;
+            //CapLeads.Id_Cd = sesion.Id_Cd_Ver;
+            //25 agosto 2021
+            CapLeads.Id_Cd = idCD;
+            DateTime FechaInicial2 = DateTime.Parse(mesAnioInicial);
+            DateTime FechaFinal2 = DateTime.Parse(mesAniofinal).AddMonths(1).AddDays(-1);
+            CapLeads.FechaInicial = FechaInicial2;
+            CapLeads.FechaFinal = FechaFinal2;
+            CapLeads.IdMedioComunicacion = -1;
+            CapLeads.IdGiroEmpresa = -1;
+            CapLeads.Activo = 10;  //para que traiga todos los estatus 
+            CapLeads.IdLeads = idLead;
+
+
+            CN_Leads cn_leads = new CN_Leads();
+            List<Leads> listLeads = new List<Leads>();
+            cn_leads.ConsultaListaLeads(CapLeads, ref listaLeads, Conexioncentral);
+
+            string empresa = "";
+            string nombrecontacto = "";
+            string telefono = "";
+            string giroempresa = "";
+            if (listaLeads.Count == 0)
+            {
+                return;
+            }
+            for (int i = 0; i < listaLeads.Count; i++)
+            {
+                Leads leads = listaLeads[i];
+                if (leads.NombreEmpresa != "")
+                {
+                    empresa = leads.NombreEmpresa;
+                    nombrecontacto = leads.NombreContacto;
+                    telefono = leads.Telefono;
+                    giroempresa = leads.GiroEmpresa;
+
+                }
+            }
+
+
+
+            string Asunto = "";
+            bool asignadoarik = false;
+
+
+            Asunto = "Se le ha asignado un Leads / " + idLead.ToString();
+
+            System.Text.StringBuilder cuerpo_correo = new System.Text.StringBuilder();
+
+            cuerpo_correo.Append("<div align='left'>");
+
+            cuerpo_correo.Append("<table style='font-family: Verdana; font-size: 8pt'>");
+
+            if (idCD == -1)
+            {
+
+                return;
+            }
+
+            //si la sucursal es diferente a la local entonces continuo y Rik = -1
+
+            if (idCD == sesion.Id_Cd) // s.Id_Cd es igual al id_Cd de la sucursal
+            {
+                if (idRik == -1)
+                {
+                    //si no cambio la sucursal y no cambio el rik entonces regreso 0 
+                    return;
+                }
+                else
+                {
+                    asignadoarik = true;
+                    cuerpo_correo.Append("<tr> <td > Buen día, </td>  </tr>");
+                    cuerpo_correo.Append("<tr> <td > Se le ha asignado por parte del gerente un cliente lead, favor de darle seguimiento </td>  </tr>");
+                    cuerpo_correo.Append("<tr> <td > lo podrá encontrar en el módulo de CRM, para aclaración de dudas comuníquese con su gerente.  </td>  </tr>");
+
+                }
+            }
+            else
+            {
+                //Si la sucursal es diferente a la local entonces rik es cero y solo cambia de sucursal
+                if (idRik != -1)
+                {
+                    return;
+                }
+                else  //si no eligio ninún rik entonces es cambio de sucursal
+                {
+                    asignadoarik = false;
+                    cuerpo_correo.Append("<tr> <td > Buen día, </td>  </tr>");
+                    cuerpo_correo.Append("<tr> <td > Se le ha asignado a la sucursal un cliente lead,    </td>  </tr>");
+                    cuerpo_correo.Append("<tr> <td > favor de darle seguimiento.   </td>  </tr>");
+
+                }
+
+            }
+
+            cuerpo_correo.Append("<tr> <td >  &nbsp; </td>  </tr>");
+            cuerpo_correo.Append("</table>");
+            cuerpo_correo.Append("<table style='font-family: Verdana; font-size: 8pt'>");
+            cuerpo_correo.Append("<tr><td style ='Font-Bold='True'>Leads: <b>" + idLead.ToString());
+            cuerpo_correo.Append(" </b></td> <td>  &nbsp; </td> <td> &nbsp;  </td>  </tr>");
+            cuerpo_correo.Append("<tr><td style ='Font-Bold='True'>Empresa: <b>" + empresa);
+            cuerpo_correo.Append(" </b></td> <td>  &nbsp; </td> <td> &nbsp;  </td>  </tr>");
+
+
+            cuerpo_correo.Append("<tr><td style ='Font-Bold='True'>Nombre Contacto:  <b>" + nombrecontacto);
+            cuerpo_correo.Append(" </b></td> <td>  &nbsp; </td> <td> &nbsp;  </td>  </tr>");
+            cuerpo_correo.Append("<tr><td style ='Font-Bold='True'>Teléfono Contacto:  <b>" + telefono);
+            cuerpo_correo.Append(" </b></td> <td>  &nbsp; </td> <td> &nbsp;  </td>  </tr>");
+            cuerpo_correo.Append("<tr><td style ='Font-Bold='True'>Giro Empresa:  <b>" + giroempresa);
+            cuerpo_correo.Append(" </b></td> <td>  &nbsp; </td> <td> &nbsp;  </td>  </tr>");
+            cuerpo_correo.Append("</table>");
+
+
+
+            string Conexion = System.Configuration.ConfigurationManager.AppSettings["strConnectionCentral"];
+
+            ConfiguracionGlobal configuracion = new ConfiguracionGlobal();
+            configuracion.Id_Cd = sesion.Id_Cd_Ver;
+            configuracion.Id_Emp = sesion.Id_Emp;
+            CN_Configuracion cn_configuracion = new CN_Configuracion();
+            cn_configuracion.Consulta(ref configuracion, sesion.Emp_Cnx);
+
+
+
+            cuerpo_correo.Append("<table style='font-family: Verdana; font-size: 8pt'>");
+
+            //if (Fin != "")
+            //{
+            //    cuerpo_correo.Append(" <tr> <td > " + Fin + "  </td>  </tr>");
+            //}
+            cuerpo_correo.Append(" <tr> <td >  &nbsp;  </td>  </tr>");
+            cuerpo_correo.Append("<tr><td colspan='2'>Si requiere alguna aclaración favor de contactar al área de Mercadotecnia / Key Quimica SA de CV");
+            cuerpo_correo.Append(" </td>    </tr> </table></div>");
+
+
+
+            string txtCuerpoMail = cuerpo_correo.ToString();
+
+            SmtpClient sm = new SmtpClient(configuracion.Mail_Servidor, Convert.ToInt32(configuracion.Mail_Puerto));
+            sm.Credentials = new NetworkCredential(configuracion.Mail_Usuario, configuracion.Mail_Contraseña);
+            sm.EnableSsl = true;
+            MailMessage m = new MailMessage();
+            m.From = new MailAddress(configuracion.Mail_Remitente);
+
+
+            //agregar destinatarios 
+
+            CN_Leads cnlead = new CN_Leads();
+            Usuario usuario = new Usuario();
+            usuario.Id_Emp = sesion.Id_Emp;
+            if (asignadoarik == false) //envio a otra sucursal
+            {
+                usuario.Id_Cd = idCD; //le pongo la sucursal a la que quiero enviar el Lead
+                usuario.Id_Rik = -1;
+                ///usuario.Id_TU = 3;
+                ///Para que traiga los gerenets es el 3 pero para gerentes de la tabla de gerentes es 8 
+                usuario.Id_TU = 8;
+
+                List<Usuario> list_Riks = new List<Usuario>();
+
+                cnlead.ConsultaGerente(usuario, Conexion, ref list_Riks);
+
+
+                if (list_Riks.Count == 0)
+                {
+                    return;
+                }
+                for (int i = 0; i < list_Riks.Count; i++)
+                {
+                    Usuario usuadicional = list_Riks[i];
+                    if (usuadicional.U_Correo != "")
+                    {
+                        m.Bcc.Add(new MailAddress(usuadicional.U_Correo));
+                    }
+                }
+
+                m.Bcc.Add(new MailAddress("francisco.cepeda@gibraltar.com.mx"));
+
+                m.Subject = Asunto;
+                m.IsBodyHtml = true;
+                string body = txtCuerpoMail;
+                AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+
+                m.AlternateViews.Add(vistaHtml);
+                try
+                {
+                    sm.Send(m);
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+
+            }
+            else
+            {
+
+                //obtener el coreo del Rik 
+
+                usuario.Id_Cd = sesion.Id_Cd_Ver; //le pongo la sucursal de la sesion
+                usuario.Id_Rik = idRik;
+                ///usuario.Id_TU = 3;
+                ///Para que traiga los gerenets es el 3 pero para gerentes de la tabla de gerentes es 8 
+                usuario.Id_TU = 8;
+
+                //List<Usuario> list_Riks = new List<Usuario>();
+
+                //cnlead.ConsultaGerente(usuario, Conexion, ref list_Riks);
+
+
+                string correoRIK = string.Empty;
+                CN_CatRik cnCatRik = new CN_CatRik();
+                if (idRik != -1)
+                {
+                    correoRIK = cnCatRik.ObtenerCorreo(sesion, idRik);
+                }
+                else
+                {
+                    //log? encolar para enviar mas tarde?
+                }
+
+                //string correo = ConsultarEmail(sesion, sesion.Id_U);
+
+
+                if (correoRIK != "")
+                {
+                    m.Bcc.Add(new MailAddress(correoRIK));
+                }
+
+                m.Bcc.Add(new MailAddress("francisco.cepeda@gibraltar.com.mx"));
+
+                m.Subject = Asunto;
+                m.IsBodyHtml = true;
+                string body = txtCuerpoMail;
+                AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+
+                m.AlternateViews.Add(vistaHtml);
+                try
+                {
+                    sm.Send(m);
+                }
+
+                catch (Exception ex)
+                {
+                    return;
+                }
+
+            }
+        }
+
+        //private string ConsultarEmail(Sesion session, int id_u)
+        //{
+
+        //    CN_CatUsuario cn_catusuario = new CN_CatUsuario();
+        //    Usuario u = new Usuario();
+        //    u.Id_Emp = session.Id_Emp;
+        //    u.Id_Cd = session.Id_Cd_Ver;
+        //    u.Id_U = id_u;
+        //    string correo = "";
+        //    cn_catusuario.ConsultaCorreoUsuario(u, session.Emp_Cnx, ref correo);
+        //    return correo;
+        //}
+
+
+        protected Sesion Sesion
+        {
+            get
+            {
+                if (HttpContext.Current.Session != null)
+                {
+                    return (Sesion)HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID];
+                }
+                return null;
+            }
+        }
+    }
+
+    //
+
+}

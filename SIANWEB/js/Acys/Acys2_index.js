@@ -1,0 +1,542 @@
+﻿/*
+Key Quimica Dic 2018 
+24 Dic 2018 RFH 
+MAY06-2020 RFH Actualizado
+OCT22-2020 
+*/
+
+/*
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+function Paginacion_Repaginar(obj) {
+    var p = $(obj).data('pagina');
+    ACyS_PaginaActual = p;
+    Cargar_Indice(p, ACyS_RenglonesXPagina);
+    Paginacion_Inicializar(ACyS_PaginaActual, ACyS_RegistroEncontrados);+51246
+    +3256
+    console.log('pagina:' + p);
+    //console.log('ACyS_RegistroEncontrados:' + ACyS_RegistroEncontrados);
+}
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+function Paginacion_Inicializar(PaginaActual, TotalRegistros) {
+    var Paginas = TotalRegistros / ACyS_RenglonesXPagina;
+    $('#PaginacionPie').empty();
+    var li = $('<li>').append('<a data-pagina="' + 1 + '" onclick="Paginacion_Repaginar(this);">Inicio</a>');
+    $('#PaginacionPie').append(li);
+    for (var i = 1; i < 100; i += ACyS_PaginasDesplegar) {
+        if (PaginaActual >= i && (i + ACyS_PaginasDesplegar) > PaginaActual) {
+            // aqui incia desplegar 
+            //    (i * ACyS_PaginasDesplegar) > (PaginaActual * ACyS_PaginasDesplegar)) {
+            for (var col = 1; col < ACyS_PaginasDesplegar; col++) {
+                var ColDisplay = (i - 1) + col;
+                if (ColDisplay == ACyS_PaginaActual) {
+                    var li = $('<li class="active">').append('<a data-pagina="' + ColDisplay + '" onclick="Paginacion_Repaginar(this);">' + ColDisplay + '</a>');
+                    $('#PaginacionPie').append(li);
+                } else {
+                    var li = $('<li>').append('<a data-pagina="' + ColDisplay + '" onclick="Paginacion_Repaginar(this);">' + ColDisplay + '</a>');
+                    $('#PaginacionPie').append(li);
+                }
+            }
+        }
+    }
+    var li = $('<li>').append('<a data-pagina="' + (ColDisplay + 1) + '" onclick="Paginacion_Repaginar(this);">' + (ColDisplay + 1) + '</a>');
+    $('#PaginacionPie').append(li);
+    var li = $('<li>').append('<a data-pagina="' + (ColDisplay + 2) + '" onclick="Paginacion_Repaginar(this);">Siguiente</a>');
+    $('#PaginacionPie').append(li);
+}
+*/
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+function Cargar_Indice(PageNumber, PageSize) {
+    var tbFechaInicio = '';
+    var tbFechaFin = '';
+    var AplicarFecha = '';
+    var AplicarFolio = '';
+
+    var IdCte = '0';
+    var NombreClente = '';
+    var chbPorCliente = $('#chbPorCliente').is(':checked');
+    if (chbPorCliente) {
+        var IdCte = $('#tbNumeroCliente').val();
+        IdCte = parseInt(IdCte);
+        if (isNaN(IdCte)) {
+            IdCte = 0;
+        }
+        NombreClente = $('#tbNombreCliente').val();
+    }
+
+    var chbPorFolios = $('#chbPorFolios').is(':checked');
+    var tbFolioIncial = $('#tbFolioIncial').val();
+    var tbFolioFinal = $('#tbFolioFinal').val();
+    var chbPorFechas = $('#chbPorFechas').is(':checked');
+
+    if (chbPorFechas) {
+        tbFechaInicio = $('#tbFechaInicio').val();
+        tbFechaFin = $('#tbFechaFin').val();
+    } else {
+        tbFechaInicio = '';
+        tbFechaFin = '';
+    }
+
+    var TipoCuenta = $('#DdlExcelTipoCuenta').val();
+
+    $('#spinner_AcysIndice').show();
+
+    $('#tblAcysIndex > tbody').empty();
+
+    Cargar_Indice_Ajax(
+        PageNumber, PageSize,
+        chbPorCliente, IdCte, NombreClente,
+        chbPorFechas, tbFechaInicio, tbFechaFin,
+        chbPorFolios, tbFolioIncial, tbFolioFinal,
+        TipoCuenta
+        , function (lst) {
+
+            try {
+                if (lst.length <= 0) {
+                    $('#spinner_AcysIndice').hide();
+                    alertify.success('No se encontraron registros.');
+                    $('#btnCargandoIndice').hide();
+                    return;
+                }
+            } catch (err) {
+                alertify.success('Error: Ocurrio un error al tratar de cargar la información.');
+                $('#spinner_AcysIndice').hide();
+                return;
+            }
+
+            ACyS_RegistroEncontrados = lst[0].RecordCount;
+
+            for (var i = 0; i < lst.length; i++) {
+
+                var Acs_ReqAutGerente = lst[i].Acs_ReqAutGerente;
+                Acs_ReqAutGerente = parseInt(Acs_ReqAutGerente);
+                if (isNaN(Acs_ReqAutGerente)) {
+                    Acs_ReqAutGerente = 0
+                }
+                var Acs_ReqAutJefeOp = lst[i].Acs_ReqAutJefeOp;
+                Acs_ReqAutJefeOp = parseInt(Acs_ReqAutJefeOp);
+                if (isNaN(Acs_ReqAutJefeOp)) {
+                    Acs_ReqAutJefeOp = 0;
+                }
+
+                var DATA =
+                    'data-id_acs=' + lst[i].Id_Acs + ' ' +
+                    'data-acs_version=' + lst[i].Acs_version + ' ' +
+                    'data-id_rik=' + lst[i].Id_Rik + ' ' +
+                    'data-Id_Cte=' + lst[i].Id_Cte + ' ' +
+                    'data-estatus=' + lst[i].Acs_Estatus + ' ' +
+                    'data-vencido=' + lst[i].Acs_Vencido + ' ' +
+                    'data-acs_reqautgerente=' + lst[i].Acs_ReqAutGerente + ' ' +
+                    'data-acs_reqautjefeop=' + lst[i].Acs_ReqAutJefeOp + ' ';
+
+                var AcsEstatus = '';
+
+                //console.log(lst[i].Id_Acs + ' / Estatus:' + lst[i].Acs_Estatus + ' / Acs_ReqAutGerente:' + Acs_ReqAutGerente + ' Acs_ReqAutJefeOp:' + Acs_ReqAutJefeOp);
+                //console.log(lst[i].Id_Acs + ':' + lst[i].Acs_Estatus);
+                switch (lst[i].Acs_Estatus) {
+                    case 'B':
+                        AcsEstatus = '<span id="lbAcysEstaus_' + lst[i].Id_Acs + '" class="label label-default">Cancelado</span>';
+                        break;
+                    case 'C':
+                        AcsEstatus = '<span id="lbAcysEstaus_' + lst[i].Id_Acs + '" class="label label-info">Capturado</span>';
+                        break;
+                    case 'S':
+                        var AUTJO = "-";
+                        var AUTG = "-";
+
+                        if (Acs_ReqAutGerente == 1) {
+                            AUTG = "G";
+                        }
+                        if (Acs_ReqAutGerente == 2) {
+                            AUTG = "A";
+                        }
+                        if (Acs_ReqAutGerente == 6) {
+                            AUTG = "R";
+                        }
+                        if (Acs_ReqAutJefeOp == 1) {
+                            AUTJO = "J";
+                        }
+                        if (Acs_ReqAutJefeOp == 6) {
+                            AUTJO = "R";
+                        }
+                        AcsEstatus = '<span id="lbAcysEstaus_' + lst[i].Id_Acs + '" class="label label-primary">Solicitado(' + AUTG + '/' + AUTJO + ')</span>';
+                        break;
+                    case 'A':
+                        AcsEstatus = '<span id="lbAcysEstaus_' + lst[i].Id_Acs + '" class="label label-success">Autorizado</span>';
+                        break;
+                    case 'R':
+                        AcsEstatus = '<span id="lbAcysEstaus_' + lst[i].Id_Acs + '" class="label label-warning">Rechazado</span>';
+                        break;
+                    default:
+                        AcsEstatus = 'Err.';
+                        break;
+                }
+
+                var row = $('<tr>');
+                var lbCNText = '';
+                // 19AGO-2021 RFH
+                if (GLOBAL_Activo_AcysCuentasNacionales == 1) {
+                    switch (lst[i].IDCN) {
+                        case 0:
+                            lbCNText = '<label title="Local">' + lst[i].CNDescripcion + '</label>';
+                            break;
+                        case 1:
+                            lbCNText = '<label title="Cuenta Nacional">' + lst[i].CNDescripcion + '</label>';
+                            break;
+                        case 2:
+                            lbCNText = '<label title="Cuenta Coordinada">' + lst[i].CNDescripcion + '</label>';
+                            break;
+                    }
+                    row.append($('<td>').append(lbCNText));
+                }
+
+                //row.append($('<td style="text-align: center;">').append(lbCNText));                         
+
+                row.append($('<td>').append(lst[i].Id_Acs));
+                row.append($('<td style="text-align: center;">').append(lst[i].Acs_version));
+                row.append($('<td style="text-align: center;">').append(
+                    '<p style="margin-top: 5px;" id="lbEstatusTexto_' + lst[i].Id_Acs + '">' + AcsEstatus + '</p>'
+                ));
+
+                //row.append($('<td style="text-align: center;">').append(lst[i].Identificador));
+
+                row.append($('<td style="text-align: center;">').append(lst[i].Id_Cte));
+
+                // NOMBRE COMERCIAL
+                /*if (lst[i].IDCN > 0) {
+                    row.append($('<td style="text-align: left;">').append(
+                        '<label style="text-decoration: underline;" title="Cuenta Naciona: ' + lst[i].IDCN + '" >' + lst[i].Cte_NomComercial + '</label>'
+                    ));
+                } else {
+                    row.append(
+                        $('<td style="text-align: left;">').append(
+                            lst[i].Cte_NomComercial
+                        ));
+                }*/
+
+                row.append($('<td style="text-align: left;">').append(lst[i].Cte_NomComercial));
+                row.append($('<td style="text-align: center;">').append(lst[i].Id_Ter));
+                row.append($('<td style="text-align: center;">').append(lst[i].Id_Rik));
+                row.append($('<td style="text-align: center;">').append(lst[i].Acs_Fecha));
+                row.append($('<td style="text-align: center;">').append(lst[i].Acs_FechaInicio));
+                row.append($('<td style="text-align: center;">').append(lst[i].Acs_FechaFin));
+                row.append($('<td style="text-align: center;">').append(lst[i].Acs_Vencido));
+
+                // boton ACYS                                    
+                if (lst[i].Acs_Vencido == 'SI') {
+                    sACYS_Diabled = 'style="color:silver" disabled';
+                } else {
+                    sACYS_Diabled = 'enabled';
+                }
+
+                // boton ACYS                                    
+                if (lst[i].Acs_Vencido == 'SI') {
+                    sACYS_Diabled = 'style="color:silver" disabled';
+                } else {
+                    sACYS_Diabled = 'enabled';
+                }
+
+                var btn_EDITAR = '<button ' +
+                    'id="btnAcys_Editar_' + lst[i].Id_Acs + '" ' +
+                    DATA +
+                    'onclick="btnAcys_Editar(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Abre el documento para edición." ' + sACYS_Diabled + '>' +
+                    '<i class="fa fa-pencil-square-o"></i>' +
+                    '</button>';
+
+                // boton C ORDEN 
+                if (lst[i].Acs_Vencido == 'SI') {
+                    sCO_Diabled = 'style="color:silver" disabled';
+                } else {
+                    sCO_Diabled = 'enabled';
+                }
+
+                // boton EDITAR
+                // El usuario actual debe ser dueño 
+
+                var btnEditarOrden = '<button ' +
+                    DATA +
+                    'onclick="btnAcysOrden_Editar(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm btn_ControlOrden"' +
+                    'title="Abre el Documento Control de Ordenes." ' + sCO_Diabled + '>' +
+                    '<i class="fa fa-file-powerpoint-o"></i>' +
+                    '</button>';
+
+                // boton ELIMINAR
+
+                var sEliminar_Diabled = "";
+                //var sEnviar_Style = 'display:none'
+                // Si es gerente no presenta el boton.
+
+                sEliminar_Diabled = '';
+
+                var btn_ELIMINAR = '<button ' +
+                    'id=btnAcys_Eliminar_' + lst[i].Id_Acs + ' ' +
+                    DATA +
+                    'onclick="btnAcys_Eliminar(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Eliminar el documento" ' + sEliminar_Diabled + '>' +
+                    '<i class="fa fa-times" aria-hidden="true"></i>' +
+                    '</button>';
+
+                sImprimir_Diabled = '';
+
+                var btn_IMPRIMIR = '<button ' +
+                    DATA +
+                    'onclick="btnAcys_Imprimir(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Imprimir el documento" ' + sImprimir_Diabled + '>' +
+                    '<i class="fa fa-print"></i>' +
+                    '</button>';
+
+                var sRenovar_Diabled = "";
+
+                switch (lst[i].Acs_Estatus) {
+                    case 'B': sRenovar_Diabled = 'style="color:silver" disabled';
+                    //case 'C': sRenovar = '';
+                }
+
+                // boton RENOVAR 02OCT-2020
+
+                sRenovar_Diabled = '';
+                var btn_RENOVAR = '<button ' +
+                    DATA +
+                    'onclick="btnAcys_Reenovar(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Renovar el documento" ' + sRenovar_Diabled + '>' +
+                    '<i class="fa fa-certificate" aria-hidden="true"></i>' +
+                    '</button>';
+
+                var sEnviar = "";
+                var sEnviar_Diabled = "";
+                //var sEnviar_Style = 'display:none'
+                // Si es gerente no presenta el boton.
+                if (_Usuario_Tipo == 3) {
+                    sEnviar_Diabled = "disabled";
+                }
+
+                // S o A
+                if (lst[i].Acs_Estatus == 'S') {
+                    //sEnviar_Diabled = "disabled";
+                }
+
+                if (lst[i].Acs_Estatus == 'B') {
+                    sEnviar_Diabled = "disabled";
+                }
+
+                sEnviar_Diabled = '';
+
+                // boton AUTORIZAR 
+
+                if (GLOBAL_Activo_NoRequiereAutAcys!='S')
+
+                var btn_ENVIAR = '<button ' +
+                    ' id="btnAcysEnviar_' + lst[i].Id_Acs + '" ' + DATA +
+                    'onclick="btnAcys_Autorizar_Modal(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Enviar el documento" ' + sEnviar_Diabled + '>' +
+                    '<i class="fa fa-envelope-o" aria-hidden="true"></i>' +
+                        '</button>';
+                else
+                    var btn_ENVIAR = '<button ' +
+                        ' id="btnAcysEnviar_' + lst[i].Id_Acs + '" ' + DATA +
+                        'onclick="btnAcys_Autorizar(this)" ' +
+                        'type="button" ' +
+                        'class="btn btn-default btn-sm"' +
+                        'title="Autorizar" ' + sEnviar_Diabled + '>' +
+                        '<i class="fa fa-envelope-o" aria-hidden="true"></i>' +
+                        '</button>';
+
+
+
+                var btn_VERSIONES = '<button ' +
+                    DATA +
+                    'onclick="btnAcys_Versiones(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Versiones del documento" ' +
+                    '>' +
+                    '<i class="fa fa-info" aria-hidden="true"></i>' +
+                    '</button>';
+
+                // VERSIONES
+                var sAutorizarDiabled = "";
+                var sAutorizarStyle = "";
+
+                // Si esta en baja no despliega autorziar  
+                if (_Usuario_Tipo != 3 || lst[i].Acs_Estatus == 'S') {
+                    if (lst[i].Acs_Estatus != 'S') {
+                        sAutorizarDiabled = 'style="color:silver" disabled'
+                        sAutorizarStyle = 'display:none'
+                    }
+                } else {
+                    sAutorizarDiabled = 'style="color:silver" disabled'
+                }
+
+                // Si no es gerente no muestra el boton
+                if (_Usuario_Tipo != 3) {
+                    sAutorizarDiabled = 'style="color:silver" disabled'
+                }
+
+                // AUTORIZAR 
+                var sAutorizar = '';
+
+                if (lst[i].Acs_Estatus == 'B') {
+                    sAutorizarDiabled = 'style="color:silver" disabled';
+                } else {
+                }
+
+                // AUTORIZAR 
+                // 2 JUL 2019 RFH
+                // Autorizac Control de Orden y ACyS  
+                var btn_AUTORIZAR = '<button ' +
+                    ' id="btnAcysAutorizar_' + lst[i].Id_Acs + '" ' +
+                    DATA +
+                    'onclick="btnAcys_Autorizar_Modal(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Autorizar el documento" ' + sAutorizarDiabled + ' >' +
+                    '<i class="fa fa-check-square-o" aria-hidden="true"></i>' +
+                    '</button>';
+
+                // boton REACTIVAR 02OCT-2020
+                var sReactivar_Diabled = '';
+
+                if (lst[i].Acs_Vencido == 'SI' || lst[i].Acs_Estatus == 'B') {
+                    sReactivar_Diabled = 'enabled';
+                } else {
+                    sReactivar_Diabled = 'style="color:silver" disabled';
+                }
+
+                var btn_REACTIVAR = '<button ' +
+                    ' id="btnAcysReactivar_' + lst[i].Id_Acs + '" ' +
+                    DATA +
+                    'onclick="btnAcys_Reactivar(this)" ' +
+                    'type="button" ' +
+                    'class="btn btn-default btn-sm"' +
+                    'title="Reactivar el documento" ' + sReactivar_Diabled + '>' +
+                    '<i class="fa fa-magic" aria-hidden="true"></i>' +
+                    '</button>';
+
+                // Reactivar 
+                row.append($('<td style="text-align: center; width:340px;">').append(
+                    '<table>' +
+                    '<tr>' +
+                    '<td>' + btn_EDITAR + '</td>' +
+                    '<td style="width:45px;">' + btnEditarOrden + '</td>' +
+                    '<td>' + btn_ELIMINAR + '</td>' +
+                    '<td>' + btn_IMPRIMIR + '</td>' +
+                    '<td>' + btn_RENOVAR + '</td>' +
+                    '<td>' + btn_ENVIAR + '</td>' +
+                    '<td>' + btn_VERSIONES + '</td>' +
+                    '<td>' + btn_AUTORIZAR + '</td>' +
+                    '<td>' + btn_REACTIVAR + '</td>' +
+                    '</tr>' +
+                    '</table>'
+                ));
+
+                $('#tblAcysIndex > tbody').append(row);
+
+                Paginacion_Inicializar(ACyS_PaginaActual, ACyS_RegistroEncontrados);
+
+            }
+            $('#spinner_AcysIndice').hide();
+
+        }, function () {
+            // CALLBACK_Error
+            $('#spinner_AcysIndice').hide();
+            $('#spinner_AcysBajarReporte').css('display', 'none');
+
+        });
+
+    //
+}
+function validarMesActual(selector) {
+    var valor = $(selector).val();
+    if (!valor) return;
+
+    // valor esperado: MM/YYYY
+    var partes = valor.split('/');
+    var mes = parseInt(partes[0], 10);
+    var anio = parseInt(partes[1], 10);
+
+    var hoy = new Date();
+    var mesActual = hoy.getMonth() + 1; // 0-indexed
+    var anioActual = hoy.getFullYear();
+
+    // Fecha límite: mismo mes del año anterior
+    const limiteMes = mesActual;
+    const limiteAnio = anioActual - 1;
+
+    // Si el año es mayor, es válido. Si es igual, comparar meses
+    if (anio > limiteAnio) return true;
+    if (anio === limiteAnio && mes > limiteMes) return true;
+    else {
+        alertify.error('Seleccione una fecha de inicio de freciencia mayor a ' + limiteMes + '/' + limiteAnio + '.');
+        $(selector).focus();
+        return false;
+    }
+}
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+$(document).ready(function () {
+
+    Paginacion_Inicializar(1, 100);
+    //alertify.logPosition("bottom right");
+
+    Cargar_Indice(1, ACyS_RenglonesXPagina);
+
+    // Hack to enable multiple modals by making sure the .modal-open class
+    // is set to the <body> when there is at least one modal open left
+    $('body').on('hidden.bs.modal', function () {
+        if ($('.modal.in').length > 0) {
+            $('body').addClass('modal-open');
+        }
+    });
+
+    //alertify.logPosition("bottom right");
+
+    $('.datepicker').Zebra_DatePicker({
+        format: 'd/m/Y'
+    });
+
+    $('.datepicker-mes').Zebra_DatePicker({
+        format: 'm/Y',
+        view: 'months',
+        select_other_months: true,
+        show_clear_date: false
+    });
+
+    $('#btnAcysNuevo').click(function () {
+
+        $('#modalAcys').appendTo("body").modal('show');
+        $('#tabPage a[href="#tabCliente"]').tab('show');
+
+        Inicializar_Acys();
+        Inicializar_Acys_ControlNuevo();
+        ACyS_Modo_ReadEditar();
+
+        // MAY18-2021 RFH
+        TerritoriosPorRik(Id_Rik, function (lst) {
+            $('#selCteTerritorio').empty();
+            for (var i = 0; i < lst.length; i++) {
+                //var txtlabel = $('#tbTexto_' + NP + '_' + i).val();
+                $('#selCteTerritorio').append(
+                    $('<option>').val(lst[i].Id_Ter).text(lst[i].Id_Ter)
+                );
+            }
+        });
+
+
+        $('#MensajeCargando').css('display', 'none');
+    });
+
+    //
+});

@@ -1,0 +1,29 @@
+﻿.color_IntV2 {
+    padding: 6% !important;
+    color: white;
+    width: 100px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+    .color_IntV2.red {
+        background: red;
+    }
+
+    .color_IntV2.orange {
+        background: orange;
+    }
+
+    .color_IntV2 .green {
+        background: green;
+    }
+
+    .color_IntV2.green {
+        background: green;
+    }
+
+.sub_title_integralidad {
+    color: #5580e1;
+    font-weight: 700;
+    font-size: 17px;
+}

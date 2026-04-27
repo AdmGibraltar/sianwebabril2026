@@ -1,0 +1,458 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/PortalRIK.Master" AutoEventWireup="true" CodeBehind="Informe.aspx.cs" Inherits="SIANWEB.PortalRIK.GestionPromocion.Informe" %>
+
+<%@ Register Src="~/js/crm/servicios/navegacion/UCNotificaciones_js.ascx" TagPrefix="uc" TagName="UCNotificaciones_js" %>
+<%@ Register Src="~/PortalRIK/Navegacion/Notificaciones/UCNotificaciones.ascx" TagPrefix="uc" TagName="UCNotificaciones" %>
+<%@ Register Src="~/js/crm/ui/Notificaciones.ascx" TagPrefix="uc" TagName="UINotificaciones" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/patternfly/patternfly.min.css")%>">
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/patternfly/patternfly-additions.min.css")%>">
+    <!--script src="<%=Page.ResolveUrl("~/js/patternfly/patternfly.min.js")%>"></script-->
+    
+    <%--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>--%>
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/Librerias/fontawesome-free-4.6.3/font-awesome.min.css")%>">
+    <link href="<%=Page.ResolveUrl("~/css/key_soluciones.css")%>" rel="stylesheet">
+    
+    <script src="<%=Page.ResolveUrl("~/js/jquery-2.1.4.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/jquery-template/jquery.loadTemplate.js")%>"></script>
+    
+    <style>
+        .toast-pf-top-right-rel {
+          left: 20px;
+          position: relative;
+          right: 20px;
+          top: 12px;
+          z-index: 1035;
+          /* Medium devices (desktops, 992px and up) */
+        }
+    </style>
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/icheck/skins/square/blue.css")%>">
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/key_soluciones.css")%>">
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="cphBodyContent" runat="server">
+    <form id="form1" runat="server">
+    <asp:ScriptManager runat="server" ID="smMainScriptManager">
+        </asp:ScriptManager>
+
+    <telerik:RadWindowManager ID="RadWindowManager1" runat="server">
+    </telerik:RadWindowManager>
+    <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Default">
+    </telerik:RadAjaxLoadingPanel>
+
+    <div class="row" style="display: block;">
+
+        <div class="col-sm-9 col-md-12">
+
+          <div class="row ROWPAD MARGIN_BT5">
+                <div class="col-sm-12 col-md-12 ROWPAD">
+                    <h3>
+                        <strong>Informes </strong>                        
+                    </h3>
+                </div>
+            </div>
+
+            <div class="row ROWPAD MARGIN_BT5">
+                <div class="col-sm-12 col-md-12 ROWPAD">
+                  
+
+                    <table style="width: 500px; border-spacing: 5px; border-collapse: separate;">
+                        <tr>
+                            <td style="width: 150px;">Tipo de reporte</td>
+                            <td>
+                                <select id="rbTipo" class="form-control" style="width: 280px;">
+                                    <option value="2">Control de la promoción nivel aplicación</option>
+                                    <option value="3">Control de Entradas</option>
+                                    <option value="4">DII en número de proyectos</option>
+                                    <option value="5">DII en importe de proyectos</option>
+                                    <option value="6">Campañas</option>
+                                    <option value="7">Cierre de Mes</option>
+                                    <option value="8">Reporte a nivel aplicación</option>                                
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="tr_1">
+                            <td>
+                            </td>
+                            <td colspan="3" id="tbUnidadNegocio" style="display:none;">
+
+                             <div class="panel panel-default" style="width: 450px; margin-top:10px;">                                      
+                                <div class="panel-heading titulo_blod">
+                                    <table>                                        
+                                        <tr>
+                                            <td>
+                                                Seleccione configuraci&oacute;n
+                                            </td>
+                                            <td>
+                                                &nbsp;<img id="Spinner_MapaAplicaciones" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" style="display:none;" />    
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="panel-body" style="padding:10px!important;" >
+
+                                    <table style="width: 100%; border-spacing: 5px; border-collapse: separate;">                            
+                                    <tr>
+                                        <!--td>
+                                            <input id="chbUen" type="checkbox" class="form-control" checked disabled/>
+                                        </td-->
+                                        <td style="width: 100px;">UEN</td>
+                                        <td>
+                                            <select id="ddlUEN" class="form-control" disabled>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!--td>
+                                            <input id="chbSegmento" type="checkbox"  class="form-check-input" checked>
+                                        </td-->
+                                        <td>Segmento</td>
+                                        <td>
+                                            <select id="ddlSegmento" class="form-control" disabled>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>                            
+                                        <!--td>
+                                            <input id="chbArea" type="checkbox" class="form-control" checked>
+                                        </td-->
+                                        <td>&Aacute;rea</td>
+                                        <td>
+                                            <select id="ddlArea" class="form-control" disabled>                            
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>                            
+                                        <!--td>
+                                            <input id="chbSolucion" type="checkbox" class="form-control" checked>
+                                        </td-->
+                                        <td>Soluci&oacute;n</td>
+                                        <td>
+                                            <select id="ddlSolucion" class="form-control" disabled>                            
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>     
+                                        <!--td>
+                                            <input id="chbAplicacion" type="checkbox" class="form-control" checked>
+                                        </td-->                       
+                                        <td>Aplicaci&oacute;n</td>
+                                        <td>
+                                            <select id="ddlAplicacion" class="form-control" disabled>                            
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </table>                                
+
+                                </div>
+                                </div>
+
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td>Representante</td>
+                            <td>
+                                <select id="ddlRepresentantesComercial" class="form-control" style="width: 280px;">                            
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Periodo</td>
+                            <td>
+                                <select id="ddPeriodo" class="form-control" style="width: 280px;">                            
+                                </select>                        
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos Nuevos</td>
+                            <td>
+                                <input type="checkbox" id="chkProyectoNuevo" name="chkProyectoNuevo" value="" />                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Monto</td>
+                            <td>
+                                <table style="border-spacing: 5px; border-collapse: separate;" >
+                                    <tr>    
+                                        <td><asp:Label ID="Label1" runat="server" Text="De:"></asp:Label></td>
+                                        <td><asp:Label ID="Label3" runat="server" Text="A:"></asp:Label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" style="width:100px;"  id="txtDe" value="0" /></td>
+                                        <td><input type="text" class="form-control" style="width:100px;" id="txtA" value="9999999" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                                
+                                <table style="border-spacing: 5px; border-collapse: separate;">
+                                    <tr>                                        
+                                        <td>
+                                            <button type="button" class="btn btn-primary" id="btnGenerarRepote">Generar reporte</button>
+                                        </td>
+                                        <td>
+                                            <img id="Spinner_Cargando" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" style="display:none;" />    
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                    </table>
+                        
+                </div>
+           
+            </div>
+
+            <div width:"100%" class="row ROWPAD">
+
+                
+
+<%--                <table style="cellspacing:10px">
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                          
+                        </td>
+                    </tr><tr>
+                        <td></td>
+                    </tr><tr>
+                        <td>
+                            <%--<telerik:RadComboBox ID="ddlZonas" runat="server" Width="224px" Filter="Contains"
+                            ChangeTextOnKeyBoardNavigation="true" MarkFirstMatch="true" DataTextField="Descripcion"
+                            DataValueField="Id" LoadingMessage="Cargando..." AutoPostBack="True" OnClientBlur="Combo_ClientBlur2"
+                            OnSelectedIndexChanged="ddlZonas_SelectedIndexChanged">
+                            </telerik:RadComboBox>--%
+                        </td>
+                    </tr><tr>
+                        <td></td>
+                    </tr><tr>
+                        <td>                                                
+                            <%--<telerik:RadComboBox ID="ddlRepresentantesComercial" runat="server" Width="224px"
+                            Filter="Contains" ChangeTextOnKeyBoardNavigation="true" MarkFirstMatch="true"
+                            DataTextField="Descripcion" DataValueField="Id" LoadingMessage="Cargando..."
+                            OnClientBlur="Combo_ClientBlur">
+                            </telerik:RadComboBox>--%                            
+                        </td>
+                    </tr><tr>
+                        <td></td>    
+                    </tr><tr>
+                        <td>                                                
+                            <%--<telerik:RadComboBox ID="ddPeriodo" runat="server" ChangeTextOnKeyBoardNavigation="true"
+                            Filter="Contains" LoadingMessage="Cargando..." MarkFirstMatch="true" HighlightTemplatedItems="true"
+                            OnClientBlur="Combo_ClientBlur" Width="224px" MaxHeight="250">
+                            <ItemTemplate>--%>
+                            <%--                                                        
+                            <table>
+                                    <tr>
+                                        <td style="width: 25px; text-align: center; vertical-align: top">
+                                            <asp:Label ID="LabelID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "Id").ToString() == "-1" ? "": DataBinder.Eval(Container.DataItem, "Id").ToString() %>'
+                                            Width="50px" />
+                                        </td>
+                                        <td style="text-align: left">
+                                            <asp:Label ID="LabelDESC" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Descripcion") %>' />
+                                        </td>
+                                    </tr>
+                            </table>
+                            </ItemTemplate>
+                            </telerik:RadComboBox>
+                            --%
+                        </td>                    
+                    </tr>
+                    <tr style="margin-top:50px!important;">                    
+                        <td>
+                            
+                        </td>                                        
+                    </tr>
+            </table>--%>
+
+
+
+
+                                     
+                                                                    
+                                    
+<%--
+                                    <div class="btn-group" data-toggle="buttons" id="divRadioButtons">                                                                            
+                                       <table>
+                                        <tr><td>
+                                            <%--<asp:RadioButton runat="server" ID="radControl" Text="Control de la promoción nivel solución"
+                                            AutoPostBack="True" ValidationGroup="Opciones" GroupName="opcion" OnCheckedChanged="radControl_CheckedChanged" />                                            
+                                            --%
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="1"/>Control de la promoción nivel solución</label>
+                                            </div>                                            
+                                        </td></tr><tr><td>
+                                            <%--<asp:RadioButton runat="server" ID="radControlAplicacion" Text="Control de la promoción nivel aplicación"
+                                            ValidationGroup="Opciones" GroupName="opcion" AutoPostBack="True" OnCheckedChanged="radControlAplicacion_CheckedChanged" />                                        --%
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="2"/>Control de la promoción nivel aplicación</label>
+                                            </div>                                            
+                                        </td></tr><tr><td>
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="3"/>Control de Entradas</label>
+                                            </div>        
+                                            <%--<asp:RadioButton runat="server" ID="radControlEntrada" Text="Control de Entradas"
+                                            ValidationGroup="Opciones" GroupName="opcion" AutoPostBack="True" OnCheckedChanged="radControlEntrada_CheckedChanged" />                                       --%
+                                        </td></tr><tr><td>
+                                            
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="4"/>DII en número de proyectos</label>
+                                            </div> 
+                                            <%--<asp:RadioButton runat="server" ID="radDII" Text="DII en número de proyectos" AutoPostBack="True"
+                                            GroupName="opcion" ValidationGroup="Opciones" OnCheckedChanged="radDII_CheckedChanged" />                                        --%
+                                        </td></tr><tr><td>
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="5"/>DII en importe de proyectos</label>
+                                            </div> 
+                                            <%--<asp:RadioButton runat="server" ID="radDIINumero" Text="DII en importe de proyectos"
+                                            AutoPostBack="True" GroupName="opcion" ValidationGroup="Opciones" OnCheckedChanged="radDIINumero_CheckedChanged" />                                        --%
+                                        </td></tr><tr><td>
+                                            
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="6" />Campañas</label>
+                                            </div> 
+                                            
+                                            <%--<asp:RadioButton runat="server" ID="radCampania" Text="Campañas"
+                                            AutoPostBack="True" GroupName="opcion" ValidationGroup="Opciones" OnCheckedChanged="radCampania_CheckedChanged" />                                        --%
+                                        </td></tr><tr><td>
+                                            <div class="radio">
+                                                <label><input type="radio" id="rbTipo" name="rbTipo" value="7"/>Cierre de Mes</label>
+                                            </div> 
+                                                                                        
+                                            <%--<asp:RadioButton runat="server" ID="radCierreMes" Text="Cierre de Mes"
+                                                AutoPostBack="True" GroupName="opcion" ValidationGroup="Opciones" OnCheckedChanged="radCierreMes_CheckedChanged" />--%
+                                        </td></tr>
+                                       </table> 
+                                    </div>--%>
+
+                                </td>
+                                <td>
+                                  
+                                    &nbsp;
+                                    <asp:Panel ID="pnlComercial" runat="server">
+                                        <table id="tablaComercial" runat="server" cellpadding="0" cellspacing="0">
+                                                                                    
+                                            <tr>
+                                                <td colspan="3" style="height: 16px">
+                                                    <asp:Label ID="lblRepComercial" runat="server" ForeColor="Red"></asp:Label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </asp:Panel>
+                                    <table>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 230px">
+                                    &nbsp;
+                                </td>
+                                <td align="right">                                   
+                                    
+                                </td>
+                            </tr>
+                        </table>
+            </div>
+        </div>            
+    </div>  
+    
+    </form>
+
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="cphScripts" runat="server">
+    <!--Toast messages-->
+    <!--Login dialog-->
+    <div class="modal fade" id="dvDialogoInicioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="btndvDialogoInicioSesionCerrar" type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="H3">
+                        Iniciar sesion
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDvDialogoInicioSesion">
+                    <div class="form-group">
+                        <label for="Cu_User">
+                            Usuario
+                        </label>
+                        <input type="text" id="Username" name="Username" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Cu_pass">
+                            Contraseña
+                        </label>
+                        <input type="password" id="Password" name="Password" class="form-control" />
+                    </div>
+                    </form>
+                    <div id="wrnDvDialogoInicioSesion" class="alert alert-warning" style="display: none;">
+                        <span class="pficon pficon-warning-triangle-o"></span>
+                        <div id="msgWrnDvDialogoInicioSesion">
+                            Mensaje
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDvDialogoInicioSesionCerrar" type="button" class="btn btn-default"
+                        onclick="redireccionarALogin()" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnDvDialogoInicioSesionLogin"
+                        onclick="login(jQuery)">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Login dialog-->
+    <script type="text/javascript">
+        var _ApplicationUrl = '<%=ApplicationUrl %>';
+        var Id_TU = '<%=Id_TU1 %>';
+        var hfId_CD = '<%=Id_CD %>';
+        var hfId_Rik = '<%=Id_Rik %>';
+        var CDI_Nombre = '<%=CDI_Nombre %>';
+    </script>
+            
+    <!--script src="<%=Page.ResolveUrl("~/js/Modernizr-input.min.js")%>"></script-->
+    <!--script src="<%=Page.ResolveUrl("~/js/jquery.placeholder.min.js")%>"></script-->
+
+    <%--exportar excel--%>
+    <script src="<%=Page.ResolveUrl("~/js/excel/FileSaver.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/excel/jszip.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/excel/myexcel.js")%>"></script>
+
+    <%--date format --%>
+    <script src="<%=Page.ResolveUrl("~/js/date.format.js")%>"></script>
+        
+    <script type="text/javascript" src="<%=Page.ResolveUrl("~/js/crm/servicios/navegacion/Notificaciones.js") %>"></script>
+    <uc:UCNotificaciones_js runat="server" ID="UCNotificaciones_js" />
+    <script type="text/javascript" src="<%=Page.ResolveUrl("~/js/crm/ui/Notificaciones.js") %>"></script>
+    <uc:UINotificaciones runat="server" ID="UINotificaciones1" />
+    <script type="text/javascript" src="<%=Page.ResolveUrl("~/js/crm/navegacion/Notificaciones.js") %>"></script>
+
+    <%--alertify--%>
+    <script src="<%=Page.ResolveUrl("~/js/alertify.js-master/dist/js/alertify.js") %>"></script>
+    <link href="<%=Page.ResolveUrl("~/js/alertify.js-master/dist/css/alertify.css")%>" rel="stylesheet">
+   
+    <script src="<%=Page.ResolveUrl("~/js/placeholder-setup.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/bootstrap-select.min.js") %>"></script>                
+    <!--script src="<%=Page.ResolveUrl("~/js/icheck.min.js")%>"></script-->
+    <script src="<%=Page.ResolveUrl("~/js/numeraljs/min/numeral.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/numeraljs/jquery-numeraljs.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/CRM2/MapaAplicaciones.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/CRM2/Informe.js")%>"></script>
+
+    $(document).ready(function () {
+
+    });
+       
+</asp:Content>

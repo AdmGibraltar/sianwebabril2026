@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetPriceList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="aplicacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subfamilia" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoproducto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="proveedor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="palabraclave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lista" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="id_Prd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPriceListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPriceListResult" type="tns:ArrayOfListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfListaPrecios">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ListaPrecios" nillable="true" type="tns:ListaPrecios" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ListaPrecios">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Prd" nillable="true" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ESTATUS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APLICACION" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SUBFAMILIA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TIPOPRODUCTO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LISTADEPRECIOS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOPROVEEDOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBREPROVEEDOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NODEARTDEPROVEEDOR" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAAAACTUAL" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PLISTAACTUAL" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAAAAnterior" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PLISTAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAAAFUTURA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PLISTAFUTURA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PVariacionPAAA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PVariacionPLISTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="FECHAINICIOVIG" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="FECHAFINVIG" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="TIENEPRECIOFUTURO" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RESPONSABLE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PLANEACION" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="margenred" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="FECHAINICIOVIGFUT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="FECHAFINVIGFUT" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="MONEDA" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CostoEstandard" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrecioBase" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Presentacion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UnidaddeVenta" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PVariacionPAAAFUTURO" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PVariacionPLISTAFUTURO" nillable="true" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetListaActualizada">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="listacosto" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="opcion" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListaActualizadaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListaActualizadaResult" type="tns:ArrayOfListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAplicacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAplicacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAplicacionResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCatalogoListaPrecios">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CatalogoListaPrecios" nillable="true" type="tns:CatalogoListaPrecios" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CatalogoListaPrecios">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id_SubCatalogo" nillable="true" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion_SubCatalogo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Seleccionado" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SeleccionadoSIANCENTRAL" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSubFamilias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_SubCatalogo_Relacionado" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubFamiliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSubFamiliasResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTipoProducto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTipoProductoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTipoProductoResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProveedor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProveedorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProveedorResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampoLista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampoListaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampoListaResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfiguraListas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfiguraListasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfiguraListasResult" type="tns:ArrayOfCatalogoListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PutHabilitarLista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_SubCatalogo" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="idhabilitar" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="habilitasiancentral" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_usuario" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PutHabilitarListaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PutHabilitarListaResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrecioPorAplicar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="palabraclave" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechainicial" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechafinal" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="id_Prd" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="todohistorial" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrecioPorAplicarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrecioPorAplicarResult" type="tns:ArrayOfListaPrecios" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrecioIncidencias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="palabraclave" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechainicial" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechafinal" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="id_Prd" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="todohistorial" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrecioIncidenciasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrecioIncidenciasResult" type="tns:ArrayOfListaPreciosIncidencias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfListaPreciosIncidencias">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ListaPreciosIncidencias" nillable="true" type="tns:ListaPreciosIncidencias" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ListaPreciosIncidencias">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id_CifrasControl" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_ListaHistorico" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_ListaCosto" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_ListaCostoDet" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id_Prd" nillable="true" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="Vigente" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBREDEPROVEEDOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NODEARTDEPROVEEDOR" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha_Inicio" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha_Fin" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALCOSTODECOMPRA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="COSTODECOMPRA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOCOSTODECOMPRA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPRECIOMINIMODEVENTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PRECIOMINIMODEVENTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPRECIOMINIMODEVENTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALCOSTODOLARES" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="COSTODOLARES" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOCOSTODOLARES" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPAAA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAAA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPAAA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPLISTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PLISTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPLISTA" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPrecioBase" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Preciobase" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPrecioBase" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPAAAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAAAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPAAAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALPLISTAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PLISTAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOPLISTAANTERIOR" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALCOSTOestandard" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="costoestandard" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOCOSTOestandard" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALCOSTODECOMPRA_COMPRAS" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="COSTODECOMPRA_COMPRAS" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOCOSTODECOMPRA_COMPRAS" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORIGINALCOSTOPROYECTADOENMN" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="COSTOPROYECTADOENMN" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ACTUALIZADOCOSTOPROYECTADOENMN" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha_Proceso" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha_Procesar" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="RegistrosActualizados" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RegistrosdebieronActualizarse" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ComentarioIniciado" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ComentarioFinal" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPrecioLogEventos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="palabraclave" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechainicial" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="fechafinal" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="id_Prd" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="todohistorial" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrecioLogEventosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrecioLogEventosResult" type="tns:ArrayOfListaPreciosIncidencias" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFechaUltMod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginKey" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="palabraclave" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFechaUltModResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFechaUltModResult" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKey">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetKeyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetPriceListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPriceList" />
+  </wsdl:message>
+  <wsdl:message name="GetPriceListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPriceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListaActualizadaSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListaActualizada" />
+  </wsdl:message>
+  <wsdl:message name="GetListaActualizadaSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListaActualizadaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAplicacionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAplicacion" />
+  </wsdl:message>
+  <wsdl:message name="GetAplicacionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAplicacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSubFamiliasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSubFamilias" />
+  </wsdl:message>
+  <wsdl:message name="GetSubFamiliasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSubFamiliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTipoProductoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTipoProducto" />
+  </wsdl:message>
+  <wsdl:message name="GetTipoProductoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTipoProductoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProveedorSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProveedor" />
+  </wsdl:message>
+  <wsdl:message name="GetProveedorSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProveedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampoListaSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampoLista" />
+  </wsdl:message>
+  <wsdl:message name="GetCampoListaSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampoListaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfiguraListasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfiguraListas" />
+  </wsdl:message>
+  <wsdl:message name="GetConfiguraListasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfiguraListasResponse" />
+  </wsdl:message>
+  <wsdl:message name="PutHabilitarListaSoapIn">
+    <wsdl:part name="parameters" element="tns:PutHabilitarLista" />
+  </wsdl:message>
+  <wsdl:message name="PutHabilitarListaSoapOut">
+    <wsdl:part name="parameters" element="tns:PutHabilitarListaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioPorAplicarSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrecioPorAplicar" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioPorAplicarSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrecioPorAplicarResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioIncidenciasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrecioIncidencias" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioIncidenciasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrecioIncidenciasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioLogEventosSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrecioLogEventos" />
+  </wsdl:message>
+  <wsdl:message name="GetPrecioLogEventosSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrecioLogEventosResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFechaUltModSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFechaUltMod" />
+  </wsdl:message>
+  <wsdl:message name="GetFechaUltModSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFechaUltModResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetKeySoapIn">
+    <wsdl:part name="parameters" element="tns:GetKey" />
+  </wsdl:message>
+  <wsdl:message name="GetKeySoapOut">
+    <wsdl:part name="parameters" element="tns:GetKeyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsListaPreciosSoap">
+    <wsdl:operation name="GetPriceList">
+      <wsdl:input message="tns:GetPriceListSoapIn" />
+      <wsdl:output message="tns:GetPriceListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListaActualizada">
+      <wsdl:input message="tns:GetListaActualizadaSoapIn" />
+      <wsdl:output message="tns:GetListaActualizadaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAplicacion">
+      <wsdl:input message="tns:GetAplicacionSoapIn" />
+      <wsdl:output message="tns:GetAplicacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubFamilias">
+      <wsdl:input message="tns:GetSubFamiliasSoapIn" />
+      <wsdl:output message="tns:GetSubFamiliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTipoProducto">
+      <wsdl:input message="tns:GetTipoProductoSoapIn" />
+      <wsdl:output message="tns:GetTipoProductoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProveedor">
+      <wsdl:input message="tns:GetProveedorSoapIn" />
+      <wsdl:output message="tns:GetProveedorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampoLista">
+      <wsdl:input message="tns:GetCampoListaSoapIn" />
+      <wsdl:output message="tns:GetCampoListaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguraListas">
+      <wsdl:input message="tns:GetConfiguraListasSoapIn" />
+      <wsdl:output message="tns:GetConfiguraListasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PutHabilitarLista">
+      <wsdl:input message="tns:PutHabilitarListaSoapIn" />
+      <wsdl:output message="tns:PutHabilitarListaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioPorAplicar">
+      <wsdl:input message="tns:GetPrecioPorAplicarSoapIn" />
+      <wsdl:output message="tns:GetPrecioPorAplicarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioIncidencias">
+      <wsdl:input message="tns:GetPrecioIncidenciasSoapIn" />
+      <wsdl:output message="tns:GetPrecioIncidenciasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioLogEventos">
+      <wsdl:input message="tns:GetPrecioLogEventosSoapIn" />
+      <wsdl:output message="tns:GetPrecioLogEventosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFechaUltMod">
+      <wsdl:input message="tns:GetFechaUltModSoapIn" />
+      <wsdl:output message="tns:GetFechaUltModSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKey">
+      <wsdl:input message="tns:GetKeySoapIn" />
+      <wsdl:output message="tns:GetKeySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsListaPreciosSoap" type="tns:wsListaPreciosSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetPriceList">
+      <soap:operation soapAction="http://tempuri.org/GetPriceList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListaActualizada">
+      <soap:operation soapAction="http://tempuri.org/GetListaActualizada" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAplicacion">
+      <soap:operation soapAction="http://tempuri.org/GetAplicacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubFamilias">
+      <soap:operation soapAction="http://tempuri.org/GetSubFamilias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTipoProducto">
+      <soap:operation soapAction="http://tempuri.org/GetTipoProducto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProveedor">
+      <soap:operation soapAction="http://tempuri.org/GetProveedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampoLista">
+      <soap:operation soapAction="http://tempuri.org/GetCampoLista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguraListas">
+      <soap:operation soapAction="http://tempuri.org/GetConfiguraListas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PutHabilitarLista">
+      <soap:operation soapAction="http://tempuri.org/PutHabilitarLista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioPorAplicar">
+      <soap:operation soapAction="http://tempuri.org/GetPrecioPorAplicar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioIncidencias">
+      <soap:operation soapAction="http://tempuri.org/GetPrecioIncidencias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioLogEventos">
+      <soap:operation soapAction="http://tempuri.org/GetPrecioLogEventos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFechaUltMod">
+      <soap:operation soapAction="http://tempuri.org/GetFechaUltMod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKey">
+      <soap:operation soapAction="http://tempuri.org/GetKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsListaPreciosSoap12" type="tns:wsListaPreciosSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetPriceList">
+      <soap12:operation soapAction="http://tempuri.org/GetPriceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListaActualizada">
+      <soap12:operation soapAction="http://tempuri.org/GetListaActualizada" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAplicacion">
+      <soap12:operation soapAction="http://tempuri.org/GetAplicacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubFamilias">
+      <soap12:operation soapAction="http://tempuri.org/GetSubFamilias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTipoProducto">
+      <soap12:operation soapAction="http://tempuri.org/GetTipoProducto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProveedor">
+      <soap12:operation soapAction="http://tempuri.org/GetProveedor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampoLista">
+      <soap12:operation soapAction="http://tempuri.org/GetCampoLista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguraListas">
+      <soap12:operation soapAction="http://tempuri.org/GetConfiguraListas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PutHabilitarLista">
+      <soap12:operation soapAction="http://tempuri.org/PutHabilitarLista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioPorAplicar">
+      <soap12:operation soapAction="http://tempuri.org/GetPrecioPorAplicar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioIncidencias">
+      <soap12:operation soapAction="http://tempuri.org/GetPrecioIncidencias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrecioLogEventos">
+      <soap12:operation soapAction="http://tempuri.org/GetPrecioLogEventos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFechaUltMod">
+      <soap12:operation soapAction="http://tempuri.org/GetFechaUltMod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKey">
+      <soap12:operation soapAction="http://tempuri.org/GetKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsListaPrecios">
+    <wsdl:port name="wsListaPreciosSoap" binding="tns:wsListaPreciosSoap">
+      <soap:address location="http://40.124.41.101/wslistaprecios/wsListaPrecios.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsListaPreciosSoap12" binding="tns:wsListaPreciosSoap12">
+      <soap12:address location="http://40.124.41.101/wslistaprecios/wsListaPrecios.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

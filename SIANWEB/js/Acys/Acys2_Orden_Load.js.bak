@@ -1,0 +1,1215 @@
+﻿/*
+Key Quimica Dic 2018 
+24 Dic 2018 RFH 
+*/
+
+// Conuslta Listado de Formas de Pago de Cliente
+function CatClienteFPago_Consultar(Id_Cte, CALLBACK_Exito, CALLBACK_Error, CALLBACK_Vacio) {
+
+    $.ajax({
+        url: _ApplicationUrl + '/api/CatFormaPago/CatClienteFPago_Consultar?Id_Cte=' + Id_Cte,
+        cache: false,
+        type: 'GET',
+        statusCode: {
+            //401: function (jqXHR, textStatus, errorThrown) {
+            //    $('#dvDialogoInicioSesion').appendTo("body").modal();
+            //    _onLoginSuccessful = $.proxy(Consulta_Producto, null, $, Id_Prd, rowno, Spinner, CALLBACK);
+            //}
+        }
+    }).done(function (response, textStatus, jqXHR) {
+        var Lst = response.Datos;
+        var estado = response.Estado;
+
+        if (estado == 1) {
+            if (CALLBACK_Exito) {
+                CALLBACK_Exito(Lst);
+                if (Lst.length <= 0) {
+                    CALLBACK_Vacio();
+                }
+            }
+        } else {
+            CALLBACK_Error();
+            //alertify.error('Errro en consulta de formas de pago del Cliente.');
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+        if (jqXHR.status == 401) {
+            //alert('La sessión ha expirado.');
+            //$('#dvModalPropuestaTE_ver2').modal('hide');
+            //$('#dvDialogoInicioSesion').appendTo("body").modal();
+        } else {
+            alertify.success('Ocurrió una error: funcion CatClienteFPago_Consultar.');
+        }
+    });
+}
+
+
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+// Carga la informacion del documento y la despliega en los campos 
+// Correspondientes.
+//
+function btnAcysOrden_Editar(obj) {
+    var Id_Acs = $(obj).data('id_acs');
+    var Acs_Version = $(obj).data('acs_version');
+    //var acs_reqautjefeop = $(obj).data('acs_reqautjefeop');
+    var Id_Cte = 0;
+
+    var Spinner = $('#spinner_AcysOrden');
+    Spinner.css('display', 'block');
+
+    OrdenCliente_Inicializar();
+
+    $('#modalOrdenCliente').appendTo("body").modal('show');
+    $('#MensajeCargando').show();
+
+    $('#tabPage a[href="#tab_Cliente"]').tab('show');
+
+    Disable_Btn('#btnOrden_Reducir');
+    Disable_Btn('#btnOrden_Expandir');
+    Disable_Btn('#btnOrdenCancelar');
+    Disable_Btn('#btnOrdenGuardar');
+
+    Cargar_OrdenById_Ajax(Id_Acs, Acs_Version, function (RES) {
+
+        //try {
+
+        Inicializar_Orden();
+
+        $('#lbOrdenClienteTitulo').text('Control de Ordenes / Folio: ' + RES.Id_Acs);
+
+        //
+        //Carga los cabecera
+        //
+
+        // General 
+        $('#hfId_Emp').val(RES.Id_Emp);
+        $('#hfId_Cd').val(RES.Id_Cd);
+        $('#hfId_Acs').val(RES.Id_Acs);
+
+        $('#hfId_AcsVersion').val(RES.Id_AcsVersion);
+
+        $('#hfCO_Id_Acs').val(RES.Id_Acs);
+        $('#hfCO_Acs_Version').val(RES.Id_AcsVersion);
+        $('#hfCO_Id_Cte').val(0);
+        $('#hfCO_Vencido').val(0);
+
+        // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        // TAB :: Cliente                
+        //
+
+        // NUMERO
+        $('#tbId_Cte').text(RES.Id_Cte);
+        Id_Cte = RES.Id_Cte;
+
+        $('#tbCte_Nombre').text(RES.Cte_Nombre);
+
+        $('#tbCDI').text(RES.Cd_Nombre);
+
+        //NOMBRE
+        $('#tbCte_Nombre').val(RES.Cte_Nombre);
+
+        // CUENTA CORPORATIVA
+        if (RES.CuentaCorporativa) {
+            $('#chbEspAd_CuentaCorporativa').val(1);
+        } else {
+            $('#chbEspAd_CuentaCorporativa').val(0);
+        }
+        //Nombre Comercial
+        //$('#tbNombreComercial').val(RES.Cte_Nombre);
+        $('#tbNombreComercial').text(RES.Cte_Nombre);
+
+        // 
+        // RECEPCION DE PEDIDIOS
+        // -> MODALIDAD DE PEDIDO 
+        //
+
+        // Frecuencia Establecida                
+        if (RES.Acs_Modalidad == "A") {
+            $('#chbAcs_Modalidad').prop('checked', true);
+        } else {
+            $('#chbAcs_Modalidad').prop('checked', false);
+        }
+
+        console.log('RES.Acs_OrdenAbiertaConRep =' + RES.Acs_OrdenAbiertaConRep);
+        if (RES.Acs_OrdenAbiertaConRep == 1) {
+            $('#chbOrdenAbiertaConRep').prop('checked', true);
+        } else {
+            $('#chbOrdenAbiertaConRep').prop('checked', false);
+
+        }
+
+        // Orden Abierta con Reposicion 
+        //$('#chbOrdenAbiertaConRep').val(1);
+        // ¿Acepta Parcialdiades?
+
+        if (RES.Acs_ParcialidadesSi == 1) {
+            $('#selAcs_ParcialidadesSi').val(1);
+            $('#tblAceptaParcialidades').css('display', 'block');
+        } else {
+            $('#selAcs_ParcialidadesSi').val(0);
+            $('#tblAceptaParcialidades').css('display', 'none');
+        }
+
+        switch (RES.Acs_ParcialidadesSi) {
+            case 1:
+                $('#selAcs_ParcialidadesSi').val(1);
+                $('#tblAceptaParcialidades').css('display', 'block');
+                break;
+            case 0:
+                $('#selAcs_ParcialidadesSi').val(0);
+                $('#tblAceptaParcialidades').css('display', 'none');
+                break;
+            case -1:
+                $('#selAcs_ParcialidadesSi').val(-1);
+                $('#tblAceptaParcialidades').css('display', 'none');
+                break;
+        }
+
+
+        if (RES.Acs_ParcialidadTipo == 1) {
+            $('#cbParcialidad_Entrega_Rem').prop('checked', true);
+        } else {
+            $('#cbParcialidad_Entrega_Rem').prop('checked', false);
+        }
+        if (RES.Acs_ParcialidadTipo == 2) {
+            $('#cbParcialidad_Entrega_Fac').prop('checked', true);
+        } else {
+            $('#cbParcialidad_Entrega_Fac').prop('checked', false);
+        }
+
+        // -> FORMA DE ENVIO DE PEDIDOS
+
+        // Email
+        $('#chbRecCorreo').prop('checked', RES.Acs_RecPedCorreo);
+
+        // Telefono 
+        $('#chbRecTelefono').prop('checked', RES.Acs_RecPedTel);
+
+        // Whatsup TODO: No existe hay que crear el campo y todo lo que implica             
+        $('#chbRecWhatsApp').prop('checked', RES.Acs_RecWhatsApp);
+
+        // Recolectado por RIK            
+        $('#chbRecRIK').prop('checked', RES.Acs_RecRIK);
+
+        // TODO: Requiere Confirmacion de Pedido            
+        $('#chbRecConfirmacion').prop('checked', true);
+
+        // TODO: Otro            
+        $('#chbRecOtro').prop('checked', true);
+
+        $('#txtRecDocOtro').val(RES.Acs_RecDocOtro);
+
+        // TODO: Encargado de enviar pedido 
+        $('#tbAcs_PedidoEncargadoEnviar').val(RES.Acs_RecDocOtro);
+        // Puesto             
+        $('#tbAcs_PedidoPuesto').val("ERROR");
+        // Telefono                        
+        $('#tbAcs_PedidoTelefono').val(RES.Acs_PedidoTelefono);
+        $('#tbAcs_PedidoTelefono2').val(RES.Acs_PedidoTelefono2);
+        // Mail pedido
+        $('#tbAcs_PedidoEmail').val(RES.Acs_PedidoEmail);
+        $('#tbAcs_PedidoEmail2').val(RES.Acs_PedidoEmail2);
+
+        // PANEL : DOCUMENTOS PARA ENTREGA RECEPCION
+        // Lunes Martes Miercoles Jueves Viernes Otros 
+        $('#chbAcs_RecRevLunes').prop('checked', RES.Acs_RecRevLunes);
+        $('#chbAcs_RecRevMartes').prop('checked', RES.Acs_RecRevMartes);
+        $('#chbAcs_RecRevMiercoles').prop('checked', RES.Acs_RecRevMiercoles);
+        $('#chbAcs_RecRevJueves').prop('checked', RES.Acs_RecRevJueves);
+        $('#chbAcs_RecRevViernes').prop('checked', RES.Acs_RecRevViernes);
+        $('#chbAcs_RecRevSabado').prop('checked', RES.Acs_RecRevSabado);
+        $('#chbAcs_RecRevDomingo').prop('checked', RES.Acs_RecRevDomingo);
+        $('#chbAcs_RecRevCualquierDia').prop('checked', RES.Acs_RecRevCualquierDia);
+        // Horarios Entrega
+        $('#tbAcs_TimePicker1').val(RES.Acs_TimePicker1);
+        $('#tbAcs_TimePicker2').val(RES.Acs_TimePicker2);
+        $('#tbAcs_TimePicker3').val(RES.Acs_TimePicker3);
+        $('#tbAcs_TimePicker4').val(RES.Acs_TimePicker4);
+
+        //Persona recibe
+        $('#tbAcs_RecPersonaRecibe').val(RES.Acs_RecPersonaRecibe);
+
+        // Cita para entregar 
+        /*
+        // 1 Sin cita        
+        $('#chbAcs_RecCitaSinCita').prop('checked', RES.Acs_RecCitaSinCita);
+        // Mismo Dia 
+        $('#chbAcs_RecCitaMismoDia').prop('checked', RES.Acs_RecCitaMismoDia);
+        // Previa
+        $('#chbAcs_RecCitaPrevia').prop('checked', RES.Acs_RecCitaPrevia);
+        */
+
+
+        //
+        // Estacionamiento 
+        //
+
+        // Cortecia
+        /*
+        if (RES.Acs_RecEstCortesia==1) {
+        $('#chkRecEstCortesia').prop('checked', true);
+        }
+        */
+
+        // Costo 
+        /*if (RES.Acs_RecEstCosto==1) {
+        $('#chkRecEstCosto').prop('checked', true);
+        }*/
+        // Monto 
+        $('#tbRecEstMonto').val(RES.Acs_RecEstMonto);
+
+        //
+        // 2 RECEPCION DE PEDIDOS / 2.2 Documentos Entrega Recepcion 
+        // Especificaciones Adicionales (1) 
+        //
+
+        /*
+        $('#chbAcs_EspecsAdic1').prop('checked', RES.Acs_EspecsAdic1);
+        if (RES.Acs_EspecsAdic1) {
+        $('#divAcs_EspecsAdic1').css('display', 'block');
+        } else {
+        $('#divAcs_EspecsAdic1').css('display', 'none');
+        }*/
+
+        // Factura Key
+
+        if (
+            RES.RP_EA.FactKeyChb1 == 1 ||
+            RES.RP_EA.FactKeyCopias1.length > 0 ||
+            RES.RP_EA.FactKeyChb2 == 1 ||
+            RES.RP_EA.FactKeyCopias2.length > 0 ||
+            RES.RP_EA.Ordcompchb1 == 1 ||
+            RES.RP_EA.OrdcompCopias1.length > 0 ||
+            RES.RP_EA.Ordcompchb2 == 1 ||
+            RES.RP_EA.OrdcompCopias2.length > 0 ||
+            RES.RP_EA.OrdRepChb1 == 1 ||
+            RES.RP_EA.OrdRepCopias1.length > 0 ||
+            RES.RP_EA.OrdRepChb2 == 1 ||
+            RES.RP_EA.OrdRepCopias2.length > 0 ||
+            RES.RP_EA.CopPedChb1 == 1 ||
+            RES.RP_EA.CopPedCopias1.length > 0 ||
+            RES.RP_EA.CopPedChb2 == 1 ||
+            RES.RP_EA.CopPedCopias2.length > 0 ||
+            RES.RP_EA.RemChb1 == 1 ||
+            RES.RP_EA.RemCopias1.length > 0 ||
+            RES.RP_EA.RemChb2 == 1 ||
+            RES.RP_EA.RemCopias2.length > 0 ||
+
+            RES.RP_EA.CerChb1 == 1 ||
+            RES.RP_EA.CerCopias1.length > 0 ||
+            RES.RP_EA.CerChb2 == 1 ||
+            RES.RP_EA.CerCopias2.length > 0
+
+        ) {
+            $('#chbAcs_EspecsAdic1').prop('checked', true);
+            $('#divAcs_EspecsAdic1').css('display', 'block');
+        } else {
+            $('#chbAcs_EspecsAdic1').prop('checked', false);
+            $('#divAcs_EspecsAdic1').css('display', 'none');
+        }
+
+        $('#chkAcs_RecDocFactKeyEnt').prop('checked', RES.RP_EA.FactKeyChb1);
+        $('#tbAcs_RecDocFactKeyEntCop').val(RES.RP_EA.FactKeyCopias1);
+        $('#chkAcs_RecDocFactKeyRec').prop('checked', RES.RP_EA.FactKeyChb2);
+        $('#tbAcs_RecDocFactKeyRecCop').val(RES.RP_EA.FactKeyCopias2);
+
+        // Orden de compra
+        $('#chkAcs_RecDocOrdCompraEnt').prop('checked', RES.RP_EA.Ordcompchb1);
+        $('#tbAcs_RecDocOrdCompraEntCop').val(RES.RP_EA.OrdcompCopias1);
+        $('#chkAcs_RecDocOrdCompraRec').prop('checked', RES.RP_EA.Ordcompchb2);
+        $('#tbAcs_RecDocOrdCompraRecCop').val(RES.RP_EA.OrdcompCopias2);
+
+        //Orden de Reposicion 
+        $('#chkAcs_RecDocOrdReposEnt').prop('checked', RES.RP_EA.OrdRepChb1);
+        $('#tbAcs_RecDocOrdReposEntCop').val(RES.RP_EA.OrdRepCopias1);
+        $('#chkAcs_RecDocOrdReposRec').prop('checked', RES.RP_EA.OrdRepChb2);
+        $('#tbAcs_RecDocOrdReposRecCop').val(RES.RP_EA.OrdRepCopias2);
+
+        //Copia de Pedido
+        $('#chkAcs_RecDocCopPedidoEnt').prop('checked', RES.RP_EA.CopPedChb1);
+        $('#tbAcs_RecDocCopPedidoEntCop').val(RES.RP_EA.CopPedCopias1);
+        $('#chkAcs_RecDocCopPedidoRec').prop('checked', RES.RP_EA.CopPedChb2);
+        $('#tbAcs_RecDocCopPedidoRecCop').val(RES.RP_EA.CopPedCopias2);
+
+        //Remision 
+        $('#chkAcs_RecDocRemisionEnt').prop('checked', RES.RP_EA.RemChb1);
+        $('#tbAcs_RecDocRemisionEntCop').val(RES.RP_EA.RemCopias1);
+        $('#chkAcs_RecDocRemisionRec').prop('checked', RES.RP_EA.RemChb2);
+        $('#tbAcs_RecDocRemisionRecCop').val(RES.RP_EA.RemCopias2);
+        // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        //CERTIFICADO DE CALIDAD (1)                          
+        // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        $('#chkAcs_RecDocCertificadoEnt').prop('checked', RES.RP_EA.CerChb1);
+        $('#tbAcs_RecDocCertificadoEntCop').val(RES.RP_EA.CerCopias1);
+        $('#chkAcs_RecDocCertificadoRec').prop('checked', RES.RP_EA.CerChb2);
+        $('#tbAcs_RecDocCertificadoRecCop').val(RES.RP_EA.CerCopias2);
+
+        /*
+            
+        $('#chkRecDocFactKeyEnt').prop('checked', RES.RP_EA.FactKeyChb1);             
+        $('#txtRecDocFactKeyEntCop').val(RES.RP_EA.FactKeyCopias1);
+        $('#chkRecDocFactKeyRec').prop('checked', RES.RP_EA.FactKeyChb2);
+        $('#txtRecDocFactKeyRecCop').val(RES.RP_EA.FactKeyCopias2);
+        // Orden de compra
+        $('#chkRecDocOrdCompraEnt').prop('checked', RES.RP_EA.Ordcompchb1);
+        $('#txtRecDocOrdCompraEntCop').val(RES.RP_EA.OrdcompCopias1);
+        $('#chkRecDocOrdCompraRec').prop('checked', RES.RP_EA.Ordcompchb2);
+        $('#txtRecDocOrdCompraRecCop').val(RES.RP_EA.OrdcompCopias2);
+        //Orden de Reposicion 
+        $('#chkRecDocOrdReposEnt').prop('checked', RES.RP_EA.OrdRepChb1);
+        $('#txtRecDocOrdReposEntCop').val(RES.RP_EA.OrdRepCopias1);
+        $('#chkRecDocOrdReposRec').prop('checked', RES.RP_EA.OrdRepChb2);
+        $('#txtRecDocOrdReposRecCop').val(RES.RP_EA.OrdRepCopias2);
+        //Copia de Pedido
+        $('#chkRecDocCopPedidoEnt').prop('checked', RES.RP_EA.CopPedChb1);
+        $('#txtRecDocCopPedidoEntCop').val(RES.RP_EA.CopPedCopias1);
+        $('#chkRecDocCopPedidoRec').prop('checked', RES.RP_EA.CopPedChb2);
+        $('#txtRecDocCopPedidoRecCop').val(RES.RP_EA.CopPedCopias2);
+        //Remision 
+        $('#chkRecDocRemisionEnt').prop('checked', RES.RP_EA.RemChb1);
+        $('#txtRecDocRemisionEntCop').val(RES.RP_EA.RemCopias1);
+        $('#chkRecDocRemisionRec').prop('checked', RES.RP_EA.RemChb2);
+        $('#txtRecDocRemisionRecCop').val(RES.RP_EA.RemCopias2);
+        */
+
+
+        //
+
+        //  CONDICIONES DE PAGO 
+
+        // Documentos para entrega y recepcion
+        // 
+
+        // Metodo Forma de Pago  // Son los que estaban en la especificacion ya no se usan.
+        //$('#tbMetodoFormaPago').val('');
+        // Agenda 
+        //$('#tbMetodoFormaPago').val('');
+        // Uso de CFDI
+        //$('#tbMetodoFormaPago').val('');
+        // 5 CONDICIONES DE PAGO / 5.3 Pago de Facturas / Especificaciones Adicinales
+
+        /*    
+        $('#chbCondPag_EspAdic').prop('checked', RES.CondPago_EA.Activo);
+        if (RES.CondPago_EA.Activo) {
+        $('#divCondPago_EspAdic').css('display', 'block');
+        } else {
+        $('#divCondPago_EspAdic').css('display', 'none');
+        }
+        */
+
+        // ESPECIFICACIONES ADICIONALES 1
+
+        $('#btnDER_EspecsAdic2').prop('checked', RES.CondPago_EA.Activo);
+
+        if (
+            //RES.CondPago_EA.Activo ||
+            RES.CondPago_EA.FactKeyChb1 == 1 ||
+            RES.CondPago_EA.FactKeyCopias1.length > 0 ||
+            RES.CondPago_EA.FactKeyChb2 == 1 ||
+            RES.CondPago_EA.FactKeyCopias2.length > 0 ||
+
+            RES.CondPago_EA.Ordcompchb1 == 1 ||
+            RES.CondPago_EA.OrdcompCopias1.length > 0 ||
+            RES.CondPago_EA.Ordcompchb2 == 1 ||
+            RES.CondPago_EA.OrdcompCopias2.length > 0 ||
+
+            RES.CondPago_EA.OrdRepChb1 == 1 ||
+            RES.CondPago_EA.OrdRepCopias1.length > 0 ||
+            RES.CondPago_EA.OrdRepChb2 == 1 ||
+            RES.CondPago_EA.OrdRepCopias2.length > 0 ||
+
+            RES.CondPago_EA.CopPedChb1 == 1 ||
+            RES.CondPago_EA.CopPedCopias1.length > 0 ||
+            RES.CondPago_EA.CopPedChb2 == 1 ||
+            RES.CondPago_EA.CopPedCopias2.length > 0 ||
+
+            RES.CondPago_EA.RemChb1 == 1 ||
+            RES.CondPago_EA.RemCopias1.length > 0 ||
+            RES.CondPago_EA.RemChb2 == 1 ||
+            RES.CondPago_EA.RemCopias2.length > 0 ||
+
+            RES.CondPago_EA.CerChb1 == 1 ||
+            RES.CondPago_EA.CerCopias1.length > 0 ||
+            RES.CondPago_EA.CerChb2 == 1 ||
+            RES.CondPago_EA.CerCopias2.length > 0) {
+            $('#divDER_EspecsAdic2').css('display', 'block');
+        } else {
+            $('#divDER_EspecsAdic2').css('display', 'none');
+        }
+
+        $('#chbCondPag_EspAdic').prop('checked', RES.Acs_EspAd1);
+
+        $('#chbEA1_FactKeyChb1').prop('checked', RES.CondPago_EA.FactKeyChb1);
+        $('#tbEA1_FactKeyCopias1').val(RES.CondPago_EA.FactKeyCopias1);
+        $('#chbEA1_FactKeyChb2').prop('checked', RES.CondPago_EA.FactKeyChb2);
+        $('#tbEA1_FactKeyCopias2').val(RES.CondPago_EA.FactKeyCopias2);
+
+        $('#chbEA1_Ordcompchb1').prop('checked', RES.CondPago_EA.Ordcompchb1);
+        $('#tbEA1_OrdcompCopias1').val(RES.CondPago_EA.OrdcompCopias1);
+        $('#chbEA1_Ordcompchb2').prop('checked', RES.CondPago_EA.Ordcompchb2);
+        $('#tbEA1_OrdcompCopias2').val(RES.CondPago_EA.OrdcompCopias2);
+
+        $('#chEA1_OrdRepChb1').prop('checked', RES.CondPago_EA.OrdRepChb1);
+        $('#tbEA1_OrdRepCopias1').val(RES.CondPago_EA.OrdRepCopias1);
+        $('#chEA1_OrdRepChb2').prop('checked', RES.CondPago_EA.OrdRepChb2);
+        $('#tbEA1_OrdRepCopias2').val(RES.CondPago_EA.OrdRepCopias2);
+
+        $('#chbEA1_CopPedChb1').prop('checked', RES.CondPago_EA.CopPedChb1);
+        $('#tbEA1_CopPedCopias1').val(RES.CondPago_EA.CopPedCopias1);
+        $('#chbEA1_CopPedChb2').prop('checked', RES.CondPago_EA.CopPedChb2);
+        $('#tbEA1_CopPedCopias2').val(RES.CondPago_EA.CopPedCopias2);
+
+        $('#chbEA1_RemChb1').prop('checked', RES.CondPago_EA.RemChb1);
+        $('#tbEA1_RemCopias1').val(RES.CondPago_EA.RemCopias1);
+        $('#chbEA1_RemChb2').prop('checked', RES.CondPago_EA.RemChb2);
+        $('#tbEA1_RemCopias2').val(RES.CondPago_EA.RemCopias2);
+        // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        //CERTIFICADO DE CALIDAD (1)
+        // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        /*
+        $('#chkAcs_RecDocCertificadoEnt').prop('checked', RES.CondPago_EA.CerChb1);
+        $('#tbAcs_RecDocCertificadoEntCop').val(RES.CondPago_EA.CerCopias1);
+        $('#chkAcs_RecDocCertificadoRec').prop('checked', RES.CondPago_EA.CerChb2);
+        $('#tbAcs_RecDocCertificadoRecCop').val(RES.CondPago_EA.CerCopias2);
+        */
+
+        // Electronica
+        $('#chkRevFacEmail').prop('checked', RES.RevFacEmail);
+
+        $('#txtRevFacEmailTexto').val(RES.RevFacEmailTexto);
+        $('#txtRevFacEmailTexto2').val(RES.RevFacEmailTexto2);
+        $('#chkRevFacPortal').prop('checked', RES.RevFacPortal);
+        $('#txtRevFacPortalTexto').val(RES.RevFacPortalTexto);
+        $('#txtRevFacHttp').val(RES.RevFacHttp);
+        $('#txtRevFacUsuario').val(RES.RevFacUsuario);
+        $('#txtRevFacContrasenia').val(RES.RevFacContrasenia);
+
+        /* /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        Visita de Representante (6.1)
+        /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ */
+
+        $('#tbVis_Frecuencia').val(RES.Vis_Frecuencia);
+
+
+        /*  
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        -> 
+        1/4 Servicio Tecnico (6.3) 
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        */
+        /*
+        // Check Servicio de Reyeno
+        $('#chbReq_ServTec').val(RES.ACS_chbReq_ServTec);
+        // Dias de recepcion
+        $('#chk63Lunes').val(RES.ACS_chk63Lunes);
+        $('#chk63Martes').val(RES.ACS_chk63Martes);
+        $('#chk63Miercoles').val(RES.ACS_chk63Miercoles);
+        $('#chk63Jueves').val(RES.ACS_chk63Jueves);
+        $('#chk63Viernes').val(RES.ACS_chk63Viernes);
+        $('#chk63Sabado').val(RES.ACS_chk63Sabado);
+        //Horarios de recepcion 
+        $('#Rad63TimePicker163').val(RES.ACS_Rad63TimePicker163);
+        $('#Rad63TimePicker263').val(RES.ACS_Rad63TimePicker263);
+        $('#Rad63TimePicker363').val(RES.ACS_Rad63TimePicker363);
+        $('#Rad63TimePicker463').val(RES.ACS_Rad63TimePicker463);
+        */
+        //Cita para servicio 
+
+        // Mismo Dia            
+        $('#Chk63Mismodia').prop('checked', false);
+        // Previa            
+        $('#Chk63Previa').prop('checked', false);
+
+        //Servicio de reyeno 
+        $('#ChkServTecnicoRelleno').prop('checked', RES.Acs_ReqServTecnicoRelleno);
+
+        //Servicio preventivo
+        $('#ChkServMantenimiento').prop('checked', RES.Acs_ReqServMantenimiento);
+
+        /*  
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        -> 2/4 Capacitacion (=) 
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        */
+
+        // Tipo de capacitacion
+        //$('#ddlDs_Cap_TipoCapacitacion').val(0);
+        /*
+        // Campos Nuevos 
+        $('#chkDS_C_Lunes').val(RES.ACS_DS_C_Lunes);
+        $('#chkDS_C_Martes').val(RES.ACS_DS_C_Martes);
+        $('#chkDS_C_Miercoles').val(RES.ACS_DS_C_Miercoles);
+        $('#chkDS_C_ueves').val(RES.ACS_DS_C_Jueves);
+        $('#chkDS_C_Viernes').val(RES.ACS_DS_C_Viernes);
+        $('#chkDS_C_Cualquier').val(RES.ACS_DS_Cualquier);
+        // Horarios de recepcion
+        $('#tbTsCap_HRec1').val(RES.ACS_tbTsCap_HRec1);
+        $('#tbTsCap_HRec2').val(RES.ACS_tbTsCap_HRec2);
+        $('#tbTsCap_HRec3').val(RES.ACS_tbTsCap_HRec3)
+        $('#tbTsCap_HRec4').val(RES.ACS_tbTsCap_HRec4)
+        //Cita para servicio:
+        // Mismo Dia 
+        $('#tbTsCap_CitaServ').prop('checked', RES.ACS_TsCap_CitaServ);
+        // Previa 
+        $('#tbTsCap_MismoDia').prop('checked', RES.ACS_TsCap_MismoDia);
+        */
+
+
+        /* /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        -> 3/4 Auditoria (?)
+        */
+        /*
+        // Tipo de capacitacion
+        $('#ddlDs_Aud_TipoCapacitacion').val(0);
+        // Campos Nuevos 
+        $('#chkDS_A_Lunes').val(RES.ACS_DS_A_Lunes);
+        $('#chkDS_A_Martes').val(RES.ACS_DS_A_Martes);
+        $('#chkDS_A_Miercoles').val(RES.ACS_DS_A_Miercoles);
+        $('#chkDS_A_ueves').val(RES.ACS_DS_A_Jueves);
+        $('#chkDS_A_Viernes').val(RES.ACS_DS_A_Viernes);
+        $('#chkDS_A_Cualquier').val(RES.ACS_DS_A_Cualquier);
+        // Horarios de recepcion
+        $('#tbTsCap_A_HRec1').val(RES.ACS_tbTsCap_A_HRec1);
+        $('#tbTsCap_A_HRec2').val(RES.ACS_tbTsCap_A_HRec2);
+        $('#tbTsCap_A_HRec3').val(RES.ACS_tbTsCap_A_HRec3)
+        $('#tbTsCap_A_HRec4').val(RES.ACS_tbTsCap_A_HRec4)
+        //Cita para servicio:
+        // Mismo Dia 
+        $('#tbTsCap_A_CitaServ').prop('checked', RES.ACS_TsCap_A_CitaServ);
+        // Previa 
+        $('#tbTsCap_A_MismoDia').prop('checked', RES.ACS_TsCap_A_MismoDia);
+        */
+
+        /*  
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        -> 4/4 Asesoria  (=) 
+        /\/\/\/\/\/\/\/\/\/\/\ 
+        */
+        /*
+        // Días de recepcíon
+        $('#chk62Lunes').prop('checked', RES.ACS_chk62Lunes);
+        $('#chk62Martes').prop('checked', RES.ACS_chk62Martes);
+        $('#chk62Miercoles').prop('checked', RES.ACS_chk62Miercoles);
+        $('#chk62Jueves').prop('checked', RES.ACS_chk62Jueves);
+        $('#chk62Viernes').prop('checked', RES.ACS_chk62Viernes);
+        // TODO : Hay que agregar el campo para todos
+        //$('#chk62Sabado').prop('checked', RES.ACS_chk62Sabado);
+        // Horarios de recepcion
+        $('#RadTimePicker162').val(RES.ACS_RadTimePicker162);
+        $('#RadTimePicker262').val(RES.ACS_RadTimePicker262);
+        $('#RadTimePicker362').val(RES.ACS_RadTimePicker362);
+        $('#RadTimePicker462').val(RES.ACS_RadTimePicker462);
+        // Mismo Dia 
+        $('#Chk62Mismodia').prop('checked', RES.ACS_Chk62Mismodia);
+        // Previa         
+        $('#Chk62Previa').prop('checked', RES.ACS_Chk62Previa);
+        */
+
+        /*
+        $('#tbAcys_Folio').val(Id_Acs);
+        $('#tbAcys_FechaInicio').val(RES._Acs_FechaInicioDocumento);
+        $('#tbAcys_FechaFin').val(RES._Acs_FechaFinDocumento);
+        $('#ddlAcys_Estatus').val(RES._Acs_Estatus);
+        $('#tbAcys_CteNombre').val(RES._Cte_Nombre);
+        $('#tbAcys_CteNumero').val(RES._Id_Cte);
+        $('#tbAcys_CteDireccion').val(RES._ClienteDireccion);
+        $('#tbAcys_CteCol').val(RES._ClienteColonia);
+        $('#tbAcys_CteMunicipio').val(RES._ClienteMunicipio);
+        $('#tbAcys_CteCP').val(RES._ClienteCPE);
+        $('#tbAcys_CteRFC').val(RES._ClienteRFC);
+        $('#tbAcys_CteTerritorio').val(RES._Id_Ter);
+        $('#tbAcys_RikMombre').val(RES._Acs_RikNombre);
+        $('#tbAcys_RikNumero').val(RES._Id_Rik);
+        */
+
+        //
+        // * FROMA DE ENVIO DE PEDIDO
+        //
+
+        // Recepcion de pedidos        
+        $('#chbRecCorreo').prop('checked', RES.Acs_RecCorreo);
+        $('#chbRecTelefono').prop('checked', RES.Acs_RecTelefono);
+        $('#chbFormaEnvio_whats').prop('checked', RES.Acs_RecPedWhats); //***        
+        $('#chbRecConfirmacion').prop('checked', RES.Acs_ReqConfirmacion);
+        $('#chbFormaEnvio_confirma').prop('checked', RES.Acs_ReqConfirmacion);
+        $('#chbRecOtro').prop('checked', RES.Acs_RecOtro);
+        $('#chbRecOtroDesc').prop('checked', RES.Acs_RecOtroDesc);
+
+        $('#tbAcs_PedidoEncargadoEnviar').val(RES.Acs_PedidoEncargadoEnviar);
+        $('#tbAcs_PedidoPuesto').val(RES.Acs_PedidoPuesto);
+        $('#tbAcs_PedidoTelefono').val(RES.Acs_PedidoTelefono);
+        $('#tbAcs_PedidoTelefono2').val(RES.Acs_PedidoTelefono2);
+
+        $('#tbAcs_PedidoEmail').val(RES.Acs_PedidoEmail);
+        $('#tbAcs_PedidoEmail2').val(RES.Acs_PedidoEmail2);
+
+        //
+        // SERVICIO DE VALOR 
+        //
+
+        $('#tbVis_Frecuencia').val(RES.Acs_VisFrecuencia);
+
+        //- SERVICIO TECNICO 
+        //- SERVICIO TECNICO 
+        //- SERVICIO TECNICO 
+
+        $('#chb_ST_Aplicar').prop('checked', RES.ServTecnico.Aplicar);
+        if (RES.ServTecnico.Aplicar) {
+            $('#trReqServTec').css('display', 'block');
+            $('#trReqServTec_hr').css('display', 'none');
+        } else {
+            $('#trReqServTec').css('display', 'none');
+            $('#trReqServTec_hr').css('display', 'block');
+        }
+        $('#chb_ST_Lunes').prop('checked', RES.ServTecnico.Lunes);
+        $('#chb_ST_Martes').prop('checked', RES.ServTecnico.Martes);
+        $('#chb_ST_Miercoles').prop('checked', RES.ServTecnico.Miercoles);
+        $('#chb_ST_Jueves').prop('checked', RES.ServTecnico.Jueves);
+        $('#chb_ST_Viernes').prop('checked', RES.ServTecnico.Viernes);
+        $('#chb_ST_Sabado').prop('checked', RES.ServTecnico.Sabado);
+        $('#chb_ST_Domingo').prop('checked', RES.ServTecnico.Domingo);
+
+        $('#chb_ST_CualquierDia').prop('checked', RES.ServTecnico.CualquierDia);
+
+        $('#tb_ST_HorariosRecep1').val(RES.ServTecnico.HorariosRecep1);
+        $('#tb_ST_HorariosRecep2').val(RES.ServTecnico.HorariosRecep2);
+        $('#tb_ST_HorariosRecep3').val(RES.ServTecnico.HorariosRecep3);
+        $('#tb_ST_HorariosRecep4').val(RES.ServTecnico.HorariosRecep4);
+
+        $('#chb_ST_MismoDia').prop('checked', RES.ServTecnico.CitaServ_MismoDia);
+        $('#chb_ST_Previa').prop('checked', RES.ServTecnico.CitaServ_Previa);
+
+        $('#ChkServTecnicoRelleno').prop('checked', RES.ServTecnico.ServRelleno);
+        $('#ChkServMantenimiento').prop('checked', RES.ServTecnico.ServPreventivo);
+
+        // OCT23-2019
+        $('#tbST_QuienRecibe').val(RES.ServTecnico.QuienRecibe);
+        $('#tbST_FuncionQuienRecibe').val(RES.ServTecnico.FuncionQuienRecibe);
+
+        $('#ddlST_Frecuencia').val(RES.ServTecnico.Frecuencia);
+
+        //
+        // CAPACITACION 
+        //
+
+        $('#chb_ServCap_Aplicar').prop('checked', RES.ServCapacitacion.Aplicar);
+        if (RES.ServCapacitacion.Aplicar) {
+            $('#trReqServCapacitacion').css('display', 'block');
+            $('#tr_ServCap_Hr').css('display', 'none');
+        } else {
+            $('#trReqServCapacitacion').css('display', 'none');
+            $('#tr_ServCap_Hr').css('display', 'block');
+        }
+
+        $('#sel_ServCap_Tipo1').val(RES.ServCapacitacion.Tipo1);
+
+        //console.log('RES.ServCapacitacion.Tipo1' + RES.ServCapacitacion.Tipo1);
+
+        Cargar_ComboTipo_TipoServicio(RES.ServCapacitacion.Tipo1, $('#sel_ServCap_Tipo2'), function () {
+            $('#sel_ServCap_Tipo2').val(RES.ServCapacitacion.Tipo2);
+            //console.log('RES.ServCapacitacion.Tipo2:' + RES.ServCapacitacion.Tipo2);
+        });
+
+        $('#sel_ServCap_Tipo2').val(RES.ServCapacitacion.Tipo2);
+
+        $('#chb_ServCap_Lunes').prop('checked', RES.ServCapacitacion.Lunes);
+        $('#chb_ServCap_Martes').prop('checked', RES.ServCapacitacion.Martes);
+        $('#chb_ServCap_Miercoles').prop('checked', RES.ServCapacitacion.Miercoles);
+        $('#chb_ServCap_Jueves').prop('checked', RES.ServCapacitacion.Jueves);
+        $('#chb_ServCap_Viernes').prop('checked', RES.ServCapacitacion.Viernes);
+        $('#chb_ServCap_Sabado').prop('checked', RES.ServCapacitacion.Sabado);
+        $('#chb_ServCap_Domingo').prop('checked', RES.ServCapacitacion.Domingo);
+        $('#chb_ServCap_CualquierDia').prop('checked', RES.ServCapacitacion.CualquierDia);
+
+        $('#tb_ServCap_HorariosRecep1').val(RES.ServCapacitacion.HorariosRecep1);
+        $('#tb_ServCap_HorariosRecep2').val(RES.ServCapacitacion.HorariosRecep2);
+        $('#tb_ServCap_HorariosRecep3').val(RES.ServCapacitacion.HorariosRecep3);
+        $('#tb_ServCap_HorariosRecep4').val(RES.ServCapacitacion.HorariosRecep4);
+
+        $('#chb_ServCap_MismoDia').prop('checked', RES.ServCapacitacion.CitaServ_MismoDia);
+        $('#chb_ServCap_Previa').prop('checked', RES.ServCapacitacion.CitaServ_Previa);
+
+        $('#ddlServCap_Frecuencia').val(RES.ServCapacitacion.Frecuencia);
+
+        //
+        // AUDITORIA
+        //
+
+        $('#chb_ServAud_Aplicar').prop('checked', RES.ServAuditoria.Aplicar);
+        if (RES.ServAuditoria.Aplicar) {
+            $('#trReqServAuditoria').css('display', 'block');
+            $('#hr_ServAud_hr').css('display', 'none');
+        } else {
+            $('#trReqServAuditoria').css('display', 'none');
+            $('#hr_ServAud_hr').css('display', 'block');
+        }
+
+        $("#sel_ServAud_Tipo1").val(RES.ServAuditoria.Tipo1);
+
+        Cargar_ComboTipo_TipoServicio(RES.ServAuditoria.Tipo1, $('#sel_ServAud_Tipo2'), function () {
+            $('#sel_ServAud_Tipo2').val(RES.ServAuditoria.Tipo2);
+        });
+
+        $('#chb_ServAud_Lunes').prop('checked', RES.ServAuditoria.Lunes);
+        $('#chb_ServAud_Martes').prop('checked', RES.ServAuditoria.Martes);
+        $('#chb_ServAud_Miercoles').prop('checked', RES.ServAuditoria.Miercoles);
+        $('#chb_ServAud_Jueves').prop('checked', RES.ServAuditoria.Jueves);
+        $('#chb_ServAud_Viernes').prop('checked', RES.ServAuditoria.Viernes);
+        $('#chb_ServAud_Sabado').prop('checked', RES.ServAuditoria.Sabado);
+        $('#chb_ServAud_Domingo').prop('checked', RES.ServAuditoria.Domingo);
+        $('#chb_ServAud_CualquierDia').prop('checked', RES.ServAuditoria.CualquierDia);
+
+        $('#tb_ServAud_HorariosRecep1').val(RES.ServAuditoria.HorariosRecep1);
+        $('#tb_ServAud_HorariosRecep2').val(RES.ServAuditoria.HorariosRecep2);
+        $('#tb_ServAud_HorariosRecep3').val(RES.ServAuditoria.HorariosRecep3);
+        $('#tb_ServAud_HorariosRecep4').val(RES.ServAuditoria.HorariosRecep4);
+
+        $('#chb_ServAud_MismoDia').prop('checked', RES.ServAuditoria.CitaServ_MismoDia);
+        $('#chb_ServAud_Previa').prop('checked', RES.ServAuditoria.CitaServ_Previa);
+
+        $('#ddlServAud_Frecuencia').val(RES.ServAuditoria.Frecuencia);
+
+        //
+        // ASESORIA
+        //
+
+        $('#chb_ServAsesoria_Aplicar').prop('checked', RES.ServAsesoria.Aplicar);
+        if (RES.ServAsesoria.Aplicar) {
+            $('#trReqServAsesoria').css('display', 'block');
+            $('#hr_ServAsesoria_hr').css('display', 'none');
+        } else {
+            $('#trReqServAsesoria').css('display', 'none');
+            $('#hr_ServAsesoria_hr').css('display', 'block');
+        }
+
+        $('#sel_ServAsesoria_Tipo1').val(RES.ServAsesoria.Tipo1);
+        //console.log('RES.ServAsesoria.Tipo1:' + RES.ServAsesoria.Tipo1);
+
+        Cargar_ComboTipo_TipoServicio(RES.ServAsesoria.Tipo1, $('#sel_ServAsesoria_Tipo2'), function () {
+            $('#sel_ServAsesoria_Tipo2').val(RES.ServAsesoria.Tipo2);
+            //console.log('RES.ServAsesoria.Tipo2:' + RES.ServAsesoria.Tipo2);
+        });
+
+        $('#chb_ServAsesoria_Lunes').prop('checked', RES.ServAsesoria.Lunes);
+        $('#chb_ServAsesoria_Martes').prop('checked', RES.ServAsesoria.Martes);
+        $('#chb_ServAsesoria_Miercoles').prop('checked', RES.ServAsesoria.Miercoles);
+        $('#chb_ServAsesoria_Jueves').prop('checked', RES.ServAsesoria.Jueves);
+        $('#chb_ServAsesoria_Viernes').prop('checked', RES.ServAsesoria.Viernes);
+        $('#chb_ServAsesoria_Sabado').prop('checked', RES.ServAsesoria.Sabado);
+        $('#chb_ServAsesoria_Domingo').prop('checked', RES.ServAsesoria.Domingo);
+        $('#chb_ServAsesoria_CualquierDia').prop('checked', RES.ServAsesoria.CualquierDia);
+
+        $('#tb_ServAsesoria_HorariosRecep1').val(RES.ServAsesoria.HorariosRecep1);
+        $('#tb_ServAsesoria_HorariosRecep2').val(RES.ServAsesoria.HorariosRecep2);
+        $('#tb_ServAsesoria_HorariosRecep3').val(RES.ServAsesoria.HorariosRecep3);
+        $('#tb_ServAsesoria_HorariosRecep4').val(RES.ServAsesoria.HorariosRecep4);
+
+        $('#chb_ServAsesoria_MismoDia').prop('checked', RES.ServAsesoria.CitaServ_MismoDia);
+        $('#chb_ServAsesoria_Previa').prop('checked', RES.ServAsesoria.CitaServ_Previa);
+
+        $('#ddlServAsesoria_Frecuencia').val(RES.ServAsesoria.Frecuencia);
+
+        $('#tbAcs_ComentariosRecomendaciones').val(RES.Acs_ComentariosRecomendaciones);
+
+        //
+        // Documentos entrega resepccion 
+        //
+
+        $('#chkRecRevLunes').prop('checked', true);
+        $('#chkRecRevMartes').prop('checked', true);
+        $('#chkRecRevMiercoles').prop('checked', true);
+        $('#chkRecRevJueves').prop('checked', true);
+        $('#chkRecRevViernes').prop('checked', true);
+
+        $('#tbAcs_TimePicker1').val(RES.Acs_TimePicker1);
+        $('#tbAcs_TimePicker2').val(RES.Acs_TimePicker2);
+        $('#tbAcs_TimePicker3').val(RES.Acs_TimePicker3);
+        $('#tbAcs_TimePicker4').val(RES.Acs_TimePicker4);
+        $('#tbAcs_RecPersonaRecibe').val(RES.Acs_RecPersonaRecibe);
+
+        // 2
+        if (RES.Acs_RecCitaSinCita == 1) {
+            $('#chbAcs_RecCitaSinCita').prop('checked', true);
+        } else {
+            $('#chbAcs_RecCitaSinCita').prop('checked', false);
+        }
+
+        if (RES.Acs_RecCitaMismoDia == 1) {
+            $('#chbAcs_RecCitaMismoDia').prop('checked', true);
+        } else {
+            $('#chbAcs_RecCitaMismoDia').prop('checked', false);
+        }
+
+        if (RES.Acs_RecCitaPrevia == 1) {
+            $('#chbAcs_RecCitaPrevia').prop('checked', true);
+        } else {
+            $('#chbAcs_RecCitaPrevia').prop('checked', false);
+        }
+        /*
+        if (RES.Acs_RecCitaMismoDia == 1) {
+            $('#chbAcs_RecCitaPrevia').prop('checked', false);
+        } else {
+            $('#chbAcs_RecCitaPrevia').prop('checked', true);
+        }*/
+
+        // Area de Recibo
+        if (RES.Acs_RecAreaPropia == 1) {
+            $('#chbAcs_RecAreaPropia').prop('checked', true);
+        } else {
+            $('#chbAcs_RecAreaPropia').prop('checked', false);
+        }
+        if (RES.Acs_RecAreaPlaza == 1) {
+            $('#chbAcs_RecAreaPlaza').prop('checked', true);
+        } else {
+            $('#chbAcs_RecAreaPlaza').prop('checked', false);
+        }
+        if (RES.Acs_RecAreaCalle == 1) {
+            $('#chbAcs_RecAreaCalle').prop('checked', true);
+        } else {
+            $('#chbAcs_RecAreaCalle').prop('checked', false);
+        }
+        // ESTACIONAMIENTO
+
+        if (RES.Acs_RecEstCortesia == 1) {
+            $('#chkAcs_RecEstCortesia').prop('checked', true);
+        } else {
+            $('#chkAcs_RecEstCortesia').prop('checked', false);
+        }
+        if (RES.Acs_RecEstCosto == 1) {
+            $('#chkAcs_RecEstCosto').prop('checked', true);
+        } else {
+            $('#chkAcs_RecEstCosto').prop('checked', false);
+        }
+
+        $('#tbAcs_RecEstMonto').val(RES.Acs_RecEstMonto);
+
+        // ESPECIFICACIONES ADICIONALES
+
+        $('#MensajeCargando').hide();
+
+        Enable_Btn('#btnOrden_Reducir');
+        Enable_Btn('#btnOrden_Expandir');
+        Enable_Btn('#btnOrdenCancelar');
+        Enable_Btn('#btnOrdenGuardar');
+        //console.log('BOTONES 2');
+
+        /*
+        }
+        catch (err) {
+        alertify.error('ERROR: NO SE PUDE CARGAR EL DOCUMENTO [' + err + ']');
+        }
+        */
+
+        $('#MensajeCargando').show();
+
+        //console.log('BOTONES 3');
+        Disable_Btn('#btnOrden_Reducir');
+        Disable_Btn('#btnOrden_Expandir');
+        Disable_Btn('#btnOrdenCancelar');
+        Disable_Btn('#btnOrdenGuardar');
+
+        //Spinner.css('display', 'none');
+
+        Cliente_ConsultarPorId(Id_Cte, function (cte) {
+
+            //Spinner.css('display', 'block');
+
+            // Documentos para entrega y recepción
+
+            $('#chkCredito').prop('checked', cte.Cte_Credito);
+            $('#chkContado').prop('checked', cte.Cte_Contado);
+
+            $('#txtDias').val(cte.Cte_CondPago);
+
+            var fsImporte = cte.Cte_LimCobr.formatMoney(2, '.', ',');
+            $('#txtLimite').val(fsImporte);
+
+            $('#cmbCPBancoDeposita').val(0);
+
+            $('#txtCPNumCuenta').val(''); // NO ESTAN 
+
+            $('#txtCPRefTecleada').val('');
+
+            //FORMAS DE PAGO
+            $('#DivLstFormasPago').empty();
+            CatClienteFPago_Consultar(Id_Cte,
+                function (Lst) {
+                    for (var i = 0; i < Lst.length; i++) {
+                        var ObjTipoPago = '<table id="tbTipoPago_' + i + '" style="float:left; border-collapse:separated; border-spacing:4px;" >' +
+                            '<tr>' +
+                            '<td>' +
+                            '<input type = "checkbox" id="chkTipoPago_' + i + '" class="form-control chb" disabled = "disabled">' +
+                            '</td>' +
+                            '<td>' +
+                            Lst[i].Fpa_Descripcion +
+                            '</td>' +
+                            '</tr>' +
+                            '</table>';
+                        $('#DivLstFormasPago').append(ObjTipoPago);
+                        $('#chkTipoPago_' + i).attr('checked', true);
+                    }
+                },
+                function (Lst) {
+                    var MensajeError = '<label style="background-color:red; color:black;">ERROR: Al cargar intenta cargar listado de tipos pago.<label>';
+                    $('#DivLstFormasPago').append(MensajeError);
+                },
+                function () {
+                    var MensajeVacio = '<label style="background-color:silver; color:black;">El listado de tipos pago esta vacío.<label>';
+                    $('#DivLstFormasPago').append(MensajeVacio);
+                }
+            );
+
+            /* OBSOLETO
+            // 1 Efectivo
+            $('#chkEfectivo').prop('checked', cte.Cte_Efectivo);
+            // 2 Transferencia electronica de Fondos
+            $('#chkFactoraje').prop('checked', cte.Cte_Factoraje);
+            // 3 Monedereo Electronico 
+            $('#chkTransferencia').prop('checked', cte.Cte_Transferencia);
+            // 4 Vales de despensa
+            $('#chkCheque').prop('checked', cte.Cte_Cheque); // 2                       
+            // 5 Cheque nomintaivo
+            $('#chkDeposito').prop('checked', cte.Cte_Cheque);
+            // 6 Taarjeta dedebito
+            $('#chkTarjetaDebito').prop('checked', cte.Cte_Cheque); //4
+            // 7 Dinero Electornico
+            $('#chkTarjetaCredito').prop('checked', cte.Cte_Cheque); //
+            // 1 Efectivo
+            $('#chkEfectivo').prop('checked', cte.Efectivo_1);
+            // 2 Transferencia electronica de Fondos
+            $('#chkFactoraje').prop('checked', cte.TransferenciaE_3);
+            // 3 Monedereo Electronico 
+            $('#chkTransferencia').prop('checked', cte.MonederoE_5);
+            // 4 Vales de despensa
+            $('#chkCheque').prop('checked', cte.ValdesDesp_7); // 2                       
+            // 5 Cheque nomintaivo
+            $('#chkDeposito').prop('checked', cte.Cheque_2);
+            // 6 Taarjeta dedebito
+            $('#chkTarjetaDebito').prop('checked', cte.TarjetaDebito_4); //4
+            // 7 Dinero Electornico
+            $('#chkTarjetaCredito').prop('checked', cte.DineroE_6); //
+            */
+
+            $('#txtCPUnicoDia').val(''); // NO ESTA 
+            $('#txtCPDiaMaximo').val('');
+            $('#txtCPCuentasPagar').val('');
+            $('#txtCPCuentaPago').val('');
+
+            /*
+            $('#txtRevFacDireccion').val(cte.Cte_FacCalle + ' ' + cte.Cte_FacNumero); // NO ESTA 
+            $('#txtRevFacColonia').val(cte.Cte_FacColonia);
+            $('#txtRevFacMunicipio').val(cte.Cte_FacMunicipio);
+            $('#txtRevFacEstado').val(cte.Cte_FacEstado);
+            $('#txtRevFacCP').val(cte.Cte_FacCP);
+            $('#txtRevFacCiudad').val('-');
+            $('#txtRevFacTeléfonos').val(cte.Cte_FacTel);
+            */
+
+            $('#txtCPDiasPagoDireccion').val(cte.Cte_FacCalle + ' ' + cte.Cte_FacNumero); // NO ESTA 
+            $('#txtCPColonia').val(cte.Cte_FacColonia);
+            $('#txtCPMunicipio').val(cte.Cte_FacMunicipio);
+            $('#txtCPEstado').val(cte.Cte_FacEstado);
+            $('#txtCPCP').val(cte.Cte_FacCP);
+            $('#txtCPCiudad').val('');
+            $('#txtCPTelefonos').val(cte.Cte_FacTel);
+
+            //
+            // REVISION DE FACTURAS
+            //
+
+            $('#chkRevisionLunes').prop('checked', cte.Cte_RLunes);
+            $('#chkRevisionMartes').prop('checked', cte.Cte_RMartes);
+            $('#chkRevisionMiercoles').prop('checked', cte.Cte_RMiercoles);
+            $('#chkRevisionJueves').prop('checked', cte.Cte_RJueves);
+            $('#chkRevisionViernes').prop('checked', cte.Cte_RViernes);
+            $('#chkRevisionSabado').prop('checked', cte.Cte_RSabado);
+            $('#chkRevisionDomingo').prop('checked', cte.Cte_RDomingo);
+            $('#chkRevisionCualquierDia').prop('checked', cte.Cte_CualquierDia);
+
+            //Horarios de revision
+            $('#tpRevisionMañanaInicio').val(cte.Cte_RHoraam1);
+            $('#tpRevisionMañanaFin').val(cte.Cte_RHoraam2);
+            $('#tpRevisionTardeInicio').val(cte.Cte_RHorapm1);
+            $('#tpRevisionTardeFin').val(cte.Cte_RHorapm2);
+
+            // Documentos adicionales
+            // TODO: Verificar Por que no esta los campos y si no estan que se va hacer 
+            // 
+            $('#chkRevFolio').prop('checked', false);
+            $('#chkRevRntrada').prop('checked', false);
+            $('#chkRevOrden').prop('checked', false);
+            $('#chkRevReporte').prop('checked', false);
+            $('#chkRevCopia').prop('checked', false);
+
+            $('#tpRevisionTardeFin').val('');
+
+            //
+            // PAGO DE FACTURAS 
+            //
+            // OCT4-2019 
+            // Correo para recibir facturas                                                      
+            $('#tbAcs_CorreoRecibirFacturas').val(RES.Acs_CorreoRecibirFacturas);
+            // Correo para recibir complemento
+            $('#tbAcs_CorreoRecibirComplemento').val(RES.Acs_CorreoRecibirComplemento);
+
+            if (RES.Acs_CorreoRecibir_NA == 1) {
+                $('#chbAcs_CorreoRecibir_NA').prop('checked', true);
+            } else {
+                $('#chbAcs_CorreoRecibir_NA').prop('checked', false);
+            }
+
+            $('#chkPagoLunes').prop('checked', cte.Cte_CPLunes);
+            $('#chkPagoMartes').prop('checked', cte.Cte_CPMartes);
+            $('#chkPagoMiercoles').prop('checked', cte.Cte_CPMiercoles);
+            $('#chkPagoJueves').prop('checked', cte.Cte_CPJueves);
+            $('#chkPagoViernes').prop('checked', cte.Cte_CPViernes);
+            $('#chkPagoSabado').prop('checked', cte.Cte_CPSabado);
+            $('#chkPagoDomingo').prop('checked', cte.Cte_CPDomingo);
+            $('#chkPagoCualquierDia').prop('checked', cte.Cte_CPCualquierDia);
+
+            $('#tpPagoMañanaInicio').val(cte.Cte_PHoraam1);
+            $('#tpPagoMañanaFin').val(cte.Cte_PHoraam2);
+            $('#tpPagoTardeInicio').val(cte.Cte_PHorapm1);
+            $('#tpPagoTardeFin').val(cte.Cte_PHorapm2);
+
+            //
+            // Presencial 
+            //
+
+            $('#chkRevFacContraEntrega').prop('checked', false); // NO ESTA 
+            $('#chkRevFacVisGestorCobranza').prop('checked', false);
+            $('#txtRevFacDireccion').val(cte.Cte_FacCalle + ' ' + cte.Cte_FacNumero); // NO ESTA 
+            $('#txtRevFacColonia').val(cte.Cte_FacColonia);
+            $('#txtRevFacMunicipio').val(cte.Cte_FacMunicipio);
+            $('#txtRevFacEstado').val(cte.Cte_FacEstado);
+            $('#txtRevFacCP').val(cte.Cte_FacCP);
+            $('#txtRevFacCiudad').val('-');
+            $('#txtRevFacTeléfonos').val(cte.Cte_FacTel);
+
+            $('#CPH_chk').prop('checked', false);
+
+            // Electronica
+            /*
+            $('#chkRevFacPortal').prop('checked', false); // NO ESTA
+            $('#txtRevFacPortalTexto').val('');
+            $('#txtRevFacHttp').val('');
+            $('#txtRevFacUsuario').val('');
+            $('#txtRevFacContrasenia').val('');
+            */
+
+            // 
+            // ESPECIFICAIONES ADICIONALES 2 
+            // 
+
+            if (RES.ACS_chk62DocFactKeyEnt == 1 ||
+                RES.ACS_txt62DocFactKeyEntCop.length > 0 ||
+                RES.ACS_chk62DocFactKeyRec == 1 ||
+                RES.ACS_txt62DocFactKeyRecCop.length > 0 ||
+                RES.ACS_chk62DocOrdCompraEnt == 1 ||
+                RES.ACS_txt62DocOrdCompraEntCop.length > 0 ||
+                RES.ACS_chk62DocOrdCompraRec == 1 ||
+                RES.ACS_txt62DocOrdCompraRecCop.length > 0 ||
+                RES.ACS_chk62DocOrdReposEnt == 1 ||
+                RES.ACS_txt62DocOrdReposEntCop.length > 0 ||
+                RES.ACS_chk62DocOrdReposRec == 1 ||
+                RES.ACS_txt62DocOrdReposRecCop.length > 0 ||
+                RES.ACS_chk62DocCopPedidoEnt == 1 ||
+                RES.ACS_txt62DocCopPedidoEntCop.length > 0 ||
+                RES.ACS_chk62DocCopPedidoRec == 1 ||
+                RES.ACS_txt62DocCopPedidoRecCop.length > 0 ||
+                RES.ACS_chk62DocRemisionEnt == 1 ||
+                RES.ACS_txt62DocRemisionEntCop.length > 0 ||
+                RES.ACS_chk62DocRemisionRec == 1 ||
+                RES.ACS_txt62DocRemisionRecCop.length > 0 ||
+
+                RES.ACS_chk62DocCertificadoEnt == 1 ||
+                RES.ACS_txt62DocCertificadoEntCop.length > 0 ||
+                RES.ACS_chk62DocCertificadoRec == 1 ||
+                RES.ACS_txt62DocCertificadoRecCop.length > 0
+
+            ) {
+                $('#divDER_EspecsAdic2').prop('checked', true);
+                $('#divDER_EspecsAdic2').css('display', 'block');
+            } else {
+                $('#divDER_EspecsAdic2').prop('checked', false);
+                $('#divDER_EspecsAdic2').css('display', 'none');
+            }
+
+            // Facturas KEY
+            $('#chbACS_chk62DocFactKeyEnt').prop('checked', RES.ACS_chk62DocFactKeyEnt);
+            $('#tbACS_txt62DocFactKeyEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocFactKeyEntCop));
+            $('#chbACS_chk62DocFactKeyRec').prop('checked', RES.ACS_chk62DocFactKeyRec);
+            $('#tbACS_txt62DocFactKeyRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocFactKeyRecCop));
+            // Orden de compra/release
+            $('#chbACS_chk62DocOrdCompraEnt').prop('checked', RES.ACS_chk62DocOrdCompraEnt);
+            $('#tbACS_txt62DocOrdCompraEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocOrdCompraEntCop));
+            $('#chbACS_chk62DocOrdCompraRec').prop('checked', RES.ACS_chk62DocOrdCompraRec);
+            $('#tbACS_txt62DocOrdCompraRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocOrdCompraRecCop));
+            // Orden de reposición                   
+            $('#chbACS_chk62DocOrdReposEnt').prop('checked', RES.ACS_chk62DocOrdReposEnt);
+            $('#tbACS_txt62DocOrdReposEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocOrdReposEntCop));
+            $('#chbACS_chk62DocOrdReposRec').prop('checked', RES.ACS_chk62DocOrdReposRec);
+            $('#tbACS_txt62DocOrdReposRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocOrdReposRecCop));
+            // Copia de pedido                                  
+            $('#chbACS_chk62DocCopPedidoEnt').prop('checked', RES.ACS_chk62DocCopPedidoEnt);
+            $('#tbACS_txt62DocCopPedidoEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocCopPedidoEntCop));
+            $('#chbACS_chk62DocCopPedidoRec').prop('checked', RES.ACS_chk62DocCopPedidoRec);
+            $('#tbACS_txt62DocCopPedidoRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocCopPedidoRecCop));
+            // Remisión                
+            $('#chbACS_chk62DocRemisionEnt').prop('checked', RES.ACS_chk62DocRemisionEnt);
+            $('#tbACS_txt62DocRemisionEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocRemisionEntCop));
+            $('#chbACS_chk62DocRemisionRec').prop('checked', RES.ACS_chk62DocRemisionRec);
+            $('#tbACS_txt62DocRemisionRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocRemisionRecCop));
+
+            // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+            // CERTIFICADO DE CALIDAD (2)            
+            // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+            /*
+            $('#chbACS_chk62DocCertificadoEnt').prop('checked', RES.ACS_chk62DocCertificadoEnt);
+            $('#tbACS_txt62DocCertificadoEntCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocCertificadoEntCop));
+            $('#chbACS_chk62DocCertificadoRec').prop('checked', RES.ACS_chk62DocCertificadoRec);
+            $('#tbACS_txt62DocCertificadoRecCop').val(ReturnEmpty_WhenZero(RES.ACS_txt62DocCertificadoRecCop));
+            */
+            $('#chbACS_chk62DocCertificadoEnt').prop('checked', RES.CondPago_EA.CerChb1);
+            $('#tbACS_txt62DocCertificadoEntCop').val(ReturnEmpty_WhenZero(RES.CondPago_EA.CerCopias1));
+            $('#chbACS_chk62DocCertificadoRec').prop('checked', RES.CondPago_EA.CerChb2);
+            $('#tbACS_txt62DocCertificadoRecCop').val(ReturnEmpty_WhenZero(RES.CondPago_EA.CerCopias2));
+
+            $('#MensajeCargando').hide();
+
+            //console.log('BOTONES 4');
+            Enable_Btn('#btnOrden_Reducir');
+            Enable_Btn('#btnOrden_Expandir');
+            Enable_Btn('#btnOrdenCancelar');
+            Enable_Btn('#btnOrdenGuardar');
+
+            // Si no permite editar
+            if (RES.Documento_PermiteEditara == "0") {
+                Disable_Btn('#btnOrdenGuardar');
+            }
+
+            // SI REQUIERE AUTORIZACION 
+            if (RES.Desplegar_BtnAutorizar == "1") {
+                $('#btnOrdenAutorizarJefeOp').css('display', 'block');
+                $('#btnOrdenRechazarJefeOp').css('display', 'block');
+            } else {
+                $('#btnOrdenAutorizarJefeOp').css('display', 'none');
+                $('#btnOrdenRechazarJefeOp').css('display', 'none');
+            }
+
+            console.log('RES.Documento_PermiteEditara:' + RES.Documento_PermiteEditara);
+
+            Spinner.css('display', 'none');
+        });
+        //Spinner.css('display', 'none');
+        $('#btnConsultarAcys').data('id_acs', Id_Acs);
+        $('#btnConsultarAcys').data('acs_version', Acs_Version);
+
+    });
+}
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+$(document).ready(function () {
+
+});

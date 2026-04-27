@@ -1,0 +1,107 @@
+﻿/*
+Key Quimica Dic 2018 
+24 Dic 2018 RFH 
+*/
+
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+function Cargar_Indice_Ajax(
+    PageNumber, PageSize,
+    AplicaCliente, IdCte, NombreCliente,
+    AplicaFecha, FechaIni, FechaFin,
+    AplicaFolio, FolioIni, FolioFin,TipoCuenta, CALLBACK, CALLBACK_Error
+) {
+
+    if (AplicaCliente) {
+        AplicaCliente = 1;
+    } else {
+        AplicaCliente = 0;
+    }
+
+    var Territorio = 0;
+    var IdRik = 0;
+
+    if (AplicaFecha) {
+        AplicaFecha = 1;
+    } else {
+        AplicaFecha = 0;
+    }
+
+    if (AplicaFolio) {
+        AplicaFolio = 1;
+    } else {
+        AplicaFolio = 0;
+    }
+
+    FolioIni = parseInt(FolioIni);
+    if (isNaN(FolioIni)) {
+        FolioIni = 0;
+    }
+
+    FolioFin = parseInt(FolioFin);
+    if (isNaN(FolioFin)) {
+        FolioFin = 0;
+    }
+
+    var ddlEstatus = $('#ddlEstatus').val();
+    var ddlVencido = $('#ddlVencido').val();
+    var ddlModalidad = $('#ddlModalidad').val();
+
+    var ajax_urls = _ApplicationUrl + '/api/CatAcys/?' +
+        'PageNumber=' + PageNumber +
+        '&PageSize=' + PageSize +
+        '&AplicaFecha=' + AplicaFecha +
+        '&FechaIni=' + FechaIni + '&FechaFin=' + FechaFin +
+        '&AplicaFolio=' + AplicaFolio +
+        '&FolioIni=' + FolioIni + '&FolioFin=' + FolioFin +
+        '&AplicaCliente=' + AplicaCliente +
+        '&IdCte=' + IdCte + '&NombreCliente=' + NombreCliente +
+        '&Estatus=' + ddlEstatus +
+        '&Vencido=' + ddlVencido +
+        '&Territorio=' + Territorio +
+        '&IdRik=' + IdRik +
+        '&Id_Modalidad=' + ddlModalidad +
+        '&TipoCuenta=' + TipoCuenta;
+
+    $.ajax({
+        url: ajax_urls,
+        cache: false,
+        type: 'GET'
+    }).done(function (response, textStatus, jqXHR) {
+        //Export_Excel_Informe1(response);
+        //console.log(response);
+        var lst = response.Datos;
+        var Estado = response.Estado;
+        var Mensaje = response.Mensaje;
+
+        try {
+            ACyS_RegistroEncontrados = lst[0].RecordCount;
+        } catch (err) {
+            ACyS_RegistroEncontrados = 0;
+        }
+
+        //console.log('ACyS_RegistroEncontrados:' + ACyS_RegistroEncontrados);
+
+        if (Estado == 1) {
+            if (CALLBACK) {
+                CALLBACK(lst);
+            }
+        } else {
+            alertify.error('Error fn:Cargar_Indice_Ajax, ' + Mensaje);
+        }
+
+    }).fail(function (jqXHR, textStatus, error) {
+
+        if (CALLBACK_Error) {
+            CALLBACK_Error(textStatus);
+        }
+
+        if (jqXHR.status == 401) {
+            alert('La sessión ha expirado.');
+            //$('#dvModalPropuestaTE_ver2').modal('hide');
+            $('#dvDialogoInicioSesion').appendTo("body").modal('show');
+        } else {
+            alertify.success('Ocurrió una error: funcion Cargar_PropuestaTecnoEconomica,' + Mensaje);
+
+        }
+    });
+}

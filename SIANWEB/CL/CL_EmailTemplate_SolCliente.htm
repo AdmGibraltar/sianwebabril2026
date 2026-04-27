@@ -1,0 +1,135 @@
+﻿﻿﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .tbl_prec {
+            width: 350px;
+            border-collapse: collapse;
+            border: 1px solid #6a737b;
+        }
+
+            .tbl_Prec td, th {
+                border-collapse: collapse;
+                border: 1px solid #6a737b;
+                padding: 5px;
+            }
+
+        .bg_t_color1 {
+            border-collapse: collapse;
+            border: 1px solid #6a737b;
+            background-color: #6a737b;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .bg_col1 {
+            border-collapse: collapse;
+            border: 1px solid #6a737b;
+            background-color: #fff;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .bg_col2 {
+            border-collapse: collapse;
+            border: 1px solid #6a737b;
+            background-color: #fff;
+            text-align: right;
+            padding: 5px;
+        }
+    </style>
+    <title>Compras Locales</title>
+</head>
+<body>
+    <div align='center'>
+        <table width='700px'>
+            <tr>
+                <td colspan='2'>
+                    <p>{TITULO}</p>
+                </td>
+            </tr>
+            <tr>
+                <td><b>#Folio:</b></td>
+                <td>{FOLIO}</td>
+            </tr>
+            <tr>
+                <td><b>Centro de distribución:</b></td>
+                <td>{CENTRO}</td>
+            </tr>
+            <tr>
+                <td><b>Generado por:</b></td>
+                <td>{GENERADO_POR}</td>
+            </tr>
+            <tr>
+                <td><b>Tipo de compra local:</b></td>
+                <td>{TIPO_COMPRA}</td>
+            </tr>
+            <tr>
+                <td><b>Código de producto compra local:</b></td>
+                <td>{CODIGO_PRODUCTO}</td>
+            </tr>
+            <tr>
+                <td><b>Proveedor Local:</b></td>
+                <td>{PROVEEDOR}</td>
+            </tr>
+            <tr>
+                <td><b>Descripción del producto:</b></td>
+                <td>{DESCRIPCION_PROD}</td>
+            </tr>
+            <tr>
+                <td><b>Tipo de producto:</b></td>
+                <td>{TIPO_PROD}</td>
+            </tr>
+            <tr>
+                <td><b>Aplicación de producto:</b></td>
+                <td>{FAMILIA}</td>
+            </tr>
+            <tr>
+                <td><b>Subfamilia del producto:</b></td>
+                <td>{SUBFAMILIA}</td>
+            </tr>
+            <tr>
+                <td><b>Vigencia del uso del código:</b></td>
+                <td>{VIGENCIA}</td>
+            </tr>
+            <tr>
+                <td><b>Motivo:</b></td>
+                <td>{MOTIVO_DESABASTO}</td>
+            </tr>
+            <tr>
+                <td><b>Autorizador:</b></td>
+                <td>{CORREO_AUTORIZADOR}</td>
+            </tr>
+            <tr>
+                <td colspan='2'>&nbsp;</td>
+            </tr>
+            <tr>
+                <td valign="top"><b>Precios:</b></td>
+                <td>
+                    {LISTA_PRECIOS}
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>&nbsp;</td>
+            </tr>
+            <tr>
+                <td valign="top"><b>Exclusivo para los clientes:</b></td>
+                <td>
+                    {CLIENTES_EXCLUSIVOS}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Puede utilizar el módulo de compras locales en siancentral</label>
+                </td>
+                <td>
+                    <a href="{AUT_PARAMESTROS}">Para abrir la solicitud en el módulo de compras locales, haga click aquí</a>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</body>
+</html>

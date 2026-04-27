@@ -1,0 +1,948 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Http;
+using CapaEntidad;
+using CapaNegocios;
+using System.Text;
+using System.Net.Mail;
+using System.Net;
+using System.Net.Mime;
+
+// using Telerik.Web.UI;
+// MAY28-2020 RFH Actualizacion
+
+namespace SIANWEB.WebService
+{
+
+    public class CatAcysController : ApiController
+    {
+        // 3 JUN 2019 RFH - Regresa la lista de documentos ACYS Para el indice con paginacion.
+        [HttpGet]
+        public eResponse<List<eAcys2>> Get(
+            int PageNumber, int PageSize,
+            int AplicaFecha, string FechaIni, string FechaFin,
+            int AplicaFolio, int FolioIni, int FolioFin,
+            int AplicaCliente, int IdCte, string NombreCliente,
+            string Estatus, int Vencido, Int32 Territorio, int IdRik,
+            int Id_Modalidad)
+        {
+            /*
+            List<eUsuarioRik> lst = new List<eUsuarioRik>();
+            CN_UsuarioRik cn = new CN_UsuarioRik();
+            lst = cn.Lista(Sesion.Id_Emp, Sesion.Id_Cd, Sesion.Emp_Cnx);
+            return lst;
+            */
+            CN_CapAcys2 clsCapAcys = new CN_CapAcys2();
+            //List<Acys> List = new List<Acys>();
+            eResponse<List<eAcys2>> result = new eResponse<List<eAcys2>>();
+            result.Estado = 0;
+            result.Mensaje = "Inicio";
+            result.Datos = null;
+            List<eAcys2> List = new List<eAcys2>();
+
+            try
+            {
+                eAcys2 acys = new eAcys2();
+
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd_Ver;
+                acys.Filtro_FecIni = FechaIni;
+                acys.Filtro_FecFin = FechaFin;
+                acys.Filtro_Estatus = Estatus;
+                acys.Acs_Vencido = Vencido.ToString();
+                acys.Filtro_FolIni = FolioIni;
+                acys.Filtro_FolFin = FolioFin;
+                acys.Filtro_Usuario = Sesion.Id_U.ToString(); //"0" //Sesion.Id_U.ToString();
+                acys.Id_Ter = Territorio;
+
+                acys.Id_Cte = IdCte;
+                acys.Cte_Nombre = ((NombreCliente == null) ? "" : NombreCliente);
+
+                acys.Id_Rik = Sesion.Id_Rik;
+
+                acys.Id_Modalidad = Id_Modalidad;
+                // CORREGIR en Session.Id.TU -> debe ser -> Sesion.Id_U
+                clsCapAcys.ConsultarAcys_Lista2(
+                    PageNumber, PageSize,
+                    AplicaFecha, AplicaFolio, AplicaCliente,
+                    acys, Sesion.Emp_Cnx, ref List, Sesion.Id_U
+                );
+
+                result.Estado = 1;
+                result.Datos = List;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = null;
+                result.Mensaje = ex.Message;
+            }
+            return result;
+        }
+
+        // 21ABR-2021 - Regresa Los Acuerdos Existentes Por Cliente spAcuerdoExistentePorCliente
+        [HttpGet]
+
+        public eResponse<List<eAcys2>> spAcuerdosExistentesPorCliente(int IdCte, int IdRik)
+        {
+            CN_CapAcys2 CN = new CN_CapAcys2();
+            eResponse<List<eAcys2>> result = new eResponse<List<eAcys2>>();
+            List<eAcys2> List = new List<eAcys2>();
+            try
+            {
+                List = CN.spAcuerdosExistentesPorCliente(
+                    Sesion.Id_Emp, Sesion.Id_Cd, IdCte, IdRik, Sesion.Emp_Cnx);
+
+                result.Estado = 1;
+                result.Datos = List;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = null;
+                result.Mensaje = ex.Message;
+            }
+            return result;
+        }
+
+        // REGRESA EL REGISTRO DE CONTRO DE ORDEN         
+        // Abr 10-2019 RFH         
+        [HttpGet]
+        public eResponse<eAcys2> Get(int IdAcys, int AcsVersion)
+        {
+            eResponse<eAcys2> result = new eResponse<eAcys2>();
+            result.Estado = 0;
+
+            eAcys2 acys = new eAcys2();
+            try
+            {
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd;
+                acys.Id_Acs = IdAcys;
+                acys.Id_AcsVersion = AcsVersion;
+
+                CN_CapAcys2 cn_capacys = new CN_CapAcys2();
+                cn_capacys.Consultar_PorFolio(ref acys, Sesion.Id_U, Sesion.Emp_Cnx);
+
+                result.Estado = 1;
+                result.Datos = acys;
+
+            }
+            catch (Exception ex)
+            {
+                result.Estado = 0;
+                result.Datos = null;
+            }
+
+            return result;
+        }
+
+        // 15 Oct 2018  RFH : Regresa el registro de un documento por ID o Folio
+        // Ver 2 Nuevo documento ACyS
+        [HttpGet]
+        public eResponse<eAcys2> Get(int IdAcys, int AcsVersion, int ver2)
+        {
+            eResponse<eAcys2> result = new eResponse<eAcys2>();
+            result.Estado = 0;
+            eAcys2 acys = new eAcys2();
+            try
+            {
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd;
+                acys.Id_Acs = IdAcys;
+                acys.Id_AcsVersion = AcsVersion;
+                CN_CapAcys2 cn_capacys = new CN_CapAcys2();
+                cn_capacys.Consultar_PorFolio_ver2(ref acys, Sesion.Id_U, Sesion.Emp_Cnx);
+                result.Estado = 1;
+                result.Datos = acys;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = null;
+                result.Mensaje = ex.ToString();
+            }
+            return result;
+        }
+
+        // GetLogs  
+        [HttpGet]
+        public eResponse<List<eAcys2Logs>> GetLogs(int Id_Acs, int Acs_Version, int LogId)
+        {
+            eResponse<List<eAcys2Logs>> result = new eResponse<List<eAcys2Logs>>();
+            result.Estado = 0;
+            List<eAcys2Logs> lst = new List<eAcys2Logs>();
+            try
+            {
+                CN_CapAcys2 CN_CA = new CN_CapAcys2();
+                lst = CN_CA.EXEC_spCapAcys2_GetLogs(
+                    Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Acs_Version, Sesion.Emp_Cnx);
+
+                result.Estado = 1;
+                result.Datos = lst;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = null;
+                result.Mensaje = ex.ToString();
+            }
+            return result;
+        }
+
+        //  RECIBE LA ENTIDA ACYS PARA GUARDAR        
+        // <param name="E">ENTIDAD DE ACYS2</param>        
+        [HttpPut]
+        public eResponse<int> InsertUpdate(eAcys2 E)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+
+            try
+            {
+
+                eAcys2 A = new eAcys2();
+
+                A.Id_Emp = Sesion.Id_Emp;
+                A.Id_Cd = Sesion.Id_Cd;
+
+
+                if (E.Id_Acs == 0)
+                {
+                    A.Id_Rik = Sesion.Id_Rik;
+                    A.Acs_Estatus = "C";
+                }
+                else
+                {
+                    A.Id_Rik = Sesion.Id_Rik;
+                    A.Acs_Estatus = E.Acs_Estatus;
+                }
+
+                A.Id_Acs = E.Id_Acs;
+                A.Id_AcsVersion = E.Id_AcsVersion;
+                A.Id_Ter = E.Id_Ter;
+                A.Id_Cte = E.Id_Cte;
+
+                A.Acs_NomComercial = E.Acs_NomComercial;
+                A.Acs_Fecha = E.Acs_Fecha;
+                A.Acs_FechaInicio = E.Acs_FechaInicio;
+                A.Acs_FechaFin = E.Acs_FechaFin;
+
+                A.Acs_VigenciaApartir = E.Acs_VigenciaApartir;
+                // MAR30-2020 RFH
+                A.Acs_Semana = E.Acs_Semana;
+                A.Acs_VigenciaTermina = E.Acs_VigenciaTermina;
+
+                A.Acs_Contacto = E.Acs_Contacto;
+                A.Acs_Telefono = E.Acs_Telefono;
+                A.Acs_email = E.Acs_email;
+                A.Acs_Contacto2 = E.Acs_Contacto2;
+                A.Acs_Telefono2 = E.Acs_Telefono2;
+                A.Acs_email2 = E.Acs_email2;
+                A.Acs_Contacto3 = E.Acs_Contacto3;
+                A.Acs_Telefono3 = E.Acs_Telefono3;
+                A.Acs_email3 = E.Acs_email3;
+                A.Acs_Contacto4 = E.Acs_Contacto4;
+                A.Acs_Telefono4 = E.Acs_Telefono4;
+                A.Acs_email4 = E.Acs_email4;
+                A.Acs_Contacto5 = E.Acs_Contacto5;
+                A.Acs_Telefono5 = E.Acs_Telefono5;
+                A.Acs_email5 = E.Acs_email5;
+                A.Acs_Contacto6 = E.Acs_Contacto6;
+                A.Acs_Telefono6 = E.Acs_Telefono6;
+                A.Acs_email6 = E.Acs_email6;
+                A.Acs_Procedencia = E.Acs_Procedencia;
+
+                string MensajeError = "";
+
+                CN_CapAcys2 cn_capacys = new CN_CapAcys2();
+                iStatus = cn_capacys.InsertUpdate(ref A, ref MensajeError, Sesion.Emp_Cnx);
+
+                result.Estado = iStatus;
+                result.Datos = A.Id_Acs;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+
+            return result;
+        }
+
+        // RENOVAR 
+        [HttpPut]
+        public eResponse<int> Renovar(int Id_Acs, int Acs_version, int Acs_Version)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            try
+            {
+                eAcys2 A = new eAcys2();
+                CN_CapAcys2 cn_capacys = new CN_CapAcys2();
+                iStatus = cn_capacys.Renovar(Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Acs_version, Sesion.Emp_Cnx);
+                result.Estado = iStatus;
+                result.Datos = 0;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+            return result;
+        }
+
+        // ELIMINAR 
+        [HttpPut]
+        public eResponse<int> Eliminar(int Id_Acs, int Id_AcsVersion, int Id_Cte, int Id_Ter, int Eliminar)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            int verificador = 0;
+            try
+            {
+                CN_CapAcys2 cn_capacys = new CN_CapAcys2();
+                Acys acys = new Acys();
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd;
+                acys.Id_Acs = Id_Acs;
+                acys.Id_AcsVersion = Id_AcsVersion;
+                iStatus = cn_capacys.Eliminar(acys, Sesion.Id_U, Sesion.Emp_Cnx, ref verificador);
+                result.Datos = iStatus;
+                result.Estado = 1;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+
+            return result;
+        }
+
+        // El Documento Acys es Autorizable ¿?
+        [HttpPut]
+        public eResponse<int> EsAutorizable(int Id_Acs, int Id_AcsVersion, int Id_Cte, int Id_Ter, int IdAutoriza)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            try
+            {
+                CN_CapAcys2 cn = new CN_CapAcys2();
+                iStatus = cn.Es_Autorizable(Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Id_AcsVersion, Sesion.Emp_Cnx);
+                result.Datos = iStatus;
+                result.Estado = 1;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+            return result;
+        }
+
+        // 2 Jun 2019 RFH - Envia la Autorizacion segun el tipo de documento  
+        // iTipoDoc = 1 : ACYS - iTipoDoc = 2 : Control de Ordenes
+        [HttpPut]
+        public eResponse<int> EsAutorizable_TipoDoc(
+            int Id_Acs, int Id_AcsVersion, int Id_Cte, int Id_Ter, int IdAutoriza, int iTipoDoc)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+
+            try
+            {
+                CN_CapAcys2 cn = new CN_CapAcys2();
+                iStatus = cn.Es_Autorizable(Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Id_AcsVersion, Sesion.Emp_Cnx);
+                result.Datos = iStatus;
+                result.Estado = 1;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+            return result;
+        }
+
+        // El Documento Acys es Autorizable ¿?
+        [HttpPut]
+        public eResponse<int> Reactivar(int Id_Acs, int Id_AcsVersion, int Id_Cte, int Id_Ter, int Reactivar)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+
+            try
+            {
+                CN_CapAcys2 cn = new CN_CapAcys2();
+                iStatus = cn.Reactivar(Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Id_AcsVersion, Sesion.Id_U, Sesion.Emp_Cnx);
+                result.Datos = iStatus;
+                result.Estado = 1;
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+            }
+            return result;
+        }
+
+        // 3JUL-2019  RFH 
+        // Actualiza el Estado de Autorizacion y envia MAIL a GERENTE
+        // Y envia mail 
+        [HttpPut]
+        public eResponse<int> Enviar_Autorizacion_Gerente(
+            int Id_Acs, int Acs_Version, int Id_Cte, int Id_Ter, int Acs_ReqAutGerente)
+        {
+            eResponse<int> result = new eResponse<int>();
+            eAcys2ValiacionesPreAutorizacion VPAut = new eAcys2ValiacionesPreAutorizacion();
+
+            int iStatus = 0;
+            int verificador = 0;
+            int iResponse = -1;
+
+            // false - No Aplicar, true Aplicar 
+            // Default APLICAR o true 
+            bool VALIDACION_PRE_AUTORIZACION = true;
+
+            try
+            {
+                Acys acys = new Acys();
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd_Ver;
+                acys.Id_Acs = Id_Acs;
+
+                // Validaciones Pereliminares
+                CN_CapAcys2 CN_Val = new CN_CapAcys2();
+                VPAut = CN_Val.Valizaciones_PreAutorizacion(
+                    Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Acs_Version, Sesion.Emp_Cnx);
+
+                // Si Hay Algun Error ... Ya No Se Aplicara La Autorizacion 
+                if (VPAut.ErrorSemanal > 0 || VPAut.ErrorMensual > 0 || VPAut.ErrorBimestral > 0 || VPAut.ErrorTrimestral > 0 ||
+                    VPAut.ErrorSemestral > 0 || VPAut.Acs_Semana <= 0 || VPAut.Prods_SinTipoDoc > 0)
+                {
+                    VALIDACION_PRE_AUTORIZACION = false;
+                    result.Estado = 9; // HAY ERROR
+                }
+
+                if (VALIDACION_PRE_AUTORIZACION)
+                {
+                    CN_CapAcys2 CN = new CN_CapAcys2();
+                    CN.ConsultaUltimaVersion(ref acys, Sesion.Emp_Cnx);
+
+                    CN_CapAcys2 cn_CA = new CN_CapAcys2();
+                    verificador = cn_CA.Actualizar_Autorizacion_Gerente(
+                        Sesion.Id_Emp, acys.Id_Cd, Id_Acs, Acs_ReqAutGerente,
+                        Sesion.Emp_Cnx
+                    );
+
+                    result.Estado = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+                return result;
+            }
+
+            //
+            // SOLO EL ESTATUS 1 ENVIARA MAIL y VALIDACION_PRE_AUTORIZACION = true 
+            //
+            if (Acs_ReqAutGerente == 1 && VALIDACION_PRE_AUTORIZACION)
+            {
+                try
+                {
+                    ConfiguracionGlobal configuracion = new ConfiguracionGlobal();
+                    configuracion.Id_Cd = Sesion.Id_Cd_Ver;
+                    configuracion.Id_Emp = Sesion.Id_Emp;
+                    CN_Configuracion cn_configuracion = new CN_Configuracion();
+                    cn_configuracion.Consulta(ref configuracion, Sesion.Emp_Cnx);
+
+                    StringBuilder SB = new StringBuilder();
+
+                    SB.Append("<div align='center'>");
+                    SB.Append("<table style=\"border:1px solid: #000; width:500px\">");
+                    SB.Append("<tr>");
+                    SB.Append("<td>");
+                    SB.Append("<IMG SRC=\"https://key.com.mx/templates/theme-org/images/presets/preset1/logo.png\" ALIGN='left'></td>");
+                    SB.Append("</td>");
+                    SB.Append("<td>");
+                    SB.Append("<h1>Acuerdo Comercial y de Servicios (ACyS)");
+                    SB.Append("</td>");
+                    SB.Append("</tr>");
+                    SB.Append("<td colspan=\"2\" align=\"center\">");
+                    SB.Append("<h4>Se ha colocado una solicitud de autorización de acuerdo comercial </h4>");
+                    SB.Append("</td>");
+                    SB.Append("</tr>");
+                    SB.Append("<tr>");
+                    SB.Append("<td>");
+                    SB.Append("<h4>Sucursal:" + Sesion.Id_Cd + " " + Sesion.Cd_Nombre + " </h4>");
+                    SB.Append("</td>");
+                    SB.Append("<td>");
+                    SB.Append("<h4>No de folio :" + Id_Acs + " </h4>");
+                    SB.Append("</td>");
+                    SB.Append("</tr>");
+                    SB.Append("<tr>");
+
+                    string[] URL = HttpContext.Current.Request.Url.AbsoluteUri.ToString().Split(new char[] { '/' });
+
+                    SB.Append("<td>");
+                    //SB.Append("<p>1:" + URL[1] + "</p>");
+                    //SB.Append("<p>2:" + URL[2] + "</p>");
+                    //SB.Append("<p>3:" + URL[3] + "</p>");
+                    //SB.Append("<p>4:" + URL[4] + "</p>");
+                    SB.Append("</td>");
+
+                    SB.Append("<td ");
+                    SB.Append("style=\"font-family:'Helvetica Neue',Helvetica,sans-serif;");
+                    SB.Append("color:white; width:100%; max-width:280px; text-decoration:none; text-align:center; ");
+                    SB.Append("display:inline-block!important; font-size:16px; line-height:40px; -webkit-border-radius:2px;");
+                    SB.Append("-moz-border-radius:2px; border-radius:2px; font-weight:bold; margin-top:0; margin-right:0; ");
+                    SB.Append("margin-bottom:0; margin-left:0; padding-top:0; padding-right:0; padding-bottom:0; padding-left:0; background-color:#49b1ba\"");
+                    SB.Append(">");
+
+                    SB.Append("<a href=\"http://" + URL[2] + "/" + URL[3] + "/acys/CapAcys2_Index.aspx\"");
+
+                    SB.Append("target=\"_blank\" ");
+                    SB.Append("rel=\"noopener noreferrer\" ");
+                    SB.Append("data-auth=\"NoApplicable\" ");
+                    SB.Append("style=\"color:#FFFFFF; display:inline-block; text-decoration:none; magin:10px;\">");
+                    SB.Append("Abrir SIANWEB");
+                    SB.Append("</a>");
+
+                    SB.Append("</td>");
+                    SB.Append("</tr>");
+                    SB.Append("</table></div>");
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    SmtpClient sm = new SmtpClient(configuracion.Mail_Servidor, Convert.ToInt32(configuracion.Mail_Puerto));
+                    sm.Credentials = new NetworkCredential(configuracion.Mail_Usuario, configuracion.Mail_Contraseña);
+                    sm.EnableSsl = true;
+
+                    MailMessage m = new MailMessage();
+                    m.From = new MailAddress(configuracion.Mail_Remitente);
+
+                    // TODO: En produccion Actualizar.
+                    //m.To.Add(new MailAddress("rfh@live.com.mx"));
+                    //m.To.Add(new MailAddress(configuracion.Mail_Acys));
+                    m.To.Add(new MailAddress(configuracion.mail_AutorizacionAcys_Gerente));
+
+                    m.Subject = "Solicitud de autorización #" + Id_Acs + " del centro " + Sesion.Id_Cd_Ver;
+                    m.SubjectEncoding = System.Text.Encoding.UTF8;
+                    m.IsBodyHtml = true;
+                    m.Body = SB.ToString();
+                    m.BodyEncoding = System.Text.Encoding.UTF8;
+
+                    try
+                    {
+                        result.Estado = 1;
+                        sm.Send(m);
+                    }
+                    catch (Exception)
+                    {
+                        // Acualizado pero NO Enviado
+                        result.Estado = 2;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    result.Estado = -2;
+                }
+            }
+            result.Datos = 0;
+            return result;
+        }
+
+        // 3JUL-2019  RFH 
+        // Actualiza el Estado de Autorizacion y envia MAIL a JEFE OPREACIONES 
+        // Y envia mail 
+        [HttpPut]
+        public eResponse<int> Enviar_Autorizacion_JefeOperacion(
+            int Id_Acs, int Acs_Version, int Id_Cte, int Id_Ter, int Acs_ReqAutJefeOp)
+        {
+
+            eAcys2ValiacionesPreAutorizacion VPAut = new eAcys2ValiacionesPreAutorizacion();
+
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            int verificador = 0;
+            int iResponse = -1;
+
+            int iResult_GenerarCalendario = 0;
+
+
+            // false - No Aplicar, true Aplicar 
+            // Default APLICAR o true 
+            bool VALIDACION_PRE_AUTORIZACION = true;
+
+            try
+            {
+                // Validaciones Pereliminares
+                CN_CapAcys2 CN_Val = new CN_CapAcys2();
+                VPAut = CN_Val.Valizaciones_PreAutorizacion(
+                    Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, Acs_Version, Sesion.Emp_Cnx);
+
+                // Si Hay Algun Error ... Ya No Se Aplicara La Autorizacion 
+                if (VPAut.ErrorSemanal > 0 || VPAut.ErrorMensual > 0 || VPAut.ErrorBimestral > 0 || VPAut.ErrorTrimestral > 0 ||
+                    VPAut.ErrorSemestral > 0 || VPAut.Acs_Semana <= 0 || VPAut.Prods_SinTipoDoc > 0)
+                {
+                    VALIDACION_PRE_AUTORIZACION = false;
+                    result.Estado = 9; // HAY ERROR
+                }
+
+                // SI NO YA ERROR EN VALIFACIONES
+                if (VALIDACION_PRE_AUTORIZACION)
+                {
+
+
+                    //
+                    // SI LA AUTORIZACON ES 2
+                    // GENERA CALENDARIO DE ACYSDET
+                    //
+                    if (Acs_ReqAutJefeOp == 2)
+                    {
+                        CN_CapAcys2 CN = new CN_CapAcys2();
+                        iResult_GenerarCalendario = CN.EXEC_spCapAcys_GenerarCalendario(Id_Acs, Sesion.Emp_Cnx);
+                    }
+
+                    //
+                    // SE GENERO CALENDARIO CON EXITO 
+                    //
+                    if (Acs_ReqAutJefeOp == 1 || iResult_GenerarCalendario == 1)
+                    {
+                        // APLICA LA FIRMA EN AUTORIZACION ACYS
+                        try
+                        {
+                            Acys acys = new Acys();
+                            acys.Id_Emp = Sesion.Id_Emp;
+                            acys.Id_Cd = Sesion.Id_Cd_Ver;
+                            acys.Id_Acs = Id_Acs;
+
+                            CN_CapAcys2 CN = new CN_CapAcys2();
+                            CN.ConsultaUltimaVersion(ref acys, Sesion.Emp_Cnx);
+
+                            CN_CapAcys2 cn_CA = new CN_CapAcys2();
+                            verificador = cn_CA.Actualizar_Autorizacion_JefeOperacion(
+                                Sesion.Id_Emp, acys.Id_Cd, Id_Acs, Acs_ReqAutJefeOp,
+                                Sesion.Emp_Cnx
+                            );
+                            result.Estado = verificador;
+                        }
+                        catch (Exception ex)
+                        {
+                            result.Mensaje = "Ocurrio un error al intentar generar el calendario.";
+                            result.Estado = -1;
+                            result.Datos = 0;
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        // 
+                        // REGRESA MENOS 2 
+                        // 
+                        result.Estado = -2;
+                    }
+
+
+                    //
+                    // SOLO ENVIA EL MAIL EN EL ESTADO 1 
+                    // Se envi mail al GERENTE 
+                    // 
+                    if (Acs_ReqAutJefeOp == 1)
+                    {
+
+                        try
+                        {
+
+                            ConfiguracionGlobal configuracion = new ConfiguracionGlobal();
+                            configuracion.Id_Cd = Sesion.Id_Cd_Ver;
+                            configuracion.Id_Emp = Sesion.Id_Emp;
+                            CN_Configuracion cn_configuracion = new CN_Configuracion();
+                            cn_configuracion.Consulta(ref configuracion, Sesion.Emp_Cnx);
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                            SmtpClient sm = new SmtpClient(configuracion.Mail_Servidor, Convert.ToInt32(configuracion.Mail_Puerto));
+                            sm.Credentials = new NetworkCredential(configuracion.Mail_Usuario, configuracion.Mail_Contraseña);
+                            sm.EnableSsl = true;
+
+                            MailMessage m = new MailMessage();
+                            m.From = new MailAddress(configuracion.Mail_Remitente);
+                            ENVIO_DE_EMAIL(Id_Acs, Sesion.Id_Cd, Sesion.Cd_Nombre, 0, configuracion.mail_AutorizacionAcys_JefeOperaciones, "Solictud Autorización.");
+
+                        }
+                        catch (Exception ex)
+                        {
+                            result.Estado = -3;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Estado = -1;
+                result.Datos = 0;
+                return result;
+            }
+
+            result.Datos = 0;
+            return result;
+        }
+
+        // 9JUL-2019 RFH 
+        // APLICA RECHAZO AL DOCMENTO ACYS
+        [HttpPut]
+        public eResponse<int> Enviar_Rechazo_JefeOperacion(
+             int Id_Acs, int Acs_Version, int Id_Cte, int Id_Ter, string Notas, int TipoUsuario)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            int verificador = 0;
+            int iResponse = -1;
+            int iResult_GenerarCalendario = 0;
+
+            // APLICA LA FIRMA EN CANCELACION ACYS
+            try
+            {
+                Acys acys = new Acys();
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd;
+                acys.Id_Acs = Id_Acs;
+
+                CN_CapAcys2 CN = new CN_CapAcys2();
+                CN.ConsultaUltimaVersion(ref acys, Sesion.Emp_Cnx);
+
+                CN_CapAcys2 cn_CA = new CN_CapAcys2();
+                verificador = cn_CA.EXEC_spCapAcys_AplicarRechazo_ReqAutJefeOp(
+                    Sesion.Id_Emp, acys.Id_Cd, Id_Acs, acys.Acs_Version, Sesion.Id_U, Notas, TipoUsuario, Sesion.Emp_Cnx
+                );
+                result.Estado = verificador;
+            }
+            catch (Exception ex)
+            {
+                result.Mensaje = "Ocurrio un error al intentar generar el calendario.";
+                result.Estado = -1;
+                result.Datos = 0;
+                return result;
+            }
+
+            // 
+            if (result.Estado > 0)
+            {
+                string sMailDeRik = "";
+                // Extaer el mail del Rik del documento ACyS para envio de mail
+                CN_CapAcys2 CN_mail = new CN_CapAcys2();
+                sMailDeRik = CN_mail.EXEC_spCapAcys_MaildelRik(Sesion.Id_Emp, Sesion.Id_Cd, Id_Acs, 0, Sesion.Emp_Cnx);
+
+                if (sMailDeRik.Length > 0)
+                {
+
+                    if (TipoUsuario == 1)
+                    {
+                        ENVIO_DE_EMAIL(Id_Acs, Sesion.Id_Cd, Sesion.Cd_Nombre, 1, sMailDeRik, Notas);
+                    }
+                    if (TipoUsuario == 2)
+                    {
+                        ENVIO_DE_EMAIL(Id_Acs, Sesion.Id_Cd, Sesion.Cd_Nombre, 2, sMailDeRik, Notas);
+                    }
+                }
+            }
+
+            result.Datos = 0;
+            return result;
+        }
+
+        // ENVIAR - OBSOLETO 
+        // Enviar ya no aplica es enviado para autorizacion a Gerente o Jefe de Op. 
+        [HttpPut]
+        public eResponse<int> Enviar(int Id_Acs, int Acs_Version, int Id_Cte, int Id_Ter, int Enviar)
+        {
+            eResponse<int> result = new eResponse<int>();
+            int iStatus = 0;
+            int verificador = 0;
+            int iResponse = -1;
+
+            try
+            {
+                Acys acys = new Acys();
+                acys.Id_Emp = Sesion.Id_Emp;
+                acys.Id_Cd = Sesion.Id_Cd_Ver;
+                acys.Id_Acs = Id_Acs;
+
+                CN_CapAcys2 CN = new CN_CapAcys2();
+                CN.ConsultaUltimaVersion(ref acys, Sesion.Emp_Cnx);
+
+                CN_CapAcys2 cn_CA = new CN_CapAcys2();
+                verificador = cn_CA.Actualiza_Estatus(acys.Id_Emp, acys.Id_Cd, acys.Id_Acs, "S", Sesion.Emp_Cnx);
+            }
+            catch (Exception ex)
+            {
+                // Ocurrio un error  
+                result.Estado = -1;
+                result.Datos = 0;
+                return result;
+            }
+            result.Datos = 0;
+            return result;
+        }
+
+        [HttpPut]
+        public int ENVIO_DE_EMAIL(int Id_Acs, int Id_Cd, string Cd_Nombre, int TipoTitulo, string mail_detino, string sObservaciones)
+        {
+            int iResultado = 0;
+
+            ConfiguracionGlobal configuracion = new ConfiguracionGlobal();
+            configuracion.Id_Cd = Sesion.Id_Cd_Ver;
+            configuracion.Id_Emp = Sesion.Id_Emp;
+            CN_Configuracion cn_configuracion = new CN_Configuracion();
+            cn_configuracion.Consulta(ref configuracion, Sesion.Emp_Cnx);
+
+            StringBuilder SB = new StringBuilder();
+            SB.Append("<div align='center'>");
+            SB.Append("<table style=\"border:1px solid: #000; width:500px\">");
+            SB.Append("<tr>");
+            SB.Append("<td>");
+            SB.Append("<IMG SRC=\"https://key.com.mx/templates/theme-org/images/presets/preset1/logo.png\" ALIGN='left'></td>");
+            SB.Append("</td>");
+            SB.Append("<td>");
+
+            if (TipoTitulo == 1)
+            {
+                SB.Append("<h1>Acuerdo Comercial y de Servicios");
+            }
+            if (TipoTitulo == 2)
+            {
+                SB.Append("<h4>Control de Ordenes</h4>");
+            }
+
+            SB.Append("</td>");
+            SB.Append("</tr>");
+            SB.Append("<td colspan=\"2\" align=\"center\">");
+
+            if (TipoTitulo == 0)
+            {
+                SB.Append("<h4>Se ha colocado una solicitud de autorización</h4>");
+            }
+            if (TipoTitulo == 1)
+            {
+                SB.Append("<h4>Una solicitud ha sido rechazada por el Gerente</h4>");
+            }
+            if (TipoTitulo == 2)
+            {
+                SB.Append("<h4>Una solicitud ha sido rechazada por el Jefe de Operaciones</h4>");
+            }
+
+            SB.Append("</td>");
+            SB.Append("</tr>");
+            SB.Append("<tr>");
+            SB.Append("<td>");
+            SB.Append("<h4>Sucursal:" + Id_Cd + " " + Cd_Nombre + " </h4>");
+            SB.Append("</td>");
+            SB.Append("<td>");
+            SB.Append("<h4>No de folio :" + Id_Acs + " </h4>");
+            SB.Append("</td>");
+            SB.Append("</tr>");
+            SB.Append("<tr>");
+            SB.Append("<td colspan=\"2\"");
+
+            if (TipoTitulo == 1)
+            {
+                SB.Append("<label>Observaciones .-</label><i><p>" + sObservaciones + "</p></i>");
+            }
+            if (TipoTitulo == 2)
+            {
+                SB.Append("<label>Observaciones .-</label><i><p>" + sObservaciones + "</p></i>");
+            }
+
+            SB.Append("</td>");
+            SB.Append("</tr><tr>");
+
+            string[] URL = HttpContext.Current.Request.Url.AbsoluteUri.ToString().Split(new char[] { '/' });
+
+            SB.Append("<td>");
+            SB.Append("<p>" + URL[2] + "</p>");
+            SB.Append("</td>");
+
+            SB.Append("<td ");
+            SB.Append("style=\"font-family:'Helvetica Neue',Helvetica,sans-serif;");
+            SB.Append("color:white; width:100%; max-width:280px; text-decoration:none; text-align:center; ");
+            SB.Append("display:inline-block!important; font-size:16px; line-height:40px; -webkit-border-radius:2px;");
+            SB.Append("-moz-border-radius:2px; border-radius:2px; font-weight:bold; margin-top:0; margin-right:0; ");
+            SB.Append("margin-bottom:0; margin-left:0; padding-top:0; padding-right:0; padding-bottom:0; padding-left:0; background-color:#49b1ba\"");
+            SB.Append(">");
+
+            SB.Append("<a href=\"http://" + URL[2] + "/" + URL[3] + "/acys/CapAcys2_Index.aspx\"");
+
+            SB.Append("target=\"_blank\" ");
+            SB.Append("rel=\"noopener noreferrer\" ");
+            SB.Append("data-auth=\"NoApplicable\" ");
+            SB.Append("style=\"color:#FFFFFF; display:inline-block; text-decoration:none; magin:10px;\">");
+            SB.Append("Abrir SIANWEB");
+            SB.Append("</a>");
+
+            SB.Append("</td>");
+            SB.Append("</tr>");
+            SB.Append("</table></div>");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            SmtpClient sm = new SmtpClient(configuracion.Mail_Servidor, Convert.ToInt32(configuracion.Mail_Puerto));
+            sm.Credentials = new NetworkCredential(configuracion.Mail_Usuario, configuracion.Mail_Contraseña);
+            sm.EnableSsl = true;
+
+            MailMessage m = new MailMessage();
+            m.From = new MailAddress(configuracion.Mail_Remitente);
+
+            // TODO: En produccion Actualizar.
+            //m.To.Add(new MailAddress("rfh@live.com.mx"));
+            //m.To.Add(new MailAddress(configuracion.Mail_Acys));
+            //m.To.Add(new MailAddress(configuracion.mail_AutorizacionAcys_JefeOperaciones));
+            m.To.Add(new MailAddress(mail_detino));
+            //m.Subject = "Solicitud de autorización #" + Id_Acs + " del centro " + Id_Cd;
+
+            if (TipoTitulo == 0)
+            {
+                m.Subject = "Solicitud de Autorización #" + Id_Acs + " / Centro " + Id_Cd;
+            }
+            if (TipoTitulo == 1)
+            {
+                m.Subject = "Solicitud Rechazada por el Gerente #" + Id_Acs + " / Centro " + Id_Cd; ;
+            }
+            if (TipoTitulo == 2)
+            {
+                m.Subject = "Solicitud Rechazada por el Jefe de Operaciones #" + Id_Acs + " / Centro " + Id_Cd; ;
+            }
+
+            m.IsBodyHtml = true;
+            string body = SB.ToString();
+            AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+            m.AlternateViews.Add(vistaHtml);
+
+            try
+            {
+                iResultado = 1;
+                sm.Send(m);
+            }
+            catch (Exception)
+            {
+                iResultado = 2;
+            }
+            return iResultado;
+        }
+
+        protected Sesion Sesion
+        {
+            get
+            {
+                if (HttpContext.Current.Session != null)
+                {
+                    return (Sesion)HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID];
+                }
+                return null;
+            }
+        }
+        //
+    }
+}

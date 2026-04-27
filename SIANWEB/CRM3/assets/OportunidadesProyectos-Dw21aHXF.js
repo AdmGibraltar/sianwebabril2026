@@ -1,0 +1,1 @@
+import{_ as e,z as r,l as t,o as c}from"./index-otsPqfAO.js";import"@popperjs/core";const n={};function s(_,a){const o=r("router-view");return c(),t(o)}const f=e(n,[["render",s]]);export{f as default};

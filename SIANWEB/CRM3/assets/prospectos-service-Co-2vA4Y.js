@@ -1,0 +1,1 @@
+import{i as s}from"./index-otsPqfAO.js";const o=async e=>{try{return(await s.get(`/prospectos/${e}`,{skipLoading:!0})).data}catch{return{data:null,message:"Error al obtener el prospecto",succeeded:!1}}};export{o as g};

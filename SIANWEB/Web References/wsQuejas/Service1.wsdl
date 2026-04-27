@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GuardarQueja">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlQueja" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlProductos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlDocumentos" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GuardarQuejaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GuardarQuejaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaQueja">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlQueja" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlProductos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlDocumentos" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaQuejaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GuardarSolicitud">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlSolicitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlProductos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlDocumentos" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GuardarSolicitudResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ActualizaSolicitud">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlSolicitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xmlDocumentos" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaSolicitudResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CancelaSolicitud">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlSolicitud" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelaSolicitudResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="XMLSGCUP_Producto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Prd" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XMLSGCUP_ProductoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLSGCUP_ProductoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EliminaProducto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Emp" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Cd" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Prd" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Queja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EliminaProductoResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GuardarQuejaSoapIn">
+    <wsdl:part name="parameters" element="tns:GuardarQueja" />
+  </wsdl:message>
+  <wsdl:message name="GuardarQuejaSoapOut">
+    <wsdl:part name="parameters" element="tns:GuardarQuejaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaQuejaSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizaQueja" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaQuejaSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizaQuejaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GuardarSolicitudSoapIn">
+    <wsdl:part name="parameters" element="tns:GuardarSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="GuardarSolicitudSoapOut">
+    <wsdl:part name="parameters" element="tns:GuardarSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSolicitudSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizaSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSolicitudSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizaSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelaSolicitudSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelaSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="CancelaSolicitudSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelaSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="XMLSGCUP_ProductoSoapIn">
+    <wsdl:part name="parameters" element="tns:XMLSGCUP_Producto" />
+  </wsdl:message>
+  <wsdl:message name="XMLSGCUP_ProductoSoapOut">
+    <wsdl:part name="parameters" element="tns:XMLSGCUP_ProductoResponse" />
+  </wsdl:message>
+  <wsdl:message name="EliminaProductoSoapIn">
+    <wsdl:part name="parameters" element="tns:EliminaProducto" />
+  </wsdl:message>
+  <wsdl:message name="EliminaProductoSoapOut">
+    <wsdl:part name="parameters" element="tns:EliminaProductoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="GuardarQueja">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Guardar queja desde sianweb.</wsdl:documentation>
+      <wsdl:input message="tns:GuardarQuejaSoapIn" />
+      <wsdl:output message="tns:GuardarQuejaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaQueja">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Actualiza queja desde sianweb.</wsdl:documentation>
+      <wsdl:input message="tns:ActualizaQuejaSoapIn" />
+      <wsdl:output message="tns:ActualizaQuejaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GuardarSolicitud">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Guardar Solicitud desde siancentral.</wsdl:documentation>
+      <wsdl:input message="tns:GuardarSolicitudSoapIn" />
+      <wsdl:output message="tns:GuardarSolicitudSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSolicitud">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Actualiza una Solicitud desde siancentral.</wsdl:documentation>
+      <wsdl:input message="tns:ActualizaSolicitudSoapIn" />
+      <wsdl:output message="tns:ActualizaSolicitudSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelaSolicitud">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela una solicitudes de siancentral.</wsdl:documentation>
+      <wsdl:input message="tns:CancelaSolicitudSoapIn" />
+      <wsdl:output message="tns:CancelaSolicitudSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Producto">
+      <wsdl:input message="tns:XMLSGCUP_ProductoSoapIn" />
+      <wsdl:output message="tns:XMLSGCUP_ProductoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminaProducto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Elimina prodcuto de una queja especifica desde sianweb.</wsdl:documentation>
+      <wsdl:input message="tns:EliminaProductoSoapIn" />
+      <wsdl:output message="tns:EliminaProductoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GuardarQueja">
+      <soap:operation soapAction="http://tempuri.org/GuardarQueja" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaQueja">
+      <soap:operation soapAction="http://tempuri.org/ActualizaQueja" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GuardarSolicitud">
+      <soap:operation soapAction="http://tempuri.org/GuardarSolicitud" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSolicitud">
+      <soap:operation soapAction="http://tempuri.org/ActualizaSolicitud" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelaSolicitud">
+      <soap:operation soapAction="http://tempuri.org/CancelaSolicitud" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Producto">
+      <soap:operation soapAction="http://tempuri.org/XMLSGCUP_Producto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaProducto">
+      <soap:operation soapAction="http://tempuri.org/EliminaProducto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GuardarQueja">
+      <soap12:operation soapAction="http://tempuri.org/GuardarQueja" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaQueja">
+      <soap12:operation soapAction="http://tempuri.org/ActualizaQueja" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GuardarSolicitud">
+      <soap12:operation soapAction="http://tempuri.org/GuardarSolicitud" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSolicitud">
+      <soap12:operation soapAction="http://tempuri.org/ActualizaSolicitud" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelaSolicitud">
+      <soap12:operation soapAction="http://tempuri.org/CancelaSolicitud" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLSGCUP_Producto">
+      <soap12:operation soapAction="http://tempuri.org/XMLSGCUP_Producto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminaProducto">
+      <soap12:operation soapAction="http://tempuri.org/EliminaProducto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://40.84.229.61/wsquejas/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://40.84.229.61/wsquejas/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

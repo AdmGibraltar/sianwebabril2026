@@ -1,0 +1,686 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/PortalRIK.Master" AutoEventWireup="true" 
+CodeBehind="CRMProspectos_index.aspx.cs" Inherits="SIANWEB.PortalRIK.CRMProspectos_index" %>
+
+<%@ Register Src="~/js/UCAsociacionProspectoTerritorio_js.ascx" TagPrefix="uc" TagName="UCAsociacionProspectoTerritorio_js" %>
+<%@ Register Src="~/PortalRIK/GestionPromocion/SelectorDimension.ascx" TagPrefix="uc" TagName="SelectorDimension" %>
+
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="<%=Page.ResolveUrl("~/css/horizontal_selector.css")%>" rel="stylesheet">
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/radios-to-slider.min.css")%>">
+    <link href="<%=Page.ResolveUrl("~/css/icheck/skins/square/blue.css")%>" rel="stylesheet">
+    <link href="<%=Page.ResolveUrl("~/css/bootstrap-treeview.min.css")%>" rel="stylesheet">
+    <link href="<%=Page.ResolveUrl("~/css/key_soluciones.css")%>" rel="stylesheet">
+    <style>
+        .myCenteredCellTable
+        {
+            text-align: center;
+        }
+    </style>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="cphBodyContent" runat="server">
+
+<div class="row">
+   
+    <div class="col-sm-12 col-md-12 ROWPAD">
+                    <!-- ACCIONES -->
+        <table style="width: 100%; border-collapse: separate; border-spacing: 5px;">
+        <tr>
+                        <!--td>
+                            <h3 style="display: inline-block;"><strong>Prospectos</strong></h3> 
+                        </td-->
+
+        <td style="width:100px;">Buscar:</td>
+        <td style="width:150px;">
+                <input type="text" id="TextoBuscar" class="form-control" value=""/>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" id="Button2">
+                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Aplicar
+                </button>
+            </td>
+            <td style="width:20px;" valign="middle">                            
+                <div style="display:none;" id="Gerente_Icono"></div>
+            </td>
+            <td style="width:30px;" valign="middle">                            
+                <label style="margin-top:5px; display:none;" id="Gerente_lbRik">Rik&nbsp;</label>
+            </td>
+            <td style="width:180px; padding: 0px 5px 0px 0px;">
+                <button 
+                                id="Gerente_btnCambiarUsuario"
+                                class="btn pull-right btnGerente" 
+                                onclick="btnGerente_CambiarUsuario();" 
+                                data-action="1" 
+                                data-toggle="tooltip" 
+                                title="Haga clic aqu&iacute; para seleccionar el Rik."
+                                style="width:100%; display:none;">
+                                &nbsp;
+                  </button>                            
+            </td>                        
+            <td style="width:100px;">                            
+                <button id="btnNuevoProspecto" type="button" class="btn btn-primary pull-right" onclick="btnNuevoProspecto();" data-action="1" style="width:100%;">
+                    <i class="fa fa-plus"></i>&nbsp;Nuevo
+                </button>
+            </td>                        
+            </tr>
+            </table>
+
+    </div>               
+  
+</div>
+
+<div class="row">       
+    <div class="col-sm-12 col-md-12 ROWPAD">
+                
+                <table class="table table-hover table-bordered RadGrid_Outlook" id="tblProspectosIndice">
+                    <thead>
+                        <tr>
+                            <th style="width:100px;">#</th>
+                            <th>Nombre</th>
+                            <th style="width:100px;">No. Cliente</th>                            
+                            <th style="width:150px;"></th>                            
+                        </tr>
+                   </thead>
+                   <tbody>                         
+                        <tr id="trRow_1" class="crm_row_prosp">
+                            <td id="trRow_1_td_1"></td>
+                            <td id="trRow_1_td_2"></td>
+                            <td id="trRow_1_td_3"></td>                            
+                            <td id="trRow_1_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_2" class="crm_row_prosp">
+                            <td id="trRow_2_td_1"></td>
+                            <td id="trRow_2_td_2"></td>
+                            <td id="trRow_2_td_3"></td>                            
+                            <td id="trRow_2_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_3" class="crm_row_prosp">
+                            <td id="trRow_3_td_1"></td>
+                            <td id="trRow_3_td_2"></td>
+                            <td id="trRow_3_td_3"></td>                            
+                            <td id="trRow_3_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_4" class="crm_row_prosp">
+                            <td id="trRow_4_td_1"></td>
+                            <td id="trRow_4_td_2"></td>
+                            <td id="trRow_4_td_3"></td>                            
+                            <td id="trRow_4_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_5" class="crm_row_prosp">
+                            <td id="trRow_5_td_1"></td>                            
+                            <td id="trRow_5_td_2"></td>                            
+                            <td id="trRow_5_td_3"></td>                            
+                            <td id="trRow_5_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_6" class="crm_row_prosp">
+                            <td id="trRow_6_td_1"></td>                            
+                            <td id="trRow_6_td_2"></td>                            
+                            <td id="trRow_6_td_3"></td>                            
+                            <td id="trRow_6_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_7" class="crm_row_prosp">
+                            <td id="trRow_7_td_1"></td>                            
+                            <td id="trRow_7_td_2"></td>                            
+                            <td id="trRow_7_td_3"></td>                            
+                            <td id="trRow_7_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_8" class="crm_row_prosp">
+                            <td id="trRow_8_td_1"></td>                            
+                            <td id="trRow_8_td_2"></td>                            
+                            <td id="trRow_8_td_3"></td>                            
+                            <td id="trRow_8_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_9" class="crm_row_prosp">
+                            <td id="trRow_9_td_1"></td>                            
+                            <td id="trRow_9_td_2"></td>                            
+                            <td id="trRow_9_td_3"></td>                            
+                            <td id="trRow_9_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_10" class="crm_row_prosp">
+                            <td id="trRow_10_td_1"></td>                            
+                            <td id="trRow_10_td_2"></td>                            
+                            <td id="trRow_10_td_3"></td>                            
+                            <td id="trRow_10_td_4"></td>                            
+                        </tr>
+                        <tr id="trRow_11" class="crm_row_prosp">
+                            <td id="trRow_11_td_1"></td>                            
+                            <td id="trRow_11_td_2"></td>                            
+                            <td id="trRow_11_td_3"></td>                            
+                            <td id="trRow_11_td_4"></td>                            
+                        </tr>
+                   </tbody>
+                </table>
+
+                <ul class="pagination" id="PaginacionPie" style="margin:0px!important;" >
+                    <li><a href = "#">&laquo;</a></li>
+                    <li class = "active"><a href = "#">1</a></li>
+                    <li><a href = "#">2</a></li>           
+                    <li><a href = "#">&raquo;</a></li>
+                </ul>
+
+    </div>                              
+</div>
+
+    <!--div class="row" style="display: none;" id="dvSeguimiento">
+        <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card-pf">
+                        <div class="card-pf-heading">
+                            <h2 class="card-pf-title">
+                                Seguimiento
+                            </h2>
+                        </div>
+                        <div class="card-pf-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Nav tabs ->
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#dvGeneral" data-toggle="tab">Datos Generales</a>
+                                        </li>
+                                        <!--<li>
+                                            <a href="#dvAnalisisYDiagnostico" data-toggle="tab">Análisis y Diagnóstico</a>
+                                        </li>->
+                                    </ul>
+                                    <!-- Tab panes ->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="dvGeneral">
+                                            <dl class="dl-horizontal">
+                                                <dt>Nombre Comercial</dt>
+                                                    <dd id="ddDatosGeneralesNombreComercial"></dd>
+                                                <dt>Calle</dt>
+                                                    <dd id="ddDatosGeneralesCalle"></dd>
+                                                <dt>Contacto</dt>
+                                                    <dd id="ddDatosGeneralesContacto"></dd>
+                                                <dt>Correo electrónico</dt>
+                                                    <dd id="ddDatosGeneralesCorreoElectronico"></dd>
+                                                <dt>Teléfono</dt>
+                                                    <dd id="ddDatosGeneralesTelefono"></dd>
+                                            </dl>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div-->
+
+    <!-- Modal Nuevo Prospecto -->
+    <div class="modal fade" id="dvModalNuevoProspecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img id="imgDvModalNuevoProspectoEnProgreso" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Nuevo Prospecto</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDvModalNuevoProspecto">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="txtRFC">
+                                R.F.C.</label>&nbsp<i class="fa fa-university" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" id="txtRFC" name="RFC" class="form-control col-md-2" placeholder="RFC" data-inputmask="'mask' : 'aaa[a]999999aa9', 'showMaskOnFocus':'false', 'showMaskOnHover':'false', 'autoUnmask':'true' " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNombre">
+                            Nombre de la Empresa</label>&nbsp<i class="fa fa-industry" aria-hidden="true"></i>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre de la empresa" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtContacto">
+                            Nombre del Contacto</label>&nbsp<i class="fa fa-book" aria-hidden="true"></i>
+                        <input type="text" id="txtContacto" name="txtContacto" class="form-control" placeholder="Nombre del Contacto" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail">
+                            Correo electrónico</label>&nbsp<i class="fa fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="txtEmail" name="txtEmail" class="form-control" placeholder="Email" 
+                        data-inputmask="'alias': 'email', 'showMaskOnFocus':'false', 'showMaskOnHover':'false', 'autoUnmask':'true' " />
+                    </div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#dvDireccionModalNuevoProspecto" aria-controls="dvDireccionModalNuevoProspecto"
+                            role="tab" data-toggle="tab">Dirección Física</a></li>
+                        <%--<li role="presentation"><a href="#dvTerritorios" aria-controls="dvTerritorios"
+                            role="tab" data-toggle="tab">Territorios</a></li>--%>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="dvDireccionModalNuevoProspecto">
+                            <div class="form-group">
+                                <label for="txtCalle">
+                                    Calle</label>&nbsp<i class="fa fa-road" aria-hidden="true"></i>
+                                <input type="text" id="txtCalle" name="txtCalle" class="form-control" placeholder="Nombre de la calle" />
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="txtTelefono">
+                                            Teléfono
+                                        </label>&nbsp<i class="fa fa-phone-square" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" placeholder="Teléfono" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="dvTerritorios">
+                            <div class="form-group">
+                                <label for="selTerritorios"> Territorios<img id="imgProgreso" style="display: none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                                </label>
+                                <select id="selTerritorios" onchange="selTerritorio$on_change(this)" class="selectpicker form-control" name="Territorios" multiple></select>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnDvModalNuevoProspectoGuardar" onclick="crearProspecto()">
+                        Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Prospecto -->
+    <div class="modal fade" id="dvModalEditarProspecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img id="imgDvModalEditarProspectoEnProgreso" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="H4">
+                        Editar Prospecto</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDvModalEditarProspecto">
+                    <input type="hidden" id="hdnIdCrmProspectoEditarProyecto" name="idCrmProspecto" />
+                    <input type="hidden" id="hdnId_Cte" name="hdnId_Cte" />
+                    <input type="hidden" id="hdnId_Rik" name="hdnId_Rik" />
+                    <input type="hidden" id="hdnId_CrmTipoCliente" name="hdnId_CrmTipoCliente" />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="txtRFC">
+                                R.F.C.</label>&nbsp<i class="fa fa-university" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" id="txtRFC" name="RFC" class="form-control col-md-2" placeholder="RFC" data-inputmask="'mask' : 'aaa[a]999999aa9', 'showMaskOnFocus':'false', 'showMaskOnHover':'false', 'autoUnmask':'true' " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNombre">
+                            Nombre de la Empresa</label>&nbsp<i class="fa fa-industry" aria-hidden="true"></i>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre de la Empresa" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtContacto">
+                            Nombre del Contacto</label>&nbsp<i class="fa fa-book" aria-hidden="true"></i>
+                        <input type="text" id="txtContacto" name="txtContacto" class="form-control" placeholder="Nombre del Contacto" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail">
+                            Correo electrónico</label>&nbsp<i class="fa fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="txtEmail" name="txtEmail" class="form-control" placeholder="Email" data-inputmask="'alias': 'email', 'showMaskOnFocus':'false', 'showMaskOnHover':'false', 'autoUnmask':'true' " />
+                    </div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#dvDireccion" aria-controls="dvDireccion"
+                            role="tab" data-toggle="tab">Dirección</a></li>
+                        <%--<li role="presentation"><a href="#dvEdicionProspectosTerritorios" aria-controls="dvEdicionProspectosTerritorios"
+                            role="tab" data-toggle="tab">Territorios</a></li>--%>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="dvDireccion">
+                            <div class="form-group">
+                                <label for="txtCalle">
+                                    Calle</label>&nbsp<i class="fa fa-road" aria-hidden="true"></i>
+                                <input type="text" id="txtCalle" name="txtCalle" class="form-control" placeholder="Nombre de la calle" />
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="txtTelefono">
+                                            Teléfono
+                                        </label>&nbsp<i class="fa fa-phone-square" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" placeholder="Teléfono" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="dvEdicionProspectosTerritorios">
+                            <div class="form-group">
+                                <label for="selTerritorios">
+                                    Territorios<img id="imgProgreso" style="display: none;"
+                                src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" /></label>
+                                <select id="selTerritorios" class="selectpicker form-control" name="Territorios" multiple></select>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="actualizarProspecto()">
+                        Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Proyecto -->
+    <div class="modal fade" id="dvModalNuevoProyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img id="imgDvModalNuevoProyectoEnProgreso" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="H1">
+                        Nuevo Proyecto
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDvModalNuevoProyecto">
+                    <input type="hidden" id="hdnId_CrmProspecto" name="Id_CrmProspecto" />
+                    <input type="hidden" id="hdnCliente" name="Cliente" />
+
+                    <div class="form-group">
+                        <label for="selTerritorio">
+                            Territorio&nbsp<i class="fa fa-flag-checkered" aria-hidden="true"></i><img id="imgProcesandoTerritorioDvModalNuevoProyecto" style="display: none;"
+                                src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" /></label>
+                        <select id="selTerritorio" onchange="selTerritorio$on_change(this)" name="Territorio" class="selectpicker form-control">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selUEN">
+                            UEN</label>&nbsp<i class="fa fa-industry" aria-hidden="true"></i>
+                        <select id="selUEN" name="Uen" disabled class="selectpicker form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selSegmento">
+                            Segmento&nbsp<i class="fa fa-tasks" aria-hidden="true"></i><img id="imgProcesandoSegmentoDvModalNuevoProyecto" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" /> </label>
+                        <select id="selSegmento" name="Segmento" disabled class="selectpicker form-control">
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="input-group tooltip-demo">
+                                <small>Dimensión:</small>
+                                <input id="txtDimension" type="text" class="form-control" disabled placeholder="Dimension" title="Unidad de la dimensión del Segmento" data-toggle="tooltip" />
+                                <!--<button class="input-group-addon" data-toggle="modal" data-target="#dvModalDimension" type="button"><i class="fa fa-search fa-fw"></i></button>-->
+                                <input type="hidden" id="hdnDim_Id_Uen" name="Dim_Id_Uen" />
+                                <input type="hidden" id="hdnDim_Id_Seg" name="Dim_Id_Seg" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 tooltip-demo">
+                                <small>Precio:</small>
+                                <input id="txtPrecioUnidad" type="text" class="form-control" placeholder="$0.0" title="Precio por unidad de dimensión" data-toggle="tooltip" disabled/>
+                            </div>
+                        <div class="col-md-2 tooltip-demo">
+                            <small>Cantidad:</small>
+                            <input id="txtCantidad" name="Dim_Cantidad" type="text" class="form-control" placeholder="0" title="Cantidad de la unidad elegida" data-toggle="tooltip" data-inputmask="'alias': 'numeric', 'showMaskOnFocus':'false', 'showMaskOnHover':'false', 'autoUnmask':'true', 'allowMinus':'false' "/>
+                        </div>
+                        <div class="col-md-2 tooltip-demo">
+                            <small>VPME:</small>
+                            <input id="txtVPM" name="CrmOp_VPM" type="text" class="form-control" placeholder="$0.0" title="Venta Promedio Mensual Esperada" data-toggle="tooltip"/>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <%--<div class="form-group">
+                            <label for="txtDimension">
+                                Dimensión
+                            </label>
+                            <div class="input-group">
+                                <input id="txtDimension" type="text" class="form-control" disabled />
+                                <button class="input-group-addon" data-toggle="modal" data-target="#dvModalDimension" type="button"><i class="fa fa-search fa-fw"></i></button>
+                                <input type="hidden" id="hdnDim_Id_Uen" name="Dim_Id_Uen" />
+                                <input type="hidden" id="hdnDim_Id_Seg" name="Dim_Id_Seg" />
+                            </div>
+                        </div>--%>
+                        <div class="form-group">
+                            <%--<label for="txtCantidad">
+                                Cantidad
+                            </label>--%>
+                            <%--<input id="txtCantidad" name="Dim_Cantidad" type="text" class="form-control" placeholder="Cantidad"/>--%>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <%--<label for="txtVPM" class="col-sm-2">
+                                VPM
+                            </label>--%>
+                            <div class="col-sm-6">
+                                <%--<input id="txtVPM" name="CrmOp_VPM" type="text" class="form-control" placeholder="Venta Promedio Mensual Esperada"/>--%>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selArea">
+                            Área&nbsp<i class="fa fa-share-alt" aria-hidden="true"></i><img id="imgProcesandoAreaDvModalNuevoProyecto" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" /></label>
+                        <select id="selArea" name="Area" onchange="selArea$on_change()" class="selectpicker form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selSolucion">
+                            Solución&nbsp<i class="fa fa-recycle" aria-hidden="true"></i><img id="imgProcesandoSolucionDvModalNuevoProyecto" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" /></label>
+                        <select id="selSolucion" name="Solucion" onchange="selSolucion$on_change()" class="selectpicker form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label for="selAplicacion">
+                                            Aplicación&nbsp<i class="fa fa-sitemap" aria-hidden="true"></i><img id="imgProcesandoAplicacionDvModalNuevoProyecto" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <a data-title="Oferta" href="http://www.todoenunclick.com/Notas/Imagenes/arbol_jerarquia.jpg" id="aMapaOferta"><h6>&nbsp;&nbsp;Mapa de aplicaciones</h6></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                            
+                            <div style="display:none;">
+                                <select style="display: none;" id="selAplicacion" name="Aplicaciones" class="selectpicker form-control" multiple>
+                                </select>
+                            </div>
+
+                            <div class="list-group" id="lstAplicacion">
+                            
+                            </div>
+                        
+                    </div>
+                    <div class="checkbox">
+                        <%--<label class="checkbox-inline">
+                            <input type="checkbox" name="VentaNoRepetitiva" iCheck />Venta no repetitiva
+                        </label>--%>
+                        <%--<label class="checkbox-inline">
+                            <input type="checkbox" iCheck />Pertenece a Campaña
+                        </label>--%>
+                    </div>
+                    <%--<div class="form-group">
+                        <label for="txtVPT">
+                            Valor Potencial Teórico</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" id="txtVPT" name="ValorPotencialT" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtVPE">
+                            Valor Potencial Estimado</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" id="txtVPE" class="form-control" />
+                        </div>
+                    </div>--%>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary"
+                            id="btnDvModalNuevoProyectoGuardar" onclick="crearProyecto()">
+                            Guardar
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                            id="btnGuadarContinuar" onclick="crearProyectoYContinuar()">
+                            Guardar y continuar
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dvModalDimension" style="width: 100%; height: 100%" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="hTituloVentanaDimension">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img id="img1" style="display:none;" src="<%=Page.ResolveUrl("~/Img/patternfly/spinner-xs.gif") %>" />
+                            <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="h3">
+                        Selección de Dimensión
+                    </h4>
+                </div>
+                <div class="modal-body" id="dvCuerpoVentanaDimension">
+                    <uc:SelectorDimension runat="server" ID="ucSelectorDimension" AlSeleccionar="dimensionElegida" />
+                </div>
+                <div class="modal-footer">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar Prospecto -->
+    <div class="modal fade" id="dvModalEliminarProspecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="H2">
+                        Eliminar Prospecto
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <span class="pficon pficon-warning-triangle-o">
+                        </span>
+                        ¿Está seguro de eliminar el prospecto?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary"
+                            id="Button1" onclick="eliminarProspecto(jQuery)">
+                            Confirmar
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Dialogo Error -->
+    <div class="modal fade" id="dvDialogoError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="btnCerrarDialogo" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="dvDialogoErrorTituloEncabezado">
+                        [Titulo encabezado]
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <span class="pficon pficon-warning-triangle-o">
+                        </span>
+                        <div id="dvDialogoErrorMensaje">
+                            [Mensaje]
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDvDialogoErrorCerrar" type="button" class="btn btn-default" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary"
+                            id="btnDvDialogoErrorConfirmar" onclick="eliminarProspecto(jQuery)">
+                            Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="cphScripts" runat="server">
+    <script src="<%=Page.ResolveUrl("~/js/jquery.inputmask-3.x/dist/min/jquery.inputmask.bundle.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/bootstrap-select.min.js") %>"></script>            
+    
+    <script src="<%=Page.ResolveUrl("~/js/icheck.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/ekko-lightbox.min.js") %>"></script>
+    <%--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>--%>
+    <script src="<%=Page.ResolveUrl("~/js/jquery.blockUI.min.js") %>"></script>    
+
+    <script src="<%=Page.ResolveUrl("~/js/horizontal_selector.js") %>"></script>
+
+    <script src="<%=Page.ResolveUrl("~/js/bootstrap-treeview.min.js") %>"></script>
+
+    <script type="text/javascript">
+        var _ApplicationUrl = '<%=ApplicationUrl %>';
+        var Id_TU = '<%=Id_TU1 %>';
+        var hfId_Rik = '<%=Id_Rik %>';           
+    </script>
+
+    <script src="<%=Page.ResolveUrl("~/js/CRM2/CrmProspectos_Index.js") %>"></script>
+
+    <!--<script src="//rawgit.com/jonmiles/bootstrap-treeview/v1.2.0/dist/bootstrap-treeview.min.js"></script>-->
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="cphToolbar" runat="server">
+    
+</asp:Content>
+

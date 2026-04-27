@@ -1,0 +1,349 @@
+﻿﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ReporteCom.Master.cs"
+    Inherits="SIANWEB.MasterPage.ReporteCom" %>
+
+ 
+
+<%@ Import Namespace="SIANWEB.MasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <telerik:radcodeblock runat="server" id="rcb2">
+    <title>Reportes</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--link rel="shortcut icon" href="<%=Page.ResolveUrl("~/Img/patternfly/favicon.ico")%>"-->
+    <link rel="shortcut icon" href="<%=Page.ResolveUrl("~/Img/favicon.ico")%>">   
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/patternfly/patternfly.min.css")%>">
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/css/patternfly/patternfly-additions.min.css")%>">
+    
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/Librerias/fontawesome-free-4.6.3/css/font-awesome.min.css")%>">    
+    <script src="<%=Page.ResolveUrl("~/js/jquery-2.1.4.min.js")%>"></script>
+
+    <script src="<%=Page.ResolveUrl("~/js/jquery-template/jquery.loadTemplate.js")%>"></script>
+    </telerik:radcodeblock>
+    <style>
+        .toast-pf-top-right-rel {
+          left: 20px;
+          position: relative;
+          right: 20px;
+          top: 12px;
+          z-index: 1035;
+          /* Medium devices (desktops, 992px and up) */
+        }
+    </style>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+      <form id="form1" method="post" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager> 
+    
+             
+    
+    <%--
+    <form runat="server" id="frmScriptManagerContainer">
+        <asp:ScriptManager runat="server" ID="smMainScriptManager">
+        </asp:ScriptManager>
+    </form>
+    --%>
+    <telerik:radcodeblock runat="server" id="rcb3">
+    <%--<telerik:radscriptmanager id="RadScriptManager1" runat="server">
+    </telerik:radscriptmanager>--%>
+    <%--<nav class="navbar navbar-default navbar-pf navbar-fixed-top" role="navigation">--%>
+    <nav class="navbar navbar-default navbar-pf" role="navigation" style=" background-color: #00adef;">
+      <div class="navbar-header"> 
+        <div class="navbar-brand" > 
+              <asp:Image ID="ImgLogo" runat="server" Height="65px" ImageUrl="~/Img/key_logo.jpg" />
+        </div>
+      </div>
+      <div class="collapse navbar-collapse navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-utility">
+           
+          
+          <li class="dropdown" id="ddSesion">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="pficon pficon-user"></span>
+              <%=((ReporteCom)this).Sesion.U_Nombre %> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu"> 
+                <li>
+                    <a href="<%=ApplicationUrl %>/Inicio.aspx">
+                        <i class="fa fa-reply" aria-hidden="true"></i>Ir a SIANWEB
+                    </a>
+                </li>
+                <li>
+                    <a onclick="javascript:salirDelSistema(this)" >
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>Salir
+                    </a>
+                </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-primary">
+          <asp:ContentPlaceHolder runat="server" ID="cphToolbar">
+            
+          </asp:ContentPlaceHolder>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+    <%--<div class="container-fluid" style="margin-top:95px;">--%>
+        <div class="row">
+            <div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
+                <ol class="breadcrumb" style="display:none;" >
+                    <%
+                        if (CurrentPath != null)
+                        {
+                            for (int i = 0; i < CurrentPath.Length; i++)
+                            {
+                    %>
+                    <li><a href="#">
+                        <%=CurrentPath[i]%></a></li>
+                    <%
+                            }
+                        }
+                    %>
+                </ol>                
+            
+
+                 <asp:ContentPlaceHolder ID="CPH" runat="server">
+         </asp:ContentPlaceHolder>
+             
+                
+            </div>
+            <div class="col-sm-3 col-md-2 col-sm-pull-9 col-md-pull-10 sidebar-pf sidebar-pf-left">
+                <div class="panel-group" id="accordion">
+                   
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-eye">
+                                </i>&nbsp; Reportes </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li <%=(int)Session["activeMenu"]==1?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>ReporteComerciales.aspx">
+                                        <i class="fa fa-tachometer"></i>Reportes de resultados</a></li>
+                                    <li <%=(int)Session["activeMenu"]==2?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>ReporteComercialsCRM.aspx">
+                                        <i class="fa fa-street-view"></i>Reportes de proyectos</a></li> 
+                                    <li <%=(int)Session["activeMenu"]==3?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>ReporteComercialesLeads.aspx">
+                                        <i class="fa fa-street-view"></i>Reportes de leads</a></li> 
+                                    <li <%=(int)Session["activeMenu"]==4?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>ReportesComprasLocales.aspx">
+                                        <i class="fa fa-street-view"></i>Reportes Compras Locales</a></li>
+
+<%--                                     <li <%=(int)Session["activeMenu"]==4?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>ReporteComerciales_MonitoreoProducto.aspx">
+                                        <i class="fa fa-flask"></i>Reportes de monitoreo de producto</a>
+                                    </li>--%>
+									
+									<!-- EMC -->
+                                    <li <%=(int)Session["activeMenu"]==5?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]!=5?"dashboard/":"" %>dshIndicadoresACySv3.aspx">
+                                        <i class="fa fa-bar-chart"></i>Reportes de Cumplimiento ACyS</a></li>
+                                      <li <%=(int)Session["activeMenu"]==7?"class=\"active\"":"" %>>
+                                        <a href="<%=(int)Session["activeMenu"]==5?"../":"" %>CapNps_Reportes.aspx">
+                                        <i class="fa fa-bar-chart"></i>Reportes de NPS</a></li>
+                                </ul>  <!-- Leads reportes comerciales -->
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+                </div> 
+            </div>
+            <!-- /col -->
+        </div>
+   
+    <!--Toast messages-->
+    <div class="toast-pf toast-pf-max-width toast-pf-top-right alert alert-danger alert-dismissable"
+        style="display: none" id="toastDanger">
+        <button type="button" class="close" aria-hidden="true" onclick="cerrarToastDanger(jQuery)">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-error-circle-o"></span>
+        <div id="toastDangerMessage">
+            Message
+        </div>
+    </div>
+    <div class="toast-pf toast-pf-max-width toast-pf-top-right alert alert-success alert-dismissable"
+        style="display: none" id="toastSuccess">
+        <button type="button" class="close" aria-hidden="true" onclick="cerrarToastSuccess(jQuery)">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-ok"></span>
+        <div id="toastSuccessMessage">
+            Message
+        </div>
+    </div>
+    <div class="toast-pf toast-pf-max-width toast-pf-top-right alert alert-warning alert-dismissable"
+        style="display: none" id="toastWarning">
+        <button type="button" class="close" aria-hidden="true" onclick="cerrarToastWarning(jQuery)">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-warning-triangle-o"></span>
+        <div id="toastWarningMessage">
+            Message
+        </div>
+    </div>
+    <!--Toast messages-->
+    <!--Login dialog-->
+    <div class="modal fade" id="dvDialogoInicioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="btndvDialogoInicioSesionCerrar" type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="H3">
+                        Iniciar sesion
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDvDialogoInicioSesion">
+                    <div class="form-group">
+                        <label for="Cu_User">
+                            Usuario
+                        </label>
+                        <input type="text" id="Username" name="Username" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Cu_pass">
+                            Contraseña
+                        </label>
+                        <input type="password" id="Password" name="Password" class="form-control" />
+                    </div>
+                    </form>
+                    <div id="wrnDvDialogoInicioSesion" class="alert alert-warning" style="display: none;">
+                        <span class="pficon pficon-warning-triangle-o"></span>
+                        <div id="msgWrnDvDialogoInicioSesion">
+                            Mensaje
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDvDialogoInicioSesionCerrar" type="button" class="btn btn-default"
+                        onclick="redireccionarALogin()" data-dismiss="modal">
+                        Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnDvDialogoInicioSesionLogin"
+                        onclick="login(jQuery)">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Login dialog-->
+
+    <telerik:radcodeblock runat="server" id="rcb1">
+
+    <script src="<%=Page.ResolveUrl("~/js/patternfly/patternfly.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/Modernizr-input.min.js")%>"></script>
+    <script src="<%=Page.ResolveUrl("~/js/jquery.placeholder.min.js")%>"></script>
+    
+
+    <script>
+        if ((typeof (console) == undefined) || (typeof (console) == 'undefined')) {
+            window.console = new Object();
+            window.console.log = function () {
+            };
+        }
+
+        
+        // Initialize Datatables
+        $(document).ready(function () {
+
+            if ($('table').hasClass('datatable')) {
+                $('.datatable').dataTable({
+                    "fnDrawCallback": function (oSettings) {
+                        // if .sidebar-pf exists, call sidebar() after the data table is drawn
+                        if ($('.sidebar-pf').length > 0) {
+                            $(document).sidebar();
+                        }
+                    }
+                });
+            }
+           
+
+            $('.tooltip-demo').tooltip({
+                selector: '[data-toggle=tooltip]',
+                container: 'body'
+            });
+
+            if (typeof (crmOnReady) != undefined && typeof (crmOnReady) != 'undefined') {
+                crmOnReady($);
+            }
+
+            if (!Modernizr.input.placeholder) {
+                createPlaceholders();
+            }
+        });
+
+        function login($) {
+            $('#wrnDvDialogoInicioSesion').fadeOut();
+            $.ajax({
+                url: '<%=ApplicationUrl %>' + '/api/Login/',
+                data: $('#frmDvDialogoInicioSesion').serialize(),
+                cache: false,
+                type: 'POST',
+                statusCode: {
+                    506: function (jqXHR, textStatus, errorThrown) {
+                        //Manejar el caso apropiado
+                    },
+                    507: function (jqXHR, textStatus, errorThrown) {
+                        //Manejar el caso apropiado
+                    },
+                    508: function (jqXHR, textStatus, errorThrown) {
+                        //Manejar el caso apropiado
+                    },
+                    509: function (jqXHR, textStatus, errorThrown) {
+                        //Manejar el caso apropiado
+                    },
+                    510: function (jqXHR, textStatus, errorThrown) {
+                        //Manejar el caso apropiado
+                    }
+                }
+            }).done(function (response, textStatus, jqXHR) {
+                $('#dvDialogoInicioSesion').modal('hide');
+                if (_onLoginSuccessful != null) {
+                    _onLoginSuccessful();
+                }
+            }).fail(function (jqXHR, textStatus, error) {
+                //Mostrar el toast con el mensaje de error; retirar las llamadas para mostrar el toast en cada uno de los casos de código de respuesta, y solo manejar las acciones de los casos en particular por código.
+                $('#wrnDvDialogoInicioSesion #msgWrnDvDialogoInicioSesion').html(jqXHR.responseJSON.Message);
+                $('#wrnDvDialogoInicioSesion').fadeIn()
+            });
+        }
+
+        function redireccionarALogin() {
+            self.location = '<%=ApplicationUrl %>' + '/login.aspx';
+        }
+
+        function mostrarToast(jqToastElement, jqParent) {
+            $(jqToastElement).appendTo($(jqParent));
+            $(jqToastElement).fadeIn();
+        }
+
+        var _onLoginSuccessful = null;
+
+        function salirDelSistema() {
+            window.location = '<%=ApplicationUrl %>' + '/Login.aspx?Id=1';
+        }
+
+    </script>
+    <script src="<%=Page.ResolveUrl("~/js/placeholder-setup.js")%>"></script>
+    
+   
+         </telerik:radcodeblock>
+    </telerik:radcodeblock>
+          </form>
+</body>
+</html>

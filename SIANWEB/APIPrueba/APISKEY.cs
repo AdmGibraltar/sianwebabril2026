@@ -1,0 +1,597 @@
+﻿using CapaEntidad;
+using CapaNegocios;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Script.Serialization;
+
+namespace SIANWEB.API
+{
+    public class APISKEY
+    {
+        public class Api
+        {
+            public string username { get; set; }
+            public string password { get; set; }
+        }
+
+
+        public class Orders
+        {
+            public int order_external_id { get; set; }
+            public DateTime promised_date { get; set; }
+            public List<items> items { get; set; }
+        }
+
+
+        public class items
+        {
+            public string sku { get; set; }
+            public string original_sku { get; set; }
+            public int qty { get; set; }
+            public decimal price { get; set; }
+            public string comments { get; set; }
+        }
+
+
+        public class itemsEnvio
+        {
+            public string sku { get; set; }
+            public int qty { get; set; }
+            public int store_id { get; set; }
+        }
+
+        public class itemsentrega
+        {
+            public string sku { get; set; }
+            public int qty { get; set; }
+        }
+
+
+        public class Invoice
+        {
+            public int order_external_id { get; set; }
+            public int invoice_number { get; set; }
+            public List<itemsentrega> items { get; set; }
+            public string pdf_file { get; set; }
+            public string xml_file { get; set; }
+
+        }
+
+        public class shipment
+        {
+            public int order_external_id { get; set; }
+            public List<itemsEnvio> items { get; set; }
+        }
+
+        public class delivery
+        {
+            public int order_external_id { get; set; }
+            public List<itemsentrega> items { get; set; }
+        }
+
+
+        public class remission
+        {
+            public int order_external_id { get; set; }
+            public int remission_number { get; set; }
+            public List<remissionIems> items { get; set; }
+            public string pdf_file { get; set; }
+        }
+
+
+        public class remissionIems
+        {
+            public string sku { get; set; }
+            public int qty { get; set; }
+
+        }
+
+
+        public class result
+        {
+            [JsonProperty(PropertyName = "status")]
+            public string status { get; set; }
+
+            [JsonProperty(PropertyName = "message")]
+            public string message { get; set; }
+
+
+        }
+
+
+        public class Warning
+        {
+            public string id { get; set; }
+        }
+
+
+
+        public void Autentificar(ref string token)
+        {
+            string conexion = ConfigurationManager.AppSettings["strConnectionCentral"].ToString().Trim();
+            CN_CapPedidoVtaInst cn = new CN_CapPedidoVtaInst();
+            string validarToken = "";
+            int tipo = 0;
+            cn.Actualizartokenportalcliente(ref validarToken, tipo, conexion);
+
+            if (validarToken != "")
+            {
+                token = validarToken;
+            }
+            else
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/integration/admin/token";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+
+                var Api = new Api();
+                Api.username = "erp_user";
+                Api.password = "gX7uEBvVyjuH";
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(Api);
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+                token = Regex.Replace(response.Content.ReadAsStringAsync().Result, @"[^\w\s.!@$%^&*()\-\/]+", "");
+
+                tipo = 1;
+                cn.Actualizartokenportalcliente(ref token, tipo, conexion);
+            }
+        }
+
+        public void ModificarPedido(PedidoVtaInst Ped, DataTable dt, DataTable dtDelete, string conexion, ref string estatus, ref string message)
+        {
+            string token = "";
+            Autentificar(ref token);
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/update";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var Api = new Orders();
+
+            Api.order_external_id = Convert.ToInt32(Ped.PedExterno);
+            Api.promised_date = Ped.Ped_FechaEntrega;
+
+            List<items> lista = new List<items>();
+            items items;
+            for (int x = 0; x < dt.Rows.Count; x++)
+            {
+
+                items = new items();
+                items.sku = dt.Rows[x]["Id_Prd"].ToString();
+                items.original_sku = dt.Rows[x]["Id_PrdOld"].ToString();
+                items.qty = Convert.ToInt32(dt.Rows[x]["Prd_Cantidad"].ToString());
+                items.price = Convert.ToDecimal(dt.Rows[x]["Prd_Precio"].ToString());
+                items.comments = null;
+                lista.Add(items);
+            }
+
+            if (dtDelete != null)
+            {
+                for (int x = 0; x < dtDelete.Rows.Count; x++)
+                {
+
+                    items = new items();
+                    items.sku = dtDelete.Rows[x]["Id_Prd"].ToString();
+                    items.original_sku = dtDelete.Rows[x]["Id_PrdOld"].ToString();
+                    items.qty = Convert.ToInt32(dtDelete.Rows[x]["Prd_Cantidad"].ToString());
+                    items.price = Convert.ToDecimal(dtDelete.Rows[x]["Prd_Precio"].ToString());
+                    items.comments = null;
+                    lista.Add(items);
+                }
+            }
+            Api.items = lista;
+
+            var json = JsonConvert.SerializeObject(new { order = Api });
+            var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+            var response = client.PostAsync(URL, data).Result;
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string jsonString = response.Content.ReadAsStringAsync().Result;
+            result blogObject = js.Deserialize<result>(jsonString);
+            estatus = blogObject.status;
+            message = blogObject.message;
+        }
+
+
+        public void FacturacionPedido(Factura factura, string conexion, ref string estatus, ref string message)
+        {
+            List<PedidoDet> det = new List<PedidoDet>();
+            string WebURLtempPDF = string.Concat(ConfigurationManager.AppSettings["AccesoPortal"].ToString(), factura.pdf);
+            string WebURLtempXml = factura.xml;
+
+
+            //WebURLtempPDF = "http://13.85.9.131/sianwebmty/xmlSAT/FACTURA_1_110_136240.pdf";
+            //WebURLtempXml = "http://13.85.9.131/sianwebmty/Reportes/archivoXml1063Fac136240.xml";
+
+            CN_CapPedido cn_capPedido = new CN_CapPedido();
+
+            cn_capPedido.spCapFacturaDetalle_Consultar(factura, ref det, conexion);
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/invoiced";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new Invoice();
+
+
+                Api.order_external_id = factura.id_pedMag;
+                Api.invoice_number = factura.Id_Fac;
+                List<itemsentrega> lista = new List<itemsentrega>();
+
+                foreach (PedidoDet detalle in det)
+                {
+                    itemsentrega items = new itemsentrega();
+                    items.sku = detalle.Id_Prd.ToString(); ;
+                    items.qty = detalle.Ped_Cantidad;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+
+                Api.pdf_file = WebURLtempPDF;
+                Api.xml_file = WebURLtempXml;
+
+
+
+                var json = JsonConvert.SerializeObject(new { invoice = Api });
+
+
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+
+
+        public void RemisionPedido(Remision Remisiones, string url, string conexion, ref string estatus, ref string message)
+        {
+            List<RemisionDet> det = new List<RemisionDet>();
+            Remision registros = new Remision();
+            registros.Id_Emp = Remisiones.Id_Emp;
+            registros.Id_Cd = Remisiones.Id_Cd;
+            registros.Id_Rem = Remisiones.Id_Rem;
+            registros.Id_Ped = Convert.ToInt32(Remisiones.Id_Ped);
+
+            Sesion sesion = new Sesion();
+            sesion.Id_Emp = Remisiones.Id_Emp;
+            sesion.Id_Cd = Remisiones.Id_Cd;
+            sesion.Emp_Cnx = conexion;
+            //string WebURLtempPDF = string.Concat(ConfigurationManager.AppSettings["AccesoPortal"].ToString(), Remisiones.pdf);
+            CN_CapRemision Cn = new CN_CapRemision();
+            int Pedido = Convert.ToInt32(Remisiones.Id_Ped);
+
+            Cn.ConsultarRemisionesDetalle(sesion, registros, ref det);
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/remission";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new remission();
+
+
+                Api.order_external_id = Remisiones.id_pedMag;
+                Api.remission_number = Remisiones.Id_Rem;
+
+                List<remissionIems> lista = new List<remissionIems>();
+
+                foreach (RemisionDet detalle in det)
+                {
+                    remissionIems items = new remissionIems();
+                    items.sku = detalle.Id_Prd.ToString();
+                    items.qty = detalle.Rem_Cant;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+                Api.pdf_file = url;
+                //Api.pdf_file = "http://13.85.9.131/sianwebmty/xmlSAT/FACTURA_1_110_136240.pdf";
+
+
+                var json = JsonConvert.SerializeObject(new { remission = Api });
+
+
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+
+        public void EnvioPedido(Factura factura, string conexion, ref string estatus, ref string message)
+        {
+            List<PedidoDet> det = new List<PedidoDet>();
+            Pedido pedido = new Pedido();
+            pedido.Id_Emp = factura.Id_Emp;
+            pedido.Id_Cd = factura.Id_Cd;
+            pedido.Id_Ped = Convert.ToInt32(factura.Fac_PedNum);
+
+
+            CN_CapPedido cn_capPedido = new CN_CapPedido();
+
+
+            cn_capPedido.spCapFacturaDetalle_Consultar(factura, ref det, conexion);
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/shipped";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new shipment();
+
+                Api.order_external_id = factura.id_pedMag;
+
+                List<itemsEnvio> lista = new List<itemsEnvio>();
+
+                foreach (PedidoDet detalle in det)
+                {
+                    itemsEnvio items = new itemsEnvio();
+                    items.sku = detalle.Id_Prd.ToString(); ;
+                    items.qty = detalle.Ped_Cantidad;
+                    items.store_id = pedido.Id_Cd;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+
+                var json = JsonConvert.SerializeObject(new { shipment = Api });
+
+
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+
+        public void EnvioPedidRemision(Remision factura, string conexion, ref string estatus, ref string message)
+        {
+            List<RemisionDet> det = new List<RemisionDet>();
+            Pedido pedido = new Pedido();
+            pedido.Id_Emp = factura.Id_Emp;
+            pedido.Id_Cd = factura.Id_Cd;
+            pedido.Id_Ped = Convert.ToInt32(factura.Id_Rem);
+
+
+            CN_CapRemision cn_capPedido = new CN_CapRemision();
+
+
+            cn_capPedido.ConsultarRemisionesDetalle(factura, ref det, conexion);
+
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/shipped";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new shipment();
+
+                Api.order_external_id = factura.id_pedMag;
+
+                List<itemsEnvio> lista = new List<itemsEnvio>();
+
+                foreach (RemisionDet detalle in det)
+                {
+                    itemsEnvio items = new itemsEnvio();
+                    items.sku = detalle.Id_Prd.ToString(); ;
+                    items.qty = detalle.Rem_Cant;
+                    items.store_id = pedido.Id_Cd;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+
+                var json = JsonConvert.SerializeObject(new { shipment = Api });
+
+
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+
+
+        public void entregaPedido(Factura factura, string conexion, ref string estatus, ref string message)
+        {
+            List<PedidoDet> det = new List<PedidoDet>();
+
+
+
+            CN_CapPedido cn_capPedido = new CN_CapPedido();
+
+
+            cn_capPedido.spCapFacturaDetalle_Consultar(factura, ref det, conexion);
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/delivered";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new delivery();
+
+                Api.order_external_id = factura.id_pedMag;
+
+                List<itemsentrega> lista = new List<itemsentrega>();
+
+                foreach (PedidoDet detalle in det)
+                {
+                    itemsentrega items = new itemsentrega();
+                    items.sku = detalle.Id_Prd.ToString(); ;
+                    items.qty = detalle.Ped_Cantidad;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+
+                var json = JsonConvert.SerializeObject(new { delivery = Api });
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+
+        public void entregaRemision(Remision factura, string conexion, ref string estatus, ref string message)
+        {
+            List<RemisionDet> det = new List<RemisionDet>();
+
+            CN_CapRemision cn_capPedido = new CN_CapRemision();
+
+
+            cn_capPedido.ConsultarRemisionesDetalle(factura, ref det, conexion);
+
+            if (det.Count() > 0)
+            {
+                string token = "";
+                Autentificar(ref token);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                string URL = "https://staging-5em2ouy-gdksx3o4l3okm.us-5.magentosite.cloud/rest/V1/orders/external/delivered";
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var Api = new delivery();
+
+                Api.order_external_id = factura.id_pedMag;
+
+                List<itemsentrega> lista = new List<itemsentrega>();
+
+                foreach (RemisionDet detalle in det)
+                {
+                    itemsentrega items = new itemsentrega();
+                    items.sku = detalle.Id_Prd.ToString(); ;
+                    items.qty = detalle.Rem_Cant;
+                    lista.Add(items);
+                }
+                Api.items = lista;
+
+                var json = JsonConvert.SerializeObject(new { delivery = Api });
+                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(URL, data).Result;
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+
+                string jsonString = response.Content.ReadAsStringAsync().Result;
+                result blogObject = js.Deserialize<result>(jsonString);
+
+
+                estatus = blogObject.status;
+                message = blogObject.message;
+            }
+            else
+            {
+                estatus = "2";
+            }
+        }
+
+    }
+}

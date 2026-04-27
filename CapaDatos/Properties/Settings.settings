@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CapaDatos.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CapaDatos_ConsulltaEstatusCFDISAT_ServicioConsultaCFDI" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://40.124.41.101/ConsulltaEstatusCFDISAT/ServicioConsultaCFDI.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

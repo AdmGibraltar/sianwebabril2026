@@ -1,0 +1,645 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MasterPage01_bootstrap.Master" AutoEventWireup="true" 
+CodeBehind="RepComisionesPresupuestoConsulta.aspx.cs" Inherits="SIANWEB.RepComisionesPresupuestoConsulta" %>
+
+
+ 
+ <%@ Register assembly="DevExpress.Web.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
+<%@ Register assembly="DevExpress.Web.Bootstrap.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.Bootstrap" tagprefix="dx" %>
+ 
+  
+  
+
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="CPH" runat="server">
+
+  
+ <script href="~/js/jquery-template/jquery.loadTemplate.js"></script>        
+    <script src="Scripts/jquery-3.2.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+     <link rel="stylesheet" href="Librerias/bootstrap-3.3.7-dist/css/bootstrap.min.css"> 
+      <script href="js/bootstrap-select.min.js"></script> 
+
+
+    
+
+
+
+    <%--Para controlar cuando le dan click en la gráfica y actualiza el rik--%>
+
+     <script type="text/javascript">
+         var gridViewCommand;
+         function onGridViewBeginCallback(s, e) {
+             gridViewCommand = e.command;
+         }
+         function onGridViewEndCallback(s, e) {
+             if ((gridViewCommand == "APPLYCOLUMNFILTER") || (gridViewCommand == "SORT"))
+                 ASPxCallbackPanel.PerformCallback(gridViewCommand);
+         }
+    </script>
+
+    
+   <%-- Panel movible --%>
+   
+   <script type="text/javascript">
+       function OnSplitterPaneResized(s, e) {
+           var name = e.pane.name;
+           if (name == 'listBoxContainer')
+               ResizeControl(sampleListBox, e.pane);
+           else if (name == 'gridContainer  ')
+               ResizeControl(sampleGrid, e.pane);
+       }
+       function ResizeControl(control, splitterPane) {
+           control.SetWidth(splitterPane.GetClientWidth());
+           control.SetHeight(splitterPane.GetClientHeight());
+       }
+       function OnGridEndCallback() {
+           sampleSplitter.GetPaneByName("gridContainer").RaiseResizedEvent();
+       }
+       function OnGetRowValues(values) {
+           textBoxNumRepresentante.SetText(values[1]);
+           textBoxRepresentante.SetText(values[2]);
+           var memoText = '';
+           if (values[3] != null) memoText += 'Base: ' + values[3] + '\n';
+           if (values[4] != null) memoText += 'Base UP: ' + values[4] + '\n';
+           if (values[5] != null) memoText += 'Base Up Porc: ' + values[5] + '\n';
+           if (values[6] != null) memoText += 'Año: ' + values[6] + '\n';
+           memoStuff.SetText(memoText);
+           //           JFCV 20 dic 2019 se lo agregue para que al dar click en el grid cargue la gráfica
+           BootstrapChart1.SetDataSource();
+           ASPxCallbackPanel.PerformCallback("APPLYCOLUMNFILTER");
+       }
+       function UpdateEditorsValues() {
+           sampleGrid.GetRowValues(sampleGrid.GetFocusedRowIndex(), 'Id_Cd;Id_Rik;Nom_Empleado;Base;BaseUP;BaseUp_Porc;Anio', OnGetRowValues);
+       }
+       var updateEditorsOnEndCallback = false;
+       function OnListBoxValueChanged() {
+           sampleGrid.Refresh();
+           //           BootstrapChart1.Refresh();
+           BootstrapChart1.SetDataSource();
+           updateEditorsOnEndCallback = true;
+           ASPxCallbackPanel.PerformCallback("APPLYCOLUMNFILTER");
+       }
+       function shoeed(s, e) {
+           document.getElementById('infooo').style.display = "block";
+       }
+ 
+    </script>
+
+
+    <style type="text/css">
+        .custom-form-layout
+        {}
+    </style>
+
+ 
+  
+ 
+  <div runat="server" id="divPrincipal" class="row mt5 col-md-12">
+        <div runat="server" id="div1" class="row mt5 col-md-12">
+ <br />
+        <table id="TblEncabezado" style="font-family: verdana; font-size: 8pt" runat="server"
+            width="99%">
+            <tr>
+                <td>
+                    <asp:Label ID="lblMensaje" runat="server"></asp:Label>
+                </td>
+   
+            </tr> 
+        </table>
+
+
+ 
+      <div class="container-fluid">
+          <div class="row mt5">
+              <div class="col-md-12">
+                  <table style="border-spacing: 5px; border-collapse: separate; height: 25px; width: 100%;">
+                      <tr>
+                          <td style="width: 20px;">
+                              <i class="fa fa-filter"></i>
+                          </td>
+                          <td style="width: 160;">
+                              <table style="border-collapse: separate; width: 160;">
+                                  <tr>
+                                      <td>
+                                          <dx:BootstrapComboBox ID="cmbAnio" runat="server" SelectedIndex="0" DropDownRows="5">
+                                              <Items>
+                                                  <dx:BootstrapListEditItem Text="2019" Value="2019" />
+                                                  <dx:BootstrapListEditItem Text="2020" Value="2020" />
+                                                  <dx:BootstrapListEditItem Text="2021" Value="2021" />
+                                                  <dx:BootstrapListEditItem Text="2022" Value="2022" />
+                                                  <dx:BootstrapListEditItem Text="2023" Value="2023" />
+                                                  <dx:BootstrapListEditItem Text="2024" Value="2024" />
+                                                  <dx:BootstrapListEditItem Text="2025" Value="2025" />
+                                              </Items>
+                                              <ButtonTemplate>
+                                                  <span class="dxbs-edit-btn btn btn-primary dropdown-toggle" data-toggle="dropdown-show">Año</span>
+                                              </ButtonTemplate>
+                                          </dx:BootstrapComboBox>
+                                      </td>
+                                      <td>
+                                          &nbsp;
+                                      </td>
+                                      
+                                  </tr>
+                              </table>
+                          </td>
+                         
+                          <td style="width: 100px; text-align: right;">
+                      
+                              <dx:BootstrapButton ID="btnBuscar" runat="server" AutoPostBack="false" Text="Buscar"
+                                  OnClick="btnBuscar_Click">
+                                  <CssClasses Icon="glyphicon glyphicon-search" />
+                                  <SettingsBootstrap RenderOption="Primary" Sizing="Small" />
+                              </dx:BootstrapButton>
+                              
+                              
+
+                          </td>
+                          
+
+                          <td>
+        
+                                <asp:HiddenField ID="HF_Cve" runat="server" />
+                                <asp:HiddenField ID="HF_Rik" runat="server" />
+
+                           </td>
+                      </tr>
+                       
+                  </table>
+              </div>
+          </div>
+
+         
+          <dx:ASPxPageControl runat="server" 
+              ID="ASPxPageControl1" Theme="Material" Width="100%" 
+              ActivateTabPageAction="Click" ActiveTabIndex="1">
+              <TabPages>
+                  <dx:TabPage Text="Presupuesto - Anual">
+                      <ContentCollection>
+                          <dx:ContentControl>
+                              <asp:HiddenField runat="server" ID="tabVertical" Value="0w" />
+                              <div class="container-fluid">
+                                  <div class="row">
+                                      <dx:ASPxGridView ID="grVertical" SettingsText-Title="Presupuesto Anual" Styles-TitlePanel-HorizontalAlign="Left"
+                                          runat="server" KeyFieldName="Id_Emp;Id_Rik;Id_Cd;Id_Presupuesto;Anio;Mes" Theme="Material"
+                                          SettingsPager-EnableAdaptivity="true" Width="100%" EditFormLayoutProperties-SettingsAdaptivity-AdaptivityMode="SingleColumnWindowLimit"
+                                          EnableCallbackAnimation="True" EnablePagingCallbackAnimation="True" EnableTheming="True"
+                                          CustomColumnDisplayText="grdHorizontal_CustomColumnDisplayText">
+                                          <Settings ShowTitlePanel="true" ShowFilterRow="true" />
+                                          <SettingsPager EnableAdaptivity="True">
+                                          </SettingsPager>
+                                          <SettingsDataSecurity AllowInsert="False" />
+                                          <SettingsText Title="Presupuesto Anual"></SettingsText>
+                                          <EditFormLayoutProperties>
+                                              <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit"></SettingsAdaptivity>
+                                          </EditFormLayoutProperties>
+                                          <Columns>
+                                              <dx:GridViewDataTextColumn Caption="#" FieldName="Id_Emp" VisibleIndex="3" Width="80px"
+                                                  Visible="false">
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Id_Presupuesto" FieldName="Id_Presupuesto" VisibleIndex="4"
+                                                  Width="80px" Visible="false">
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption=" C D I " FieldName="Id_Cd" VisibleIndex="5" Width="100px" Visible="false">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Nombre Sucursal" FieldName="NomCdi" VisibleIndex="6"
+                                                  Width="450px"  Visible="false">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Num Rik" FieldName="Id_Rik" VisibleIndex="7"
+                                                  Width="80px">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Representante" FieldName="Nom_Empleado" VisibleIndex="8"
+                                                  Width="450px">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Venta" FieldName="Venta" VisibleIndex="9" Width="110px"
+                                                  HeaderStyle-HorizontalAlign="Center" UnboundType="Decimal">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                                  <PropertiesTextEdit DisplayFormatString="c">
+                                                  </PropertiesTextEdit>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Ut. Prima" FieldName="UP" VisibleIndex="10" Width="100px"
+                                                  HeaderStyle-HorizontalAlign="Center" UnboundType="Decimal">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                                  <PropertiesTextEdit DisplayFormatString="c">
+                                                  </PropertiesTextEdit>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="UP %" FieldName="UP_Porc" VisibleIndex="11" Width="80px"
+                                                  HeaderStyle-HorizontalAlign="Center">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                                   <PropertiesTextEdit DisplayFormatString="p">
+                                                  </PropertiesTextEdit>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Mes" FieldName="Mes" VisibleIndex="12" Width="80px"
+                                                  HeaderStyle-HorizontalAlign="Center" Visible="false">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                              <dx:GridViewDataTextColumn Caption="Mes" FieldName="MesLetra" VisibleIndex="13" Width="80px"
+                                                  HeaderStyle-HorizontalAlign="Center">
+                                                  <HeaderStyle HorizontalAlign="Center" Font-Bold="True" Font-Size="Medium" ForeColor="AliceBlue"
+                                                      BackColor="PowderBlue"></HeaderStyle>
+                                                  <CellStyle Font-Size="Smaller">
+                                                  </CellStyle>
+                                              </dx:GridViewDataTextColumn>
+                                          </Columns>
+                                          <Styles>
+                                              <TitlePanel HorizontalAlign="Left">
+                                              </TitlePanel>
+                                          </Styles>
+                                           <SettingsPager EnableAdaptivity="True" PageSize="12">
+                     </SettingsPager>
+                                      </dx:ASPxGridView>
+                                      <dx:ASPxGridViewExporter ID="grVerticalReporter" runat="server" GridViewID="grVertical">
+                                      </dx:ASPxGridViewExporter>
+                                  </div>
+                                  <div class="row">
+                                      <dx:BootstrapButton ID="BootBtnVerticalExportar" runat="server" AutoPostBack="false"
+                                          Text="Exportar A excel" OnClick="BootBtnVerticalExportar_Click">
+                                          <CssClasses Icon="glyphicon glyphicon-search" />
+                                          <SettingsBootstrap RenderOption="Primary" Sizing="Small" />
+                                      </dx:BootstrapButton>
+                                  </div>
+                              </div>
+                          </dx:ContentControl>
+                      </ContentCollection>
+                  </dx:TabPage>
+
+<dx:TabPage Text="Presupuesto - Gráficas">
+    <ContentCollection>
+        <dx:ContentControl>
+            <asp:HiddenField runat="server" ID="tabGraficas" Value="0w" />
+                <div class="container-fluid" >
+                        <div class="row">
+                        <%--panel mobible --%>
+                        <dx:ASPxSplitter ID="ASPxSplitter1" runat="server" Height="400px" ClientInstanceName="sampleSplitter">
+                                <Styles>
+        <Pane>
+            <Paddings Padding="0px" />
+        </Pane>
+    </Styles>
+                                <Panes>
+                                    <dx:SplitterPane Size="15%" Name="listBoxContainer" ShowCollapseBackwardButton="True" Collapsed="true">
+                                        <ContentCollection>
+                                            <dx:SplitterContentControl ID="SplitterCDIS" runat="server">
+                                                <dx:ASPxListBox runat="server" ID="ASPxListBox1" ClientInstanceName="sampleListBox"
+                                                    DataSourceID="SqlDataSource1" TextField="Cd_Nombre" ValueField="Id_Cd" ValueType="System.Int32"
+                                                    SelectedIndex="0" Height="100%">
+                                                    <Border BorderWidth="0px" />
+                                                    <ClientSideEvents ValueChanged="OnListBoxValueChanged" />
+                                                </dx:ASPxListBox>
+                                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sianwebmtyConnectionString %>"
+                                                    
+                                                    SelectCommand="SELECT Id_Cd, Cd_Nombre FROM SIANCENTRAl.SIANCENTRAL.dbo.CatCDI WHERE ([Cd_Tipo] = @Cd_Tipo) and Id_Cd = @Id_Cd  "> 
+                                                    <SelectParameters>
+                                                        <asp:Parameter DefaultValue="1" Name="Cd_Tipo" Type="Int32" />
+                                                         
+                                                      <asp:SessionParameter DefaultValue="110" Name="Id_Cd" SessionField="Id_Cd_Ver" /> 
+                                                         
+                                                    </SelectParameters>
+                                                </asp:SqlDataSource>
+                                            </dx:SplitterContentControl>
+                                        </ContentCollection>
+                                    </dx:SplitterPane>
+                                    <dx:SplitterPane MinSize="350">
+                                        <Panes>
+                                            <dx:SplitterPane Name="gridContainer" Size="60%" MinSize="100">
+                                                <ContentCollection>
+                                                    <dx:SplitterContentControl ID="SplitterGridRiks" runat="server">
+                                                        <dx:ASPxGridView runat="server" Width="100%" ID="ASPxGridView1" ClientInstanceName="sampleGrid"
+                                                            AutoGenerateColumns="False" DataSourceID="SqlDataSourceGrid" KeyFieldName="Id_Rik" 
+                                                            OnDataBound="ASPxGridView_DataBound">
+                                                            <%--Jfcv Gráfica 13dic agregue los eventos para que se cargue la gráfica--%>
+                                                            <ClientSideEvents BeginCallback="onGridViewBeginCallback" EndCallback="onGridViewEndCallback" />
+                                                            <Settings HorizontalScrollBarMode="Visible"  />
+                                                            <ClientSideEvents EndCallback="function(s, e) {
+                            OnGridEndCallback();
+                            if(updateEditorsOnEndCallback) {
+                                updateEditorsOnEndCallback = false;
+                                UpdateEditorsValues();
+                            }
+                        }" FocusedRowChanged="UpdateEditorsValues" />
+                                                            <SettingsPager Mode="ShowAllRecords" />
+                                                            <Settings VerticalScrollBarMode="Visible" VerticalScrollableHeight="100" />
+                                                            <SettingsBehavior AllowFocusedRow="True" />
+                                                            <Columns>
+                                                                <dx:GridViewDataTextColumn FieldName="Id_Cd" ShowInCustomizationForm="True" VisibleIndex="0" Visible="false">
+                                                                </dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn Caption="Num Rik" FieldName="Id_Rik" ShowInCustomizationForm="True" VisibleIndex="1">
+                                                                 <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn Caption="Representante" FieldName="Nom_Empleado" ShowInCustomizationForm="True"
+                                                                    VisibleIndex="2">
+                                                                 <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn Caption="Año" FieldName="Anio" ShowInCustomizationForm="True" VisibleIndex="3">
+                                                                 <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn FieldName="Base" ShowInCustomizationForm="True" VisibleIndex="4">
+                                                                 <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn FieldName="BaseUP" ShowInCustomizationForm="True" VisibleIndex="5">
+                                                                 <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn Caption="Base Porc." FieldName="BaseUp_Porc" ShowInCustomizationForm="True"
+                                                                    VisibleIndex="6">
+                                                                     <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                
+                                                                <dx:GridViewBandColumn Caption="Enero" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                        <dx:GridViewDataTextColumn Caption="Presupuesto" FieldName="Venta1" ShowInCustomizationForm="True" VisibleIndex="7">
+                                                                        <HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                         </dx:GridViewDataTextColumn>
+                                                                        <dx:GridViewDataTextColumn Caption="Ventas" FieldName="Real1" ShowInCustomizationForm="True" VisibleIndex="8"> 
+                                                                        <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                        </dx:GridViewDataTextColumn>
+                                                                    </Columns>
+                                                                </dx:GridViewBandColumn>
+
+                                                                <dx:GridViewBandColumn Caption="Febrero" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                        <dx:GridViewDataTextColumn Caption="Presupuesto" FieldName="Venta2" ShowInCustomizationForm="True" VisibleIndex="9">
+                                                                        <HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                        </dx:GridViewDataTextColumn>
+                                                                        <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real2" ShowInCustomizationForm="True" VisibleIndex="10">
+                                                                        <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                        </dx:GridViewDataTextColumn>
+                                                                    </Columns>
+                                                                </dx:GridViewBandColumn>
+                                                                <dx:GridViewBandColumn Caption="Marzo" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta3" ShowInCustomizationForm="True" VisibleIndex="11"><HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real3" ShowInCustomizationForm="True" VisibleIndex="12"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                    </Columns>
+                                                                </dx:GridViewBandColumn>
+                                                                <dx:GridViewBandColumn Caption="Abril" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta4" ShowInCustomizationForm="True" VisibleIndex="13"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real4" ShowInCustomizationForm="True" VisibleIndex="14"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                    </Columns>
+                                                                </dx:GridViewBandColumn>
+                                                                <dx:GridViewBandColumn Caption="Mayo" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+
+                                                                <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta5" ShowInCustomizationForm="True" VisibleIndex="15"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real5" ShowInCustomizationForm="True" VisibleIndex="16"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>
+                                                                <dx:GridViewBandColumn Caption="Junio" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta6" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real6" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>    
+                                                                <dx:GridViewBandColumn Caption="Julio" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta7" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real7" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>                                                            
+                                                                 <dx:GridViewBandColumn Caption="Agosto" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta8" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real8" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>  
+                                                                <dx:GridViewBandColumn Caption="Septiembre" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta9" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real9" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>  
+                                                                <dx:GridViewBandColumn Caption="Octubre" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta10" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real10" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>  
+                                                                <dx:GridViewBandColumn Caption="Noviembre" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta11" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real11" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>  
+                                                                <dx:GridViewBandColumn Caption="Diciembre" HeaderStyle-HorizontalAlign="Center">
+                                                                <HeaderStyle HorizontalAlign="Center" Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle>
+                                                                    <Columns>
+                                                                            <dx:GridViewDataTextColumn  Caption="Presupuesto" FieldName="Venta12" ShowInCustomizationForm="True" VisibleIndex="17"><HeaderStyle HorizontalAlign="Center"   Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                            <dx:GridViewDataTextColumn  Caption="Ventas" FieldName="Real12" ShowInCustomizationForm="True" VisibleIndex="18"><HeaderStyle HorizontalAlign="Center"  Font-Size="Medium"   ForeColor="AliceBlue" BackColor="PowderBlue"></HeaderStyle></dx:GridViewDataTextColumn>
+                                                                   </Columns>
+                                                                </dx:GridViewBandColumn>  
+                                                            </Columns>
+                                                            <Border BorderWidth="0px"></Border>
+                                                        </dx:ASPxGridView>
+                                                        <asp:SqlDataSource ID="SqlDataSourceGrid" runat="server" ConnectionString="<%$ ConnectionStrings:sianwebmtyConnectionString %>"
+                                                            
+                                                            SelectCommand="CapComisionesPresupuestoAnual_Consulta" 
+                                                            SelectCommandType="StoredProcedure">
+                                                            <SelectParameters>
+                                                                <asp:SessionParameter DefaultValue="1" Name="Id_Emp" SessionField="Id_Emp" 
+                                                                    Type="Int32" />
+                                                                <asp:ControlParameter ControlID="ASPxSplitter1$ASPxListBox1" DefaultValue="110" Name="Id_Cd"
+                                                                    PropertyName="Value" Type="Int32" />
+                                                                <asp:ControlParameter ControlID="cmbAnio" DefaultValue="2019" Name="Anio" PropertyName="Value"
+                                                                    Type="Int32" />
+                                                                <asp:SessionParameter DefaultValue="-1" Name="Id_Rik" SessionField="Id_Rik" 
+                                                                    Type="Int32" />
+                                                            </SelectParameters>
+                                                        </asp:SqlDataSource>
+                                                    </dx:SplitterContentControl>
+                                                </ContentCollection>
+                                            </dx:SplitterPane>
+                                            <dx:SplitterPane Name="editorsContainer" MinSize="80" ShowCollapseForwardButton="True">
+                                                <ContentCollection>
+                                                    <dx:SplitterContentControl ID="SplitterDatosRik" runat="server">
+                                                        <dx:ASPxFormLayout ID="ASPxFormLayout1" runat="server" 
+                                                            CssClass="custom-form-layout" width="50%" Height="222px">
+                                                            <Items>
+                                                                <dx:LayoutGroup GroupBoxDecoration="None">
+                                                                    <Items>
+                                                                        <dx:LayoutItem Caption="Número Representante:">
+                                                                            <LayoutItemNestedControlCollection>
+                                                                                <dx:LayoutItemNestedControlContainer>
+                                                                                    <dx:ASPxTextBox ID="tbNumRepresentante" runat="server" Width="100%" ClientInstanceName="textBoxNumRepresentante">
+                                                                                    </dx:ASPxTextBox>
+                                                                                </dx:LayoutItemNestedControlContainer>
+                                                                            </LayoutItemNestedControlCollection>
+                                                                        </dx:LayoutItem>
+                                                                        <dx:LayoutItem Caption="Representante:">
+                                                                            <LayoutItemNestedControlCollection>
+                                                                                <dx:LayoutItemNestedControlContainer>
+                                                                                    <dx:ASPxTextBox ID="tbRepresentante" runat="server" Width="100%" ClientInstanceName="textBoxRepresentante">
+                                                                                    </dx:ASPxTextBox>
+                                                                                </dx:LayoutItemNestedControlContainer>
+                                                                            </LayoutItemNestedControlCollection>
+                                                                        </dx:LayoutItem>
+                                                                        <dx:LayoutItem Caption="Información:" Height="100%" CssClass="custom-group">
+                                                                            <LayoutItemNestedControlCollection>
+                                                                                <dx:LayoutItemNestedControlContainer>
+                                                                                    <dx:ASPxMemo ID="mContacts" runat="server" Width="100%" Height="60px" ClientInstanceName="memoStuff">
+                                                                                    </dx:ASPxMemo>
+                                                                                </dx:LayoutItemNestedControlContainer>
+                                                                            </LayoutItemNestedControlCollection>
+                                                                        </dx:LayoutItem>
+                                                                    </Items>
+                                                                </dx:LayoutGroup>
+                                                            </Items>
+                                                        </dx:ASPxFormLayout>
+                                                    </dx:SplitterContentControl>
+                                                </ContentCollection>
+                                            </dx:SplitterPane>
+                                        </Panes>
+                        <ContentCollection>
+   
+<dx:SplitterContentControl ID="SplitterGrafica" runat="server"></dx:SplitterContentControl>
+   
+    </ContentCollection>
+    </dx:SplitterPane>
+    </Panes>
+    <ClientSideEvents PaneResized="OnSplitterPaneResized" />
+    </dx:ASPxSplitter>
+                                                                </div>
+                                                                       
+                                                                        <div class="row">
+                                                                <%--JFCV 13 dic este panel es necesario para que pueda actualizarse la gráfica --%>
+                                                                    <dx:ASPxCallbackPanel ID="ASPxCallbackPanel" runat="server" ClientInstanceName="ASPxCallbackPanel" OnCallback="ASPxCallbackPanel_Callback" >
+                                                                        <PanelCollection>
+                                                                            <dx:PanelContent>
+                                                                                <dx:BootstrapChart ID="BootstrapChart1" runat="server" TitleSettings-Text="Presupuesto Anual por Rik"
+                                                                                    PointSelectionMode="Single" ClientInstanceName="BootstrapChart1" 
+                                                                                    Width="100%"  >
+                                                                                    <%--<ClientSideEvents PointClick="onPointClick" Init="onChartPointAction" PointSelectionChanged="onChartPointAction" />--%>
+                                                                                    <SettingsCommonSeries ArgumentField="TipoVenta" />
+                                                                                    <ValueAxisCollection>
+                                                                                        <dx:BootstrapChartValueAxis TickInterval="50000">
+                                                                                            <Label>
+                                                                                                <Format Type="Currency" Precision="0" />
+                                                                                            </Label>
+                                                                                        </dx:BootstrapChartValueAxis>
+                                                                                    </ValueAxisCollection>
+                                                                                    <SeriesCollection>
+                                                                                       <dx:BootstrapChartBarSeries ValueField="Venta2" Name="Vta Real" />
+                                                                                       <dx:BootstrapChartLineSeries Name="Presupuesto" ValueField="Venta1"  >
+                                                                                        </dx:BootstrapChartLineSeries>
+                                                                                    </SeriesCollection>
+                                                                                    <SettingsLegend VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                                                                                    <SettingsToolTip Enabled="true">
+                                                                                        <Format Type="Currency" Precision="0" />
+                                                                                    </SettingsToolTip>
+                                                                                </dx:BootstrapChart>
+                                                                               <%-- <asp:SqlDataSource ID="DataSourceChart" runat="server" 
+                                                                                    ConnectionString="<%$ ConnectionStrings:sianwebmtyConnectionString %>" 
+                                                                                    SelectCommand="spCapComisionesPresupuestoGrafica_Consulta" 
+                                                                                    SelectCommandType="StoredProcedure">
+                                                                                    <SelectParameters>
+                                                                                        <asp:SessionParameter DefaultValue="1" Name="Id_Emp" SessionField="Id_Emp" 
+                                                                                            Type="Int32" />
+                                                                                        <asp:Parameter DefaultValue="110" Name="Id_Cd" Type="Int32" />
+                                                                                        <asp:Parameter DefaultValue="2019" Name="Anio" Type="Int32" />
+                                                                                        <asp:Parameter DefaultValue="453" Name="Id_Rik" Type="Int32" />
+                                                                                    </SelectParameters>
+                                                                                </asp:SqlDataSource>--%>
+                                                                            </dx:PanelContent>
+                                                                        </PanelCollection>
+                                                                    </dx:ASPxCallbackPanel>
+
+                                                                  
+
+                                                                </div>              
+                                                                    </div>      
+                                                            </dx:ContentControl>
+                                                    </ContentCollection>
+                                                 </dx:TabPage>
+
+        </TabPages>
+        </dx:ASPxPageControl>
+ 
+                      
+          </div>
+          
+
+
+        </div>  <%--div1--%>
+
+  </div>   <%--Principal--%>
+     
+
+     
+    <style type="text/css">
+        .custom-form-layout
+        {}
+    </style>
+
+    <script type="text/javascript">
+        var keyValue;
+        function openEdit(element, key) {
+            keyValue = key;
+            callbackPanel.PerformCallback(keyValue + '|edit');
+            popup.ShowAtElement(element);
+        }
+        function openBaja(element, key) {
+            keyValue = key;
+            callbackPanel.PerformCallback(keyValue + '|baja');
+            popup.ShowAtElement(element);
+        }
+        var keyValue2;
+        function openEdit2(element2, key2) {
+            document.getElementById('infooo').style.display = "block";
+            keyValue2 = key2;
+            cbpanel.PerformCallback(keyValue2);
+            popup2.ShowAtElement(element2);
+        }
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        </script>
+
+    </asp:Content>

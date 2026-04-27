@@ -1,0 +1,4175 @@
+﻿<html>
+<head>
+</head>
+<body>
+<table border=1><font size=8pt>
+<td bgcolor="#DDDDDD"><b>Núm. Producto</td>
+<td bgcolor="#DDDDDD"><b>Descripción</td>
+<td bgcolor="#DDDDDD"><b>Presentación</td>
+<td bgcolor="#DDDDDD"><b>Unidades</td>
+<td bgcolor="#DDDDDD"><b>Inventario final</td>
+<td bgcolor="#DDDDDD"><b>Físico</td>
+</tr>
+<tr>
+<td>28</td>
+<td>KEY LD 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>109</td>
+<td>122</td>
+</tr>
+<tr>
+<td>29</td>
+<td>KEY LD 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>113</td>
+<td>KEY OXI 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>117</td>
+<td>KEY IMAN 1 LTS</td>
+<td>1</td>
+<td>LT</td>
+<td>7</td>
+<td>10</td>
+</tr>
+<tr>
+<td>119</td>
+<td>KEY IMAN 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>123</td>
+<td>KEY LAVALOZA 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>17</td>
+<td>9</td>
+</tr>
+<tr>
+<td>128</td>
+<td>KEY LAVALFOMBRAS 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>143</td>
+<td>KEY LIMON 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>144</td>
+<td>KEY LIMON 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>148</td>
+<td>KEY LIMPIAMANOS LIQ. 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>167</td>
+<td>KEY LIMPIAVIDRIOS 1 LTS</td>
+<td>1</td>
+<td>LT</td>
+<td>22</td>
+<td>22</td>
+</tr>
+<tr>
+<td>168</td>
+<td>KEY LIMPIAVIDRIOS 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>19</td>
+<td>14</td>
+</tr>
+<tr>
+<td>173</td>
+<td>KEY 1000 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>18</td>
+<td>18</td>
+</tr>
+<tr>
+<td>174</td>
+<td>KEY 1000 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>186</td>
+<td>KEY PINO 3.8L</td>
+<td>3.8</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>188</td>
+<td>KEY JABON CREMA ALMENDRAS 4</td>
+<td>4</td>
+<td>LT</td>
+<td>149</td>
+<td>150</td>
+</tr>
+<tr>
+<td>204</td>
+<td>KEY MPD-100 20 L</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>222</td>
+<td>KEY BIOACTIV 130 20L</td>
+<td>20</td>
+<td>LT</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>234</td>
+<td>KEY BIOACTIV 200 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>387</td>
+<td>KEY BRILLO 1 LTS</td>
+<td>1</td>
+<td>LT</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>388</td>
+<td>KEY BRILLO 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>429</td>
+<td>KEY ANTICONGELANTE ESP. 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>461</td>
+<td>KEY AFLOJATODO AERO 0.3 KGS</td>
+<td>0.3</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>523</td>
+<td>KEY TOTAL 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>533</td>
+<td>KEY UNICO 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>6</td>
+<td>11</td>
+</tr>
+<tr>
+<td>548</td>
+<td>KEY MULTI-BIO 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>573</td>
+<td>KEY LIMPIABAÑOS (NUEVO) 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>618</td>
+<td>KEY L-BIO 4 LTS.</td>
+<td>4</td>
+<td>LT</td>
+<td>74</td>
+<td>0</td>
+</tr>
+<tr>
+<td>874</td>
+<td>PRO AUTOSHAMPOO 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>13</td>
+<td>14</td>
+</tr>
+<tr>
+<td>883</td>
+<td>JABONERA IND.P/GALON JABON LIQAR125 W/ADJUSTABLE DOSIFICATIO</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>884</td>
+<td>JABONERA IND.P/GALON JABON ESPLCPG WITH FOAM PUMP BLACK</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>926</td>
+<td>BOTELLA DE PLASTICO 1 LT</td>
+<td>1</td>
+<td>PZ</td>
+<td>38</td>
+<td>58</td>
+</tr>
+<tr>
+<td>937</td>
+<td>PRO SH-1 19L</td>
+<td>19</td>
+<td>LT</td>
+<td>5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>947</td>
+<td>PRO BA-1  4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>27</td>
+<td>21</td>
+</tr>
+<tr>
+<td>995</td>
+<td>JABONERA ESPUMA RELLENABLE 1LT9325 FOAMEEZE BULK</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>1137</td>
+<td>JALADOR PLAST. P/VIDRIOS 30CMS12030</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1255</td>
+<td>CEP AUTOMOTRIZ PVC 9" ULTIMATE1809</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1258</td>
+<td>JALADOR METAL HULE NEGRO 75CMHD75-B</td>
+<td>1</td>
+<td>CJ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>1285</td>
+<td>MOP SECO KEY COMPLETO 60CMREPUESTO TURQ Y BASE</td>
+<td>1</td>
+<td>PZ</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>1286</td>
+<td>REPUESTO MOP SECO KEY 60CMTURQ</td>
+<td>1</td>
+<td>PZ</td>
+<td>40</td>
+<td>40</td>
+</tr>
+<tr>
+<td>1303</td>
+<td>KEY DESENG. SB NUEVO NCC 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>13</td>
+<td>12</td>
+</tr>
+<tr>
+<td>1333</td>
+<td>KEY TRIPLE ACC.LIMON SB NVONCC4 LT.P.ORIGEN: MEXICO</td>
+<td>4</td>
+<td>LT</td>
+<td>108</td>
+<td>100</td>
+</tr>
+<tr>
+<td>1371</td>
+<td>REPUESTO MOP SECO KEY 125CMTURQ</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1401</td>
+<td>RECARGABIMESTRAL LGS UVA CONC.CONCENTRADO (51801)</td>
+<td>1</td>
+<td>PZ</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>1413</td>
+<td>RECARGA BIMESTRAL LGS CITRUSCONCENTRADO (51801) 132.4 GR.</td>
+<td>1</td>
+<td>PZ</td>
+<td>156</td>
+<td>192</td>
+</tr>
+<tr>
+<td>1591</td>
+<td>PISTOLA ATOMIZADORA GRANDEITEM 3333BLWH</td>
+<td>1</td>
+<td>PZ</td>
+<td>83</td>
+<td>63</td>
+</tr>
+<tr>
+<td>1592</td>
+<td>PISTOLA ATOMIZADORA IMPORTBCO/AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>19</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1593</td>
+<td>PISTOLA ATOMIZADORA USO RUDO</td>
+<td>1</td>
+<td>PZ</td>
+<td>231</td>
+<td>187</td>
+</tr>
+<tr>
+<td>1659</td>
+<td>BLANQUEADOR 450  20 LT</td>
+<td>20</td>
+<td>LT</td>
+<td>5</td>
+<td>12</td>
+</tr>
+<tr>
+<td>1661</td>
+<td>KEY DOSIFICADOR ODOCONTROL ACALTA CONCENTRACIÓN</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1717</td>
+<td>KEY PLOMERO II 1 LTS</td>
+<td>1</td>
+<td>LT</td>
+<td>19</td>
+<td>7</td>
+</tr>
+<tr>
+<td>1733</td>
+<td>BOTE WIPERS P/LIMPIAR ACEROINOX C/40 TOALLAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1746</td>
+<td>TRAPEADOR PABILO 500GECONOMICO</td>
+<td>1</td>
+<td>PZ</td>
+<td>30</td>
+<td>36</td>
+</tr>
+<tr>
+<td>1748</td>
+<td>ESCOBA MEDIA PE?OLERA MIXTA ROJA</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1839</td>
+<td>KEY LUMEN REMOVEDOR 20L</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1904</td>
+<td>BOTE WIPERS DESINF USO GENERALC/60 TOALLAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1921</td>
+<td>ESPUMADOR IK FOAM 12</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1945</td>
+<td>DISCO CANELA 19</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>1960</td>
+<td>KEY DESINCRUSTANTE TANQUE LPU</td>
+<td>20</td>
+<td>LT</td>
+<td>31</td>
+<td>51</td>
+</tr>
+<tr>
+<td>1966</td>
+<td>DISCO VERDE EXTRAGRUESO 19</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>1975</td>
+<td>DISCO BLANCO EXTRAGRUESO 194119 WHITE</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1996</td>
+<td>EMULSIFICANTE 110  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>5</td>
+<td>13</td>
+</tr>
+<tr>
+<td>1997</td>
+<td>DETERGENTE 210  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>13</td>
+<td>20</td>
+</tr>
+<tr>
+<td>1998</td>
+<td>ALCALINO 310  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>2001</td>
+<td>NEUTRALIZANTE 510  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>SUAVIZANTE 610  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>8</td>
+</tr>
+<tr>
+<td>2068</td>
+<td>KEY LIMPIABAÑOS SEG.EN MARMOL4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>55</td>
+<td>49</td>
+</tr>
+<tr>
+<td>2074</td>
+<td>KEY ECOSOLV 120 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2099</td>
+<td>KEY JABON SECUESTRANTE DE METALES PESADOS (LIQUIDO) 20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2104</td>
+<td>KEY LUMEN SELLADOR 10020L</td>
+<td>20</td>
+<td>LT</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2128</td>
+<td>KEY MULTIUSOS 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>14</td>
+<td>17</td>
+</tr>
+<tr>
+<td>2140</td>
+<td>KEY JABON LIQ. NEUTROLIM 0.8LTNOVUX</td>
+<td>0.8</td>
+<td>LT</td>
+<td>72</td>
+<td>72</td>
+</tr>
+<tr>
+<td>2146</td>
+<td>SANI-500 (NUEVO) 0.8 LTS</td>
+<td>0.8</td>
+<td>LT</td>
+<td>42</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2156</td>
+<td>MULTIUSOS OXXO 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>11</td>
+<td>16</td>
+</tr>
+<tr>
+<td>2168</td>
+<td>JABONESPUMA ANTIBACTERIAL 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2178</td>
+<td>KEY DEODORIZANTE 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>146</td>
+<td>164</td>
+</tr>
+<tr>
+<td>2189</td>
+<td>DOSIFICADOR MANUAL ESPUMA /JABLIQ. CARTUCHO 1 LT</td>
+<td>1</td>
+<td>PZ</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>2196</td>
+<td>KEY JABON ESPUMA ANTIBACTERIALCARTUCHO 1 LT.</td>
+<td>1</td>
+<td>LT</td>
+<td>49</td>
+<td>46</td>
+</tr>
+<tr>
+<td>2224</td>
+<td>KEY BIODIGESTOR  20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2252</td>
+<td>KEY ABRILLANTADOR  1 LT.</td>
+<td>1</td>
+<td>LT</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2286</td>
+<td>CAJA C/30 SOBRES DE LAVALOZAPASTA C/80 GR.</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2321</td>
+<td>KEY DETERGENTE MULTIFUNCIONAL4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>2457</td>
+<td>KEY AIRE LIMPIO BOSQUE AEROSOL220 GR.</td>
+<td>0.3</td>
+<td>KG</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2490</td>
+<td>KEY SOLVENTE DIELECTRICO(AEROSOL) 0.3 KG. IN050004</td>
+<td>0.3</td>
+<td>KG</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>2628</td>
+<td>KEY GERMOQUAT 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2668</td>
+<td>KEY SANODERM 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>14</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2877</td>
+<td>KIT P/ESTACION LAVADO DE MANOS</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2894</td>
+<td>KEY AEROSAN AROMA LIMA LIMÓNEN AEROSOL 300G</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>7</td>
+</tr>
+<tr>
+<td>2895</td>
+<td>KEY AEROSAN AROMA ORIGINALEN AEROSOL 300G</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2898</td>
+<td>KEY AEROSAN 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>3919</td>
+<td>GUANTE MULTIUSOS DOBLECAPA T-9(1 PAR)</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>3922</td>
+<td>GUANTE MULTIUSOS DOBLECAPA T-8(1 PAR)</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>3923</td>
+<td>GUANTE ROJO CLASICO T-9(1 PAR)</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>3924</td>
+<td>GUANTE ROJO CLASICO T-8(1 PAR)</td>
+<td>1</td>
+<td>PZ</td>
+<td>104</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3984</td>
+<td>TRAPEADOR PABILO 800 GMS</td>
+<td>1</td>
+<td>PZ</td>
+<td>25</td>
+<td>25</td>
+</tr>
+<tr>
+<td>3995</td>
+<td>GUANTE ROJO CLASICO T-10(1 PAR)</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>4007</td>
+<td>PQ COFIA TIPO RED PANAL NEGRA20" C/100PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>37</td>
+<td>38</td>
+</tr>
+<tr>
+<td>4013</td>
+<td>CUBREBOCA QUIRURGICO 3 CAPASPQ C/50 PZS</td>
+<td>1</td>
+<td>PZ</td>
+<td>150</td>
+<td>500</td>
+</tr>
+<tr>
+<td>4148</td>
+<td>TIRAS P' MEDICION QUATS 0-500PPM</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4150</td>
+<td>TIRAS P' MEDICIÓN QUATS 0-1000PPM</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4152</td>
+<td>TIRAS PARA CLORO(CM-240) DESP.C/2 ROLLOSX15CU</td>
+<td>1</td>
+<td>CJ</td>
+<td>10</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4153</td>
+<td>TIRAS PARA YODO (0-50 PPM YODO(IL-250)DESP.C/2 ROLLOSX15C/U</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4158</td>
+<td>KIT P/DETERMINAR CLORO LIBRERANGO 0.2-3.0 PPM</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4160</td>
+<td>CAJA C/250 TABLETAS DPD1 PARACLORO LIBRE RANGO 0.2-3.0 PPM</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4606</td>
+<td>KEY DESENGRASANTE EXPRESS PLUS4L</td>
+<td>4</td>
+<td>LT</td>
+<td>23</td>
+<td>23</td>
+</tr>
+<tr>
+<td>4628</td>
+<td>VANGUARD SANITIZANTE 4 L</td>
+<td>4</td>
+<td>LT</td>
+<td>18</td>
+<td>23</td>
+</tr>
+<tr>
+<td>4633</td>
+<td>KEY DESINF.FRUTAS Y VERDURAS4L</td>
+<td>4</td>
+<td>LT</td>
+<td>11</td>
+<td>9</td>
+</tr>
+<tr>
+<td>4635</td>
+<td>KEY DESINFECTANTE BL 4 LT.DESINF. SUPERFICIES F Y V</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4656</td>
+<td>KEY LIMP.DE TABLAS DE CORTE 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>4773</td>
+<td>KEY SANITIZANTE PLUS  4 LTS.</td>
+<td>4</td>
+<td>LT</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>4813</td>
+<td>REPUESTO ESCOBA ROJA4702R</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4815</td>
+<td>REPUESTO ESCOBA AMARILLA4702Y</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4827</td>
+<td>BASTON FIBRA VID PUNTA PL VERD1906-FG</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4838</td>
+<td>BASTON MADERA PUNTA METALICA1904-PUNTA METALICA</td>
+<td>1</td>
+<td>PZ</td>
+<td>48</td>
+<td>24</td>
+</tr>
+<tr>
+<td>4839</td>
+<td>BASTON DE LAMINA ROJO1905-MR</td>
+<td>1</td>
+<td>PZ</td>
+<td>20</td>
+<td>32</td>
+</tr>
+<tr>
+<td>4840</td>
+<td>BASTON DE LAMINA VERDE1905-MG</td>
+<td>1</td>
+<td>PZ</td>
+<td>28</td>
+<td>28</td>
+</tr>
+<tr>
+<td>4841</td>
+<td>BASTON DE LAMINA AMARILLO1905-MY</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>4842</td>
+<td>BASTON DE LAMINA AZUL1905-MB</td>
+<td>1</td>
+<td>PZ</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>4843</td>
+<td>REP TRAPEADOR ANTIB INTER ROJ08418R</td>
+<td>1</td>
+<td>PZ</td>
+<td>20</td>
+<td>21</td>
+</tr>
+<tr>
+<td>4844</td>
+<td>REP TRAPEADOR ANTIB INTER VERD8418G</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>14</td>
+</tr>
+<tr>
+<td>4845</td>
+<td>REP TRAPEADOR ANTIB INTER AMAR8418Y</td>
+<td>1</td>
+<td>PZ</td>
+<td>28</td>
+<td>28</td>
+</tr>
+<tr>
+<td>4846</td>
+<td>REP TRAPEADOR ANTIB INTER AZUL8418B</td>
+<td>1</td>
+<td>PZ</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>4847</td>
+<td>REP TRAPEADOR INTER MOD500ROJO8250PR</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>21</td>
+</tr>
+<tr>
+<td>4848</td>
+<td>REP TRAPEADOR INTER MOD500VERD8250PG</td>
+<td>1</td>
+<td>PZ</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>4849</td>
+<td>REP TRAPEADOR INTER MOD500AMAR8250PY</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4850</td>
+<td>REP TRAPEADOR INTER MOD500AZUL8250PB</td>
+<td>1</td>
+<td>PZ</td>
+<td>35</td>
+<td>35</td>
+</tr>
+<tr>
+<td>4851</td>
+<td>REPUESTO ESCOBA ABANICO ROJA8300R</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4852</td>
+<td>REPUESTO ESCOBA ABANICO VERDE8300G</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>13</td>
+</tr>
+<tr>
+<td>4853</td>
+<td>REPUESTO ESCOBA ABANICO AMARIL8300Y</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>4854</td>
+<td>REPUESTO ESCOBA ABANICO AZUL8300B</td>
+<td>1</td>
+<td>PZ</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4855</td>
+<td>REP JALADOR HULE ESPUMA 55ROJOFI55R</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4856</td>
+<td>REP JALADOR HULE ESPUMA 55VERDFI55G</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4857</td>
+<td>REP JALADOR HULE ESPUMA 55AMARFI55Y</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>4861</td>
+<td>REP JALADOR INDUS P/PISOS AMARW20075Y</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4882</td>
+<td>RECOGEDOR LAMINA INDUSTRIAL9103</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4894</td>
+<td>CEPILLO P/PISOS BLOCK MADERA F1536-P</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4903</td>
+<td>TRAPEADOR ANTIBAC INTERCAMBIABLE 400 GR. AMARILLO (8414Y)</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>4985</td>
+<td>TRAPEADOR INTERCAMBIABLETWISTER BLANCO 500</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4987</td>
+<td>CEPILLO C/TAZON PARA BANOS.</td>
+<td>1</td>
+<td>PZ</td>
+<td>11</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4995</td>
+<td>BASE METALICA INTERCAMBIABLEP/MOP 150 CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>27</td>
+<td>27</td>
+</tr>
+<tr>
+<td>4996</td>
+<td>FUNDA P/MOP 150CM MOD EXPORTAC</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>5050</td>
+<td>CEPILLO PVC SERIE 18 DE 24"AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5055</td>
+<td>RECOGEDOR DE PLASTICO ROJO</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5057</td>
+<td>RECOGEDOR DE PLASTICO AMARILLO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5058</td>
+<td>RECOGEDOR DE PLASTICO AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5069</td>
+<td>CEPILLO 10" PVC CARROCERIA</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5075</td>
+<td>BASE METALICA P/MOP 60CM TRADICIONAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>23</td>
+<td>23</td>
+</tr>
+<tr>
+<td>5076</td>
+<td>BASE METALICA P/MOP 90CM TRADICIONAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>23</td>
+<td>18</td>
+</tr>
+<tr>
+<td>5097</td>
+<td>TRAPEADOR ANTIBAC 400G INTERCAMBIABLE AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>19</td>
+<td>19</td>
+</tr>
+<tr>
+<td>5099</td>
+<td>CEPILLO PARA BANOS</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5125</td>
+<td>WIPER SCOTT SHOP TOWEL SIN EMPINDIV PAQ 6 ROLLOS C/55HJS</td>
+<td>1</td>
+<td>PQ</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5201</td>
+<td>T.EN ROLLO PETALO 180 M.BLANCOCAJA C/6 (92221)</td>
+<td>1</td>
+<td>CJ</td>
+<td>13</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5203</td>
+<td>T.EN ROLLO KLEENEX ULTRA 183 MBLANCO CAJA C/6 (92224)</td>
+<td>1</td>
+<td>CJ</td>
+<td>65</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5205</td>
+<td>T. EN ROLLO MARLI 180 M. BLANCCAJA C/6 (92257)</td>
+<td>1</td>
+<td>CJ</td>
+<td>187</td>
+<td>203</td>
+</tr>
+<tr>
+<td>5210</td>
+<td>TOALLA ECOLOGICA EN ROLLO 180MX19.5 CM. CAJA C/6 (92244)</td>
+<td>1</td>
+<td>CJ</td>
+<td>48</td>
+<td>63</td>
+</tr>
+<tr>
+<td>5213</td>
+<td>T. INTERDOB.KLEENEX COTTONELLE200 H.BCO. CAJA C/10 (92230)</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5214</td>
+<td>T. INTERDOB. SANITAS 100 H.BCOCAJA C/20 (92231)</td>
+<td>1</td>
+<td>CJ</td>
+<td>43</td>
+<td>60</td>
+</tr>
+<tr>
+<td>5218</td>
+<td>DESP. EXPERIENCE DE TOALLAMANOS HUMO (9994)</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5223</td>
+<td>PETALO 500 MT.HD CAJA C/6 ROLL90552</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5230</td>
+<td>HIGIENICO JUMBO ECOLOGICO H/S700 MTS CAJA C/6 (90496)</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5233</td>
+<td>PETALO 250 MT. HD CAJA C/6 ROLCAJA C/6 ROLLOS (90553)</td>
+<td>1</td>
+<td>CJ</td>
+<td>206</td>
+<td>367</td>
+</tr>
+<tr>
+<td>5237</td>
+<td>MARLI 200 MT. HD CAJA C/12 ROL-90509</td>
+<td>1</td>
+<td>CJ</td>
+<td>20</td>
+<td>19</td>
+</tr>
+<tr>
+<td>5243</td>
+<td>PETALO DE 260 HD CAJA C/96 ROL-90449</td>
+<td>1</td>
+<td>CJ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5254</td>
+<td>SERVILLETAS KLEENEX DE LUJOC/100 HD CAJA C/12 PAQ.(91670)</td>
+<td>1</td>
+<td>CJ</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>5256</td>
+<td>FACIALES KLEENEX DE 90 HD CAJAC/72 CAJILLAS (89330)</td>
+<td>1</td>
+<td>CJ</td>
+<td>7</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5257</td>
+<td>FACIALES KLEENEX SELECTION DE90 HD CAJA C/36 (89328)</td>
+<td>1</td>
+<td>CJ</td>
+<td>6</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5292</td>
+<td>WYPALL X70 C/275 PZ. CAJA C/3-1412</td>
+<td>1</td>
+<td>CJ</td>
+<td>251</td>
+<td>268</td>
+</tr>
+<tr>
+<td>5411</td>
+<td>HIGIENICO JUMBO KLEENEX SR600 MTS X 9.5 CM X 6   90607</td>
+<td>1</td>
+<td>CJ</td>
+<td>11</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5415</td>
+<td>KIMTEX WIPERS COLOR AZUL ROLLOC/717 PIEZAS</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5420</td>
+<td>KLEENEX COTTONELLE 300 H/S CAJC/96 ROLLOS (90497)</td>
+<td>1</td>
+<td>CJ</td>
+<td>6</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5421</td>
+<td>KLEENEX COTTONELLE 540 H/S CAJC/72 ROLLOS (90498)</td>
+<td>1</td>
+<td>CJ</td>
+<td>19</td>
+<td>16</td>
+</tr>
+<tr>
+<td>5425</td>
+<td>MARLI 180 MT.HD CAJA C/12 ROLL90531</td>
+<td>1</td>
+<td>CJ</td>
+<td>14</td>
+<td>10</td>
+</tr>
+<tr>
+<td>5453</td>
+<td>KLEENEX COTONELLE HD 360 HOJASCAJA C/40 (90429)</td>
+<td>1</td>
+<td>CJ</td>
+<td>11</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5465</td>
+<td>JABONERA GRANEL TRANSP/C HUMOTRANSP C/ HUMO  94236</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5480</td>
+<td>JUMBO SCOTT 250 MTS HD CAJA C/6 ROLLOS 90620</td>
+<td>1</td>
+<td>CJ</td>
+<td>28</td>
+<td>40</td>
+</tr>
+<tr>
+<td>5481</td>
+<td>JUMBO SCOTT 500 MTS HD CAJA C/6 ROLLOS 90621</td>
+<td>1</td>
+<td>CJ</td>
+<td>40</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5503</td>
+<td>TORK UNIVERSAL TOALLA ROLLOBCA.H/S 180 M.(C/6) (700160)</td>
+<td>1</td>
+<td>CJ</td>
+<td>55</td>
+<td>31</td>
+</tr>
+<tr>
+<td>5504</td>
+<td>TORK UNIV.TOALLA ROLLO ECOLOGIH/S 180 M.(CAJA C/6)(70016120)</td>
+<td>1</td>
+<td>CJ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>5508</td>
+<td>TOALLAS ANTIBACTERIALES ESCUDOPARA MANOS (PQ C/50 PIEZAS)</td>
+<td>1</td>
+<td>PQ</td>
+<td>317</td>
+<td>367</td>
+</tr>
+<tr>
+<td>5514</td>
+<td>TORK UNIVERSAL TOALLA INTERDOBLADA HS 8 PAQ 250 SERV BLANCA</td>
+<td>1</td>
+<td>CJ</td>
+<td>33</td>
+<td>27</td>
+</tr>
+<tr>
+<td>5523</td>
+<td>TORK UNIV.H.BOBINA MULTI MAXIBCO. H/D 500 M. (C/6)</td>
+<td>1</td>
+<td>CJ</td>
+<td>11</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5533</td>
+<td>TORK UNIV HIGIENICO EN BOBINAMULTIMINI BCO. H/D 200 M.(C/12</td>
+<td>1</td>
+<td>CJ</td>
+<td>30</td>
+<td>7</td>
+</tr>
+<tr>
+<td>5542</td>
+<td>TORK ADVANCED HIGIENICO CONVENBCO.500 H/D 48X1 ROLL(70014840</td>
+<td>1</td>
+<td>PZ</td>
+<td>18</td>
+<td>18</td>
+</tr>
+<tr>
+<td>5551</td>
+<td>TORK ADVANCED TOALLA DE COCINABCO.100 H/D 24 ROLLOS(70015820</td>
+<td>1</td>
+<td>PZ</td>
+<td>11</td>
+<td>13</td>
+</tr>
+<tr>
+<td>5573</td>
+<td>TORK ADVANCED TOALLA ROLLO BCAH/S 180 M. CAJA C/6 (70016620)</td>
+<td>1</td>
+<td>CJ</td>
+<td>33</td>
+<td>33</td>
+</tr>
+<tr>
+<td>5575</td>
+<td>TORK ADVANCED TOALLA ROLLO BCAH/D 180 M.(CAJA C/6)(70017320)</td>
+<td>1</td>
+<td>CJ</td>
+<td>30</td>
+<td>28</td>
+</tr>
+<tr>
+<td>5593</td>
+<td>TORK UNIVERSAL HIGIENICO BOBINMINI BCO.H/D200M C/12(70016520</td>
+<td>1</td>
+<td>CJ</td>
+<td>35</td>
+<td>49</td>
+</tr>
+<tr>
+<td>5606</td>
+<td>TORK ADV JABON LIQUIDO MANOSPZA 1000ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5607</td>
+<td>SERVI TORK XPRESSNAP CAFÉ UNIVERSALBCO HS 500MTS</td>
+<td>1</td>
+<td>CJ</td>
+<td>13</td>
+<td>15</td>
+</tr>
+<tr>
+<td>5608</td>
+<td>TORK ADVANCED FFC 180M6 ROLLOS</td>
+<td>1</td>
+<td>CJ</td>
+<td>17</td>
+<td>19</td>
+</tr>
+<tr>
+<td>5614</td>
+<td>SERVI TORK XPRESSNAP CAFÉ UNIVERSALNATURAL HS 500MTS</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5620</td>
+<td>TORK ADVANCED FACIALTF6810</td>
+<td>1</td>
+<td>CJ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5916</td>
+<td>TRAPEADOR TRADICIONAL8175</td>
+<td>1</td>
+<td>PZ</td>
+<td>113</td>
+<td>122</td>
+</tr>
+<tr>
+<td>5929</td>
+<td>PAÑO MICROFIBRA ROJOEL CASTOR</td>
+<td>1</td>
+<td>PZ</td>
+<td>37</td>
+<td>37</td>
+</tr>
+<tr>
+<td>5939</td>
+<td>KIT CEPILLO PARA MANOS BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5943</td>
+<td>CEPILLO P/MANOS BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5945</td>
+<td>MICROFIBRA AMARILLA</td>
+<td>1</td>
+<td>PZ</td>
+<td>54</td>
+<td>54</td>
+</tr>
+<tr>
+<td>5946</td>
+<td>PAÑO MICROFIBRA AZULEL CASTOR</td>
+<td>1</td>
+<td>PZ</td>
+<td>155</td>
+<td>212</td>
+</tr>
+<tr>
+<td>5990</td>
+<td>PAÑO MICROFIBRA BLANCOEL CASTOR</td>
+<td>1</td>
+<td>PZ</td>
+<td>21</td>
+<td>21</td>
+</tr>
+<tr>
+<td>5991</td>
+<td>PAÑO MICROFIBRA VERDEEL CASTOR</td>
+<td>1</td>
+<td>PZ</td>
+<td>127</td>
+<td>39</td>
+</tr>
+<tr>
+<td>5993</td>
+<td>TRAPEADOR HEALTHCARE AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>22</td>
+<td>24</td>
+</tr>
+<tr>
+<td>5994</td>
+<td>TRAPEADOR HEALTHCARE ROJO</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>5995</td>
+<td>FUNDA P/MOP AZUL MOD PROF 60CM.</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>5996</td>
+<td>FUNDA P/MOP AZUL MOD PROF 90CM.</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>6011</td>
+<td>TOALLA INTERDOBLADA NATURAL HS250 PIEZAS (CAJA C/8)</td>
+<td>1</td>
+<td>CJ</td>
+<td>94</td>
+<td>62</td>
+</tr>
+<tr>
+<td>6012</td>
+<td>TOALLA INTERDOBLADA BLANCA HS250 PIEZAS (CAJA C/8)</td>
+<td>1</td>
+<td>CJ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>6113</td>
+<td>KEY TRIPLE ACC.PARAISO NVONCC4LT. P.ORIGEN: MEXICO</td>
+<td>4</td>
+<td>LT</td>
+<td>14</td>
+<td>14</td>
+</tr>
+<tr>
+<td>6119</td>
+<td>KEY PARAISO 20 LTS.</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6123</td>
+<td>KEY JABON ESPUMA ALMENDRAS 4LT</td>
+<td>4</td>
+<td>LT</td>
+<td>45</td>
+<td>45</td>
+</tr>
+<tr>
+<td>6128</td>
+<td>KEY JABON ESPUMA ROCIO 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>59</td>
+<td>59</td>
+</tr>
+<tr>
+<td>6303</td>
+<td>VANGUARD LAVALOZA PREVIO 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>6313</td>
+<td>KEY LAVANCE 100(DET 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>16</td>
+<td>12</td>
+</tr>
+<tr>
+<td>6314</td>
+<td>KEY LAVANCE 100(DET 20 LTSP. ORIGEN: MEXICO</td>
+<td>20</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6333</td>
+<td>KEY LAVANCE 140 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>6338</td>
+<td>KEY DESINCRUSTANTE 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>6360</td>
+<td>KEY DESINCRUSTANTE DE TANQUESEPTICO 20 LTS.</td>
+<td>20</td>
+<td>LT</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>6363</td>
+<td>KEY DESINCRUSTANTE PLUS 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>6368</td>
+<td>KEY DESENGRASANTE PLUS 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6378</td>
+<td>KEY LAVALOZA PASTA PLUS 3.5 KG</td>
+<td>3.5</td>
+<td>KG</td>
+<td>22</td>
+<td>25</td>
+</tr>
+<tr>
+<td>6423</td>
+<td>KEY LIMP.PARRILLAS (PASO 1) 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>31</td>
+<td>33</td>
+</tr>
+<tr>
+<td>6428</td>
+<td>KEY LIMP.PARRILLAS (PASO 2) 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>34</td>
+<td>30</td>
+</tr>
+<tr>
+<td>6433</td>
+<td>KEY LAVANCE 145 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>11</td>
+<td>12</td>
+</tr>
+<tr>
+<td>6434</td>
+<td>KEY LAVANCE 145 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6438</td>
+<td>KEY LAVANCE 147  4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>6450</td>
+<td>KEY DESINFECTANTE BP 4 KG</td>
+<td>4</td>
+<td>KG</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6492</td>
+<td>KEY LUSTRADOR DE ACERO INOX.1L</td>
+<td>1</td>
+<td>LT</td>
+<td>14</td>
+<td>18</td>
+</tr>
+<tr>
+<td>6504</td>
+<td>CIP-510 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6534</td>
+<td>FOM 200 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6633</td>
+<td>CLG-200  4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>33</td>
+<td>31</td>
+</tr>
+<tr>
+<td>6634</td>
+<td>CLG-200 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6679</td>
+<td>SANI 100 20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6704</td>
+<td>SANI 400  20 LTS.</td>
+<td>20</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6708</td>
+<td>SANI 500 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6737</td>
+<td>KEY JABON ESPUMA P/MANOS SINAROMA 4 L</td>
+<td>4</td>
+<td>LT</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6759</td>
+<td>CLD-500  20 LT..</td>
+<td>20</td>
+<td>LT</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>6763</td>
+<td>KEY JABON LIQUIDO P/MANOS SINAROMA 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>23</td>
+<td>23</td>
+</tr>
+<tr>
+<td>6780</td>
+<td>KEY SOLUCION ANTISEPTICA 4LALCOHOL 70%</td>
+<td>4</td>
+<td>LT</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6781</td>
+<td>SANI-950 XP 4L.</td>
+<td>4</td>
+<td>LT</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>6804</td>
+<td>CLD-100    20 LTS</td>
+<td>20</td>
+<td>LT</td>
+<td>8</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6891</td>
+<td>VANGUARD GEL ANTISEPTICO 4L</td>
+<td>4</td>
+<td>PZ</td>
+<td>16</td>
+<td>19</td>
+</tr>
+<tr>
+<td>6940</td>
+<td>VANGUARD DESINCRUSTANTE 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>3</td>
+<td>14</td>
+</tr>
+<tr>
+<td>6941</td>
+<td>VANGUARD LAVALOZA PASTA 3.5KG</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6960</td>
+<td>KEY DERMOWIPE 4L70% ALCOHOL</td>
+<td>4</td>
+<td>LT</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>6964</td>
+<td>KEY DERMOWIPE 960ML70% ALCOHOL</td>
+<td>0.96</td>
+<td>LT</td>
+<td>22</td>
+<td>23</td>
+</tr>
+<tr>
+<td>6965</td>
+<td>KEY DERMOWIPE 1L (70% ALCOHOL)70% ALCOHOL</td>
+<td>1</td>
+<td>LT</td>
+<td>45</td>
+<td>50</td>
+</tr>
+<tr>
+<td>6971</td>
+<td>KEY DERMOWIPE 70% KOPCARTUCHO 1L</td>
+<td>1</td>
+<td>LT</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr>
+<td>6981</td>
+<td>KEY JABÓN ESPUMA ROCIO KOPCARTUCHO 1L</td>
+<td>1</td>
+<td>LT</td>
+<td>57</td>
+<td>54</td>
+</tr>
+<tr>
+<td>7100</td>
+<td>TORK ADV HIG BOBINA 6/200 MTSHD 700175</td>
+<td>1</td>
+<td>CJ</td>
+<td>33</td>
+<td>28</td>
+</tr>
+<tr>
+<td>7105</td>
+<td>TORK PREM GEL ANTIBAC 6S1000 ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>26</td>
+<td>26</td>
+</tr>
+<tr>
+<td>7109</td>
+<td>TORK DESPACHADOR TOALLA MANOSFLUIDO CENTRICO BLANCO 700786</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7110</td>
+<td>TORK JABON LIQ. PREMIUM P/CUERPO Y CABELLO PZA 1000ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr>
+<td>7648</td>
+<td>KEY DESINFECTANTE BC 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7653</td>
+<td>KEY CITRA-D  4 KG.</td>
+<td>4</td>
+<td>KG</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>7700</td>
+<td>PQ SALVAUNAS PURACTIVE VERDEPQ CON 10 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>7721</td>
+<td>CAJA C/30 SOBRES LAVALOZA PASTA DOMINOS C/80 GR</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7723</td>
+<td>CAJA C/30 SOBRES SANITIZANTEDOMINO'S C/60 ML</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7913</td>
+<td>JALADOR PROF. P/CRISTAL 30 CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>8</td>
+</tr>
+<tr>
+<td>7928</td>
+<td>BASTON ALUMINIO NATURAL 1.5O MAMARILLO</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>7934</td>
+<td>FUNDA MOP MODELO PROFESIONAL150 CMS</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>8033</td>
+<td>FUNDA MOP BLANCO MOD PROF 60CM6402W</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>8034</td>
+<td>FUNDA MOP BLANCO MOD PROF 90CM6403W</td>
+<td>1</td>
+<td>PZ</td>
+<td>22</td>
+<td>22</td>
+</tr>
+<tr>
+<td>8127</td>
+<td>BASE METALICA P/MOP 125CM TRADICIONAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>8128</td>
+<td>FUNDA P/MOP BLANCO 125CMMODELO PROFESIONAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>8670</td>
+<td>DETERGENTE MULTIUSOS POLVO 9KGKIT</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>22</td>
+</tr>
+<tr>
+<td>8675</td>
+<td>FRANELA BLANCA (ROLLO 25MX50CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>5</td>
+</tr>
+<tr>
+<td>8676</td>
+<td>FRANELA GRIS (ROLLO 25MX50CM)</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8677</td>
+<td>FRANELA ROJA (ROLLO 25MX50CM)</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>8680</td>
+<td>VASO CONICO 104 (C/5000)</td>
+<td>1</td>
+<td>CJ</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>8690</td>
+<td>ESCOBA TIPO CEPILLOESCOBA ECONOMICA C/B</td>
+<td>1</td>
+<td>PZ</td>
+<td>20</td>
+<td>3</td>
+</tr>
+<tr>
+<td>8692</td>
+<td>ESCOBA TIPO ABANICOESCOBA ABANICO MEDIANA C/B</td>
+<td>1</td>
+<td>PZ</td>
+<td>25</td>
+<td>18</td>
+</tr>
+<tr>
+<td>8693</td>
+<td>ESCOBA TIPO ABANICO EXTRAESCOBA ABANICO LARGA C/B</td>
+<td>1</td>
+<td>PZ</td>
+<td>30</td>
+<td>30</td>
+</tr>
+<tr>
+<td>8695</td>
+<td>JALADOR PISOS ECON M/MAD 50CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8700</td>
+<td>RECOGEDOR LAMINA M/MADERA</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>6</td>
+</tr>
+<tr>
+<td>9087</td>
+<td>PILA PANASONIC "C" CAJA C/24BLISTERS DE 2 PILAS C/U</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9238</td>
+<td>TORK PREMIUM JABON ESPUMA EXTRA SUAVE PZA 1000 ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>81</td>
+<td>102</td>
+</tr>
+<tr>
+<td>9239</td>
+<td>TORK DESP HIGIENICO MINI ACEROINOXIDABLE</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9242</td>
+<td>TORK PREMIUM HIGIENICO TRADICIONAL 360 HD CAJA C/24 ROLLO</td>
+<td>1</td>
+<td>CJ</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>9246</td>
+<td>TORK HIGIENICO SMART ONE MAXI1150 HD C/6R</td>
+<td>1</td>
+<td>CJ</td>
+<td>66</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9254</td>
+<td>DESPACHADOR TORK SMARTONE MINITWIN BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9265</td>
+<td>TORK DESPACHADOR JABÓN ESPUMADEP ESPUM MANUAL NEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>9294</td>
+<td>KC HIG JUMBO FC SCOTT 320 MTSFLUIDO CENTRICO SCOTT 90401</td>
+<td>1</td>
+<td>CJ</td>
+<td>20</td>
+<td>24</td>
+</tr>
+<tr>
+<td>9309</td>
+<td>TORK HIG BOBINA MINI HD 180MMINI UNIVERSAL 12/180M HD</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>36</td>
+</tr>
+<tr>
+<td>9311</td>
+<td>TORK PEAK SERVE TOALLA DE MANOPKS TOALLA DE MANOS CONTINUA</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>9335</td>
+<td>TORK HIG FC SMARTONE UNIVERSAL1250 HD BLANCO C/6 (730398)</td>
+<td>1</td>
+<td>CJ</td>
+<td>17</td>
+<td>15</td>
+</tr>
+<tr>
+<td>9347</td>
+<td>KC DESP HIG JUMBO JR MARLI HUMHUMO (92715)</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9348</td>
+<td>KC DESP TOALLA INTER MARLI HUMHUMO (92730)</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>BOLSA BIO NEG24X2406MIC20 ROL/1000 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10002</td>
+<td>BOLSA BIO NEG40X4812MIC10 ROL/250 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>BOLSA BIO NAT40X4812MIC10 ROL/250 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10008</td>
+<td>BOLSA VANG ECO2424BK0620 ROL/1000 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10014</td>
+<td>BOLSA VANG ECO3037NA1020 ROL/500 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>45</td>
+<td>26</td>
+</tr>
+<tr>
+<td>10015</td>
+<td>BOLSA VANG ECO3037BK1020 ROL/500 PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>10</td>
+<td>17</td>
+</tr>
+<tr>
+<td>10016</td>
+<td>BOLSA BAJA DENS NEG50X70CM20ROL/500PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10017</td>
+<td>BOLSA BAJA DENS NAT50X70CM20ROL/500PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10018</td>
+<td>BOLSA BAJA DENS NEG70X90CM10ROL/250PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>BOLSA BAJA DENS NEG90X120CM10ROL/100PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>12</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10022</td>
+<td>BOLSA BAJA DENS NEG120X120CM8ROL/80PZS</td>
+<td>1</td>
+<td>CJ</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>11715</td>
+<td>PANTALLA WAVE 3D CITRUSPARA MINGITORIO 1 PCK</td>
+<td>1</td>
+<td>PZ</td>
+<td>19</td>
+<td>45</td>
+</tr>
+<tr>
+<td>11716</td>
+<td>PANTALLA WAVE 3D PEPINO MELONPARA MINGITORIO 1 PCK</td>
+<td>1</td>
+<td>PZ</td>
+<td>54</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11720</td>
+<td>ECO CLIP CITRUSECO CLIP 1 PCK CITRUS</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>11721</td>
+<td>ECO CLIP PEPINO MELONECO CLIP 1 PCK CUCUMBER MELON</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>11726</td>
+<td>VC MICRO AROMA ALTA CONCENTRACAROMA BERGAMOTA YSANDALO  30D</td>
+<td>1</td>
+<td>PZ</td>
+<td>27</td>
+<td>27</td>
+</tr>
+<tr>
+<td>11729</td>
+<td>VC MICRO AROMA ALTA CONCENTRACAROMA PEPINO MELON 2.6 30 DIAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>40</td>
+<td>16</td>
+</tr>
+<tr>
+<td>11730</td>
+<td>VC MICRO AROMA ALTA CONCENTRACAROMA LAVANDA Y GERANIO 30DIAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>11731</td>
+<td>VC MICRO AROMA ALTA CONCENTRACAROMA BRISA 2.6 OZ 30 DIAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>7</td>
+</tr>
+<tr>
+<td>35003</td>
+<td>CUBETA 24.6 L C/EXPRIMIDOR RB-748000</td>
+<td>1</td>
+<td>PZ</td>
+<td>8</td>
+<td>3</td>
+</tr>
+<tr>
+<td>35020</td>
+<td>BOLSAS ENCERADAS P/RECIP.TOALL250/CAJA RB (614100-0000)</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>35024</td>
+<td>BASURERO CHICO NEGRO 12L RBFG295500BLA</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>3</td>
+</tr>
+<tr>
+<td>35217</td>
+<td>MICROFIBRA 40X40 ROJA RB</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>35519</td>
+<td>CESTO RECTANGULAR 13L AMARILLO8053AM</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>17</td>
+</tr>
+<tr>
+<td>35520</td>
+<td>CESTO RECTANGULAR 13L AZUL8017AZ</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>17</td>
+</tr>
+<tr>
+<td>50024</td>
+<td>7010211 GEAR MOTOR 1 PZA</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>50025</td>
+<td>7010216-LC GEAR MOTOR 1 PZA</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>50933</td>
+<td>238100 STRAINER WAS 1 PZA</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>51418</td>
+<td>EQ.DOSIF.LIQ./LIQ.NOVA (HYDRO)D4-690DAAAA</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51421</td>
+<td>MANGUERAS P/DET. PAQ. C/10NOVA (HYDRO)</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>51423</td>
+<td>RODILLOS PARA BOMBA DE ENJ.NOVA (HYDRO)</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>51426</td>
+<td>KIT MOTOR P/BOMBA DE DETERGENTNOVA (HYDRO)(13-06524-01)</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51428</td>
+<td>KIT DE MOTOR P/BOMBA DE ENJ.NOVA (HYDRO)</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51485</td>
+<td>50-04880-11 TABLILLA ELECTRONICA PARA LAS BOMBAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51494</td>
+<td>03-03156-02 TAPA FRONTAL DE LABOMBA</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>51495</td>
+<td>03-03155-01 TAPA TRASERA DE LABOMBA</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>51621</td>
+<td>CODO 1/4"MPT X 1/4"FPT41-06924-44</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>51622</td>
+<td>REDUCCION 1/2"MPT X 1/4"FPT41-03965-072</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51683</td>
+<td>PORTAGALON SENCILLO GALVANIZAD</td>
+<td>1</td>
+<td>PZ</td>
+<td>21</td>
+<td>0</td>
+</tr>
+<tr>
+<td>51805</td>
+<td>MECANISMO ELECTRONICO LGSAUTOMATICO 1 PZA</td>
+<td>1</td>
+<td>PZ</td>
+<td>30</td>
+<td>30</td>
+</tr>
+<tr>
+<td>51815</td>
+<td>DOSIFICADOR 4 BOTONES 1 GALMIN SEKO</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51819</td>
+<td>KIT CUBIERTA TPTE E IMAGEN1 BOTON</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>51820</td>
+<td>KIT CUBIERTA TPTE E IMAGEN4 BOTONES</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>51823</td>
+<td>VALVULA FLEX GAP</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>51826</td>
+<td>KIT SELECTOR DE 4 PRODUCTOS</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51833</td>
+<td>MANGUERA SUCCION PVC (13FT)</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51835</td>
+<td>VALVULA CHECK (FPM)</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>51837</td>
+<td>KIT DE TIPS</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>51860</td>
+<td>ULTRA LEAN TIPS</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51898</td>
+<td>ESTACION SANITIZANTE 2 PRODUCTOS PROSPRAY KIT</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51941</td>
+<td>VALVULA CHECK FPMESTACION SANITIZANTE SEKO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51942</td>
+<td>VALVULA CHECK EPDMESTACION SANITIZANTE SEKO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>51995</td>
+<td>DOSIFICADOR P/RACK 5 GALKEY PACK</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>51996</td>
+<td>DOSIFICADOR P/RACK 2.5 GALKEY PACK</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>54011</td>
+<td>PQ PVA MICRO VERDEPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>54012</td>
+<td>PQ PVA MICRO AMARILLAPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>54013</td>
+<td>PQ PVA MICRO ROJOPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>18</td>
+<td>20</td>
+</tr>
+<tr>
+<td>54014</td>
+<td>PQ PVA MICRO AZULPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>54027</td>
+<td>PQ SALVAUNAS PURACTIVE AZULPQ CON 10 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>54057</td>
+<td>FIBRA METALICA INOX 40 GR.</td>
+<td>1</td>
+<td>PZ</td>
+<td>46</td>
+<td>48</td>
+</tr>
+<tr>
+<td>54060</td>
+<td>PASTILLA SANITARIA WIESE 70 GRPASTILLA SANITARIA WIESE 70 GR</td>
+<td>1</td>
+<td>PZ</td>
+<td>760</td>
+<td>107</td>
+</tr>
+<tr>
+<td>54062</td>
+<td>TAPETE LISO WIESENO APLICA</td>
+<td>1</td>
+<td>PZ</td>
+<td>41</td>
+<td>43</td>
+</tr>
+<tr>
+<td>54063</td>
+<td>TAPETE CON PASTILLA PDCB WIESE85G AROMA LAVANDA COLOR AZUL</td>
+<td>1</td>
+<td>PZ</td>
+<td>36</td>
+<td>36</td>
+</tr>
+<tr>
+<td>54068</td>
+<td>PASTILLA REDONDA WIESE 40G/50PAROMA LAVANDA/FLORAL 50 PZ</td>
+<td>1</td>
+<td>PZ</td>
+<td>218</td>
+<td>121</td>
+</tr>
+<tr>
+<td>54075</td>
+<td>PQ MICRONQUICK ROJOPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>54076</td>
+<td>PQ R-MICRONQUICK AMARILLOPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>54077</td>
+<td>PQ R-MICRONQUICK VERDEPQ CON 5 PZS</td>
+<td>1</td>
+<td>PQ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>60000</td>
+<td>FIBRA SCOTCH BRITE VERDE P-969X14CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>133</td>
+<td>341</td>
+</tr>
+<tr>
+<td>60001</td>
+<td>FIBRA SCOTCH BRITE BLANCA P-669X14CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>90</td>
+<td>100</td>
+</tr>
+<tr>
+<td>60002</td>
+<td>FIBRA SCOTCH BRITE NEGRA P-769X14CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>27</td>
+<td>39</td>
+</tr>
+<tr>
+<td>60003</td>
+<td>FIBRA SCOTCHBRITE ESPONJA P-949X14CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>193</td>
+<td>212</td>
+</tr>
+<tr>
+<td>60004</td>
+<td>FIBRA SCOTCHBRITE 2000HEX AZULANTI-RAYAS</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>60005</td>
+<td>FIBRA SCOTCH BRITE 96HEX AMARILLA USO DUAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>30</td>
+<td>45</td>
+</tr>
+<tr>
+<td>60026</td>
+<td>3M PROF GUANTE SATIN 8-81/2 RJPAR</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>8</td>
+</tr>
+<tr>
+<td>60028</td>
+<td>3M PROF GUANTE SATIN 8-81/2 AMPAR</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>18</td>
+</tr>
+<tr>
+<td>60031</td>
+<td>3M PAÑO ABSORBENTE RJ 36X36CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>72</td>
+<td>72</td>
+</tr>
+<tr>
+<td>60032</td>
+<td>3M PAÑO ABSORBENTE AM 36X36CM</td>
+<td>1</td>
+<td>PZ</td>
+<td>87</td>
+<td>91</td>
+</tr>
+<tr>
+<td>60036</td>
+<td>3M DISCO SCOTCH-BRITE PROFESBONNET P ALFOMBRAS 19</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>70003</td>
+<td>VANG. MULTIUSOS LAVANDA 4 LT</td>
+<td>4</td>
+<td>LT</td>
+<td>27</td>
+<td>33</td>
+</tr>
+<tr>
+<td>70004</td>
+<td>VANG. MULTIUSOS LAVANDA 18 L</td>
+<td>18</td>
+<td>LT</td>
+<td>6</td>
+<td>1</td>
+</tr>
+<tr>
+<td>70010</td>
+<td>VANG. MULTIUSOS PINO 4 LTS.</td>
+<td>4</td>
+<td>LT</td>
+<td>19</td>
+<td>19</td>
+</tr>
+<tr>
+<td>70011</td>
+<td>VANG. MULTIUSOS PINO 18 LTS</td>
+<td>18</td>
+<td>LT</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>70016</td>
+<td>VANG. MULTIUSOS FRUTA CITRICA1LT</td>
+<td>1</td>
+<td>LT</td>
+<td>93</td>
+<td>81</td>
+</tr>
+<tr>
+<td>70017</td>
+<td>VANG. MULTIUSOS FRUTA CITR.4L</td>
+<td>4</td>
+<td>LT</td>
+<td>26</td>
+<td>40</td>
+</tr>
+<tr>
+<td>70018</td>
+<td>VANG. MULTIUSOS FRUTA CIT.18L</td>
+<td>18</td>
+<td>LT</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>70025</td>
+<td>VANG. AROMAT. ALOE 18 LTS</td>
+<td>18</td>
+<td>LT</td>
+<td>9</td>
+<td>5</td>
+</tr>
+<tr>
+<td>70038</td>
+<td>VANG. AROMAT.FIESTA FRUTAL 4 L</td>
+<td>4</td>
+<td>LT</td>
+<td>5</td>
+<td>10</td>
+</tr>
+<tr>
+<td>70039</td>
+<td>VANG. AROMAT.FIESTA FRUTAL 18L</td>
+<td>18</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>70059</td>
+<td>VANG. LIMPIAVIDRIOS 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>106</td>
+<td>127</td>
+</tr>
+<tr>
+<td>70060</td>
+<td>VANGUARD LIMPIAVIDRIOS 18LTS</td>
+<td>18</td>
+<td>LT</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>70080</td>
+<td>VANG. SARRICIDA 4 LTS</td>
+<td>4</td>
+<td>LT</td>
+<td>37</td>
+<td>22</td>
+</tr>
+<tr>
+<td>70095</td>
+<td>VANG. IMPREGNADOR B/S 18 LT</td>
+<td>18</td>
+<td>LT</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>70107</td>
+<td>CLORO CLORTEX 950 ML.</td>
+<td>0.95</td>
+<td>LT</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>70108</td>
+<td>CLORO VANGUARD 3.75 LTS.</td>
+<td>3.75</td>
+<td>LT</td>
+<td>178</td>
+<td>86</td>
+</tr>
+<tr>
+<td>70132</td>
+<td>VANG.JABON DE MANOS FRESCO 4 L</td>
+<td>4</td>
+<td>LT</td>
+<td>21</td>
+<td>1</td>
+</tr>
+<tr>
+<td>70133</td>
+<td>VANG.JABON DE MANOS FRESCO 18L</td>
+<td>18</td>
+<td>LT</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>70148</td>
+<td>VANG.JABON DE MANOS CREMA 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>70203</td>
+<td>MULTIUSOS LIMA LIMON LPU 4 LT.</td>
+<td>4</td>
+<td>LT</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>70214</td>
+<td>MULTIUSOS LAVANDA LPU 20 LT.</td>
+<td>20</td>
+<td>LT</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>70241</td>
+<td>VANG.L-100 LAVALOZA 4LVANGUARD L-100 LAVALOZA 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>13</td>
+<td>28</td>
+</tr>
+<tr>
+<td>70242</td>
+<td>VANG. L-100 LAVALOZA 20LVANGUARD L-100 LAVALOZA 20L</td>
+<td>20</td>
+<td>LT</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>70243</td>
+<td>VANG. L-145 SECANTE 4LVANGUARD L-145 SECANTE 4L</td>
+<td>4</td>
+<td>LT</td>
+<td>15</td>
+<td>25</td>
+</tr>
+<tr>
+<td>70244</td>
+<td>VANG. L-145 SECANTE 20LVANGUARD L-145 SECANTE 20L</td>
+<td>1</td>
+<td>LT</td>
+<td>5</td>
+<td>2</td>
+</tr>
+<tr>
+<td>80017</td>
+<td>KEY O2  ODOCONTROLSISTEMA DE CONTROL DE OLORES</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr>
+<td>80018</td>
+<td>KEY O2 AROMA NARANJA (TANG)CARTUCHO GRANDE  O2 TANG</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>80019</td>
+<td>KEY O2 AROMA ADORECARTTUCHO GRANDE O2 ADORE</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>80020</td>
+<td>KEY O2 AROMA SPACARTUCHO GRANDE O2 SPA</td>
+<td>1</td>
+<td>PZ</td>
+<td>60</td>
+<td>61</td>
+</tr>
+<tr>
+<td>80021</td>
+<td>KEY O2 AROMA GLOWCARTUCHO GRANDE O2 GLOW</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>21</td>
+</tr>
+<tr>
+<td>80022</td>
+<td>KEY O2 AROMA CRUSHCARTUCHO GRANDE O2 CRUSH</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>10</td>
+</tr>
+<tr>
+<td>80023</td>
+<td>KEY O2 AROMA CHARMCARTUCHO GRANDE O2 CHARM</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>80035</td>
+<td>JABONERA X4 MANUAL BLANCA 4LX4 CARTUCHO MANUAL 4L BCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>80036</td>
+<td>JABONERA X4 MANUAL NEGRA  4LX4 CARTUCH MANUAL COLOR NEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>80038</td>
+<td>JABONERA KJF OPTICA AUTOM BCORELLENABLE PARA LIQ/GEL 1000ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>80057</td>
+<td>JABONERA KEY LS RELL MAN LIQ850 ML / STAR NEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>35</td>
+<td>35</td>
+</tr>
+<tr>
+<td>80058</td>
+<td>JABONERA KEY LS RELL MAN ESPUM850 ML / STAR BCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190002</td>
+<td>CEPILLO TIPO PLANCHA</td>
+<td>1         </td>
+<td>PZ</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>800190003</td>
+<td>BOLSA NEGRA 90 X 120 </td>
+<td>1         </td>
+<td>KG</td>
+<td>167</td>
+<td>67</td>
+</tr>
+<tr>
+<td>800190005</td>
+<td>BOLSA TRANSP 90X120  KG  </td>
+<td>1         </td>
+<td>PZ</td>
+<td>25</td>
+<td>25</td>
+</tr>
+<tr>
+<td>800190006</td>
+<td>ESCOBA 4 HILOS</td>
+<td>1         </td>
+<td>PZ</td>
+<td>33</td>
+<td>33</td>
+</tr>
+<tr>
+<td>800190007</td>
+<td>CUBETA DE PLASTICO FLEX</td>
+<td>1         </td>
+<td>PZ</td>
+<td>13</td>
+<td>29</td>
+</tr>
+<tr>
+<td>800190008</td>
+<td>DETERGENTE ROMA 1 KG</td>
+<td>1         </td>
+<td>KG</td>
+<td>8</td>
+<td>96</td>
+</tr>
+<tr>
+<td>800190010</td>
+<td>FIBRA DE ACERO </td>
+<td>1         </td>
+<td>EA</td>
+<td>19</td>
+<td>49</td>
+</tr>
+<tr>
+<td>800190018</td>
+<td>FRANELA BLANCA  METRO (8675)</td>
+<td>1         </td>
+<td>MT</td>
+<td>13</td>
+<td>13</td>
+</tr>
+<tr>
+<td>800190027</td>
+<td>TRAPEADOR PABILO INDUSTRIAL</td>
+<td>1         </td>
+<td>EA</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>800190029</td>
+<td>BAYGON CASA Y JARDIN</td>
+<td>1         </td>
+<td>EA</td>
+<td>9</td>
+<td>12</td>
+</tr>
+<tr>
+<td>800190038</td>
+<td>PLUMERO DE MANO</td>
+<td>1         </td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>800190049</td>
+<td>BM PILA "D" </td>
+<td>1         </td>
+<td>PZ</td>
+<td>36</td>
+<td>36</td>
+</tr>
+<tr>
+<td>800190050</td>
+<td>BOLSA NEGRA 60 X 90 KG (3385)	</td>
+<td>1         </td>
+<td>KG</td>
+<td>94</td>
+<td>94</td>
+</tr>
+<tr>
+<td>800190052</td>
+<td>BULTO BOLSA 15X25 DE 20-25KG</td>
+<td>1         </td>
+<td>PZA</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190053</td>
+<td>BOLSA CAMISETA 30X60</td>
+<td>1         </td>
+<td>PZ</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>800190056</td>
+<td>BOLSA TRANSP 50X70  </td>
+<td>1         </td>
+<td>KG</td>
+<td>40</td>
+<td>40</td>
+</tr>
+<tr>
+<td>800190060</td>
+<td>GUANTE DE NITRILO CAJILLA C/100 PZ  msc</td>
+<td>1         </td>
+<td>CJA</td>
+<td>64</td>
+<td>75</td>
+</tr>
+<tr>
+<td>800190101</td>
+<td>GUANTE NITRILO VERDE TALLA 9</td>
+<td>1         </td>
+<td>PZ</td>
+<td>14</td>
+<td>24</td>
+</tr>
+<tr>
+<td>800190102</td>
+<td>FIBRA VERDE</td>
+<td>1         </td>
+<td>PZ</td>
+<td>36</td>
+<td>36</td>
+</tr>
+<tr>
+<td>800190112</td>
+<td>RECOGEDOR DE PLÁSTICO </td>
+<td>1         </td>
+<td>PZ</td>
+<td>26</td>
+<td>6</td>
+</tr>
+<tr>
+<td>800190126</td>
+<td>BOLSA TRANSP 60 X 90</td>
+<td>1         </td>
+<td>KG</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>800190135</td>
+<td>BOTE BRUTE AMARILLO SIN TAPA 10 GALONES (37.9 LTS)</td>
+<td>1         </td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>800190149</td>
+<td>CONTENEDOR BRUTE SIN TAPA 121 LTS </td>
+<td>1         </td>
+<td>PZ</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190156</td>
+<td>BOMBA DESTAPACAÑOS </td>
+<td>1         </td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>800190206</td>
+<td>TAPETE ANTISALPICADURA WIESE</td>
+<td>1         </td>
+<td>PZ</td>
+<td>37</td>
+<td>37</td>
+</tr>
+<tr>
+<td>800190208</td>
+<td>TRAPEADOR GASA</td>
+<td>1         </td>
+<td>PZ</td>
+<td>13</td>
+<td>15</td>
+</tr>
+<tr>
+<td>800190220</td>
+<td>GUANTE NEGRO NEOPRENO</td>
+<td>1         </td>
+<td>PZ</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>800190246</td>
+<td>CESTO DE BASURA NEGRO P/OFICINA 26.6 LTS</td>
+<td>1         </td>
+<td>PZ</td>
+<td>12</td>
+<td>6</td>
+</tr>
+<tr>
+<td>800190313</td>
+<td>GUANTE LATEX BAJO EN POLVO  CAJILLA CON 100 PZAS  msc</td>
+<td>1         </td>
+<td>CJ</td>
+<td>16</td>
+<td>17</td>
+</tr>
+<tr>
+<td>800190318</td>
+<td>COFIA PLISADA BLANCA C/100PZA SP</td>
+<td>1         </td>
+<td>PZA</td>
+<td>25</td>
+<td>25</td>
+</tr>
+<tr>
+<td>800190319</td>
+<td>TRAPEADOR DE HILAZA BLANCO</td>
+<td>1         </td>
+<td>PZA</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr>
+<td>800190340</td>
+<td>BOLSA BAJA DENS NEGRA 90X120 CM (ROLLO)</td>
+<td>1         </td>
+<td>1 R</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>800190354</td>
+<td>TAPA EMBUDO GRIS P/BRUTE (35058 )</td>
+<td>1         </td>
+<td>PZ</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190360</td>
+<td>PORTA FIBRA VERDE</td>
+<td>1         </td>
+<td>PZA</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>800190361</td>
+<td>MOP DE MICROFIBRA VERDE</td>
+<td>1         </td>
+<td>PZA</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>800190363</td>
+<td>FIBRA AZUL</td>
+<td>1         </td>
+<td>PZA</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>800190364</td>
+<td>CESTO DE BASURA 39 LTS NEGRO</td>
+<td>1         </td>
+<td>PZA</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>800190365</td>
+<td>TAPA OSILANTE PARA CESTO COLOR NEGRO</td>
+<td>1         </td>
+<td>PZA</td>
+<td>18</td>
+<td>18</td>
+</tr>
+<tr>
+<td>800190366</td>
+<td>CONTENEDOR BRUTE 75.7 LTS</td>
+<td>1         </td>
+<td>PZA</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190368</td>
+<td>TRAPEADOR MICROFIBRA VARIOS COLORES (azul,rojo,verde)</td>
+<td>1         </td>
+<td>PZA</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>800190369</td>
+<td>GUANTE SATINADO TALLA 10 AZUL</td>
+<td>1         </td>
+<td>PZA</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>800190375</td>
+<td>GUANTE NITRILO VERDE TALLA 10</td>
+<td>1         </td>
+<td>PZ</td>
+<td>32</td>
+<td>42</td>
+</tr>
+<tr>
+<td>800190376</td>
+<td>BOLSA TRANS 35 X 45</td>
+<td>1         </td>
+<td>KG</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>800190378</td>
+<td>MANGAS DE POLIETILENO PQ C/100 PZ</td>
+<td>1         </td>
+<td>PQ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190379</td>
+<td>BASTON EXTENCION TELESCOPICO 7.5MTS</td>
+<td>1         </td>
+<td>PZA</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>800190382</td>
+<td>JABONERA GRANEL TRANSP/C HUMOTRAN (5465)</td>
+<td>1         </td>
+<td>PZA</td>
+<td>15</td>
+<td>0</td>
+</tr>
+<tr>
+<td>800193017</td>
+<td>MASCARILLA N95</td>
+<td>1         </td>
+<td>PZA</td>
+<td>27</td>
+<td>27</td>
+</tr>
+<tr>
+<td>999000884</td>
+<td>JABONERA IND.P/GALON JABON ESP</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999000995</td>
+<td>JABONERA ESPUMA RELLENABLE 1LT9325 FOAMEEZE BULK</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999001630</td>
+<td>KEY ODOCONTROL DE SERVICIO H2WHITE TCELL DISP.</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>999001661</td>
+<td>NUEVO DOSIFICADOR ODOCONTROLAEROSOL V2 SA2005 KEY LOGO</td>
+<td>1</td>
+<td>PZ</td>
+<td>37</td>
+<td>37</td>
+</tr>
+<tr>
+<td>999002189</td>
+<td>DOSIFICADOR MANUAL ESPUMA /JABLIQ. CARTUCHO 1 LT</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>999002193</td>
+<td>DOSIFICADOR AUTOMAT.ESPUMA/JABLIQ. CARTUCHO 1 LT</td>
+<td>1</td>
+<td>PZ</td>
+<td>43</td>
+<td>43</td>
+</tr>
+<tr>
+<td>999002812</td>
+<td>PROPORCIONADOR MODELO 167</td>
+<td>1.00</td>
+<td>UD</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999005218</td>
+<td>DESP. EXPERIENCE DE TOALLAMANOS HUMO (9994)</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999005228</td>
+<td>DESP. TOALLA INTERDOB.MINI HUM-92260</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999005229</td>
+<td>DESP. TOALLA INTERDOB.MINI BCO-94345</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>999005272</td>
+<td>DESP. LEVE-R-MATIC*2(T.EN ROLL-92259</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>999005276</td>
+<td>DESP. HIGIENICO JUMBO MINIROLLHUMO (94208)</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999005277</td>
+<td>DESP. HIGIENICO JUMBO MINIROLLBLANCO (94209)</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999005284</td>
+<td>DESP.TOALLA EN ROLLO SANITOUCH-9990</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999005408</td>
+<td>SERVILLETERO UNA X UNA HUMOP/BARRA - KC 94412</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>999005455</td>
+<td>DESPACHADOR SANIASIENTOS SERIE1 HUMO KC</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>999005458</td>
+<td>SERVILLETERO UNA X UNA P/MESA(TABLE TOP) PIEZA</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>999005510</td>
+<td>DESP. TORK TOALLA INTERDOB.BCO-55200000</td>
+<td>1</td>
+<td>PZ</td>
+<td>21</td>
+<td>21</td>
+</tr>
+<tr>
+<td>999005580</td>
+<td>DESP.TORK HIGIENICO BOBINA MAXBLANCO (55400000)</td>
+<td>1</td>
+<td>PZ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>999005590</td>
+<td>DESP.TORK HIGIENICO BOBINA MINBLANCO (55500000)</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999005605</td>
+<td>DESP XPRESSNAP CLASSIC CAFENEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>82</td>
+<td>82</td>
+</tr>
+<tr>
+<td>999005610</td>
+<td>DISPENSADOR TORK S1 ELEVATIONNEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>26</td>
+</tr>
+<tr>
+<td>999005613</td>
+<td>DESP TORK XPRESSNAP CLASSIC CAFE COLOR ROJO</td>
+<td>1</td>
+<td>PZ</td>
+<td>51</td>
+<td>51</td>
+</tr>
+<tr>
+<td>999005621</td>
+<td>DESP TORK XPRESSNAP CLASSIC CAFE COLOR GRANITO</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999005637</td>
+<td>DESP XPRESSNAP FIT NEGRO.</td>
+<td>1</td>
+<td>PZ</td>
+<td>44</td>
+<td>44</td>
+</tr>
+<tr>
+<td>999007078</td>
+<td>BOTON SENCILLO DEMA 4 GAL/MIN  </td>
+<td>1         </td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999007101</td>
+<td>TORK DESP HIG BOB MINI TWIN 1SABS T2 BCO 700147</td>
+<td>1</td>
+<td>CJ</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>999007102</td>
+<td>TORK DESPACHADOR ELEVATION MATIC P/ TOALLA EN ROLLO BLANCO</td>
+<td>1</td>
+<td>CJ</td>
+<td>53</td>
+<td>53</td>
+</tr>
+<tr>
+<td>999007112</td>
+<td>DESPACHADOR TORK XPRESSNAP SIGNATURE STAND NEGRO</td>
+<td>1</td>
+<td>CJ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999008959</td>
+<td>DESPACHADOR TOALLA ENMOTION HUMO</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999009231</td>
+<td>DESPACHADOR TORK TOALLA MANOSFLUIDO CENTRICO NEGRO 700787</td>
+<td>1</td>
+<td>CJ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999009232</td>
+<td>DESPACHADOR TORK TOALLA ROLLOELEVATION MATIC NEGRO 5510282</td>
+<td>1</td>
+<td>CJ</td>
+<td>19</td>
+<td>19</td>
+</tr>
+<tr>
+<td>999009234</td>
+<td>DESPACHADOR TORK ELEVATION INTUITION TOALLA EN ROLLO NEGRO</td>
+<td>1</td>
+<td>CJ</td>
+<td>22</td>
+<td>29</td>
+</tr>
+<tr>
+<td>999009235</td>
+<td>TORK DESPACHADOR TOALLA ROLLOMATIC INTUITION ACERO INOX.</td>
+<td>1</td>
+<td>CJ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999009237</td>
+<td>TORK DESPACHADOR JABON ESPUMAMANUAL ACERO INOXIDABLE</td>
+<td>1</td>
+<td>CJ</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>999009239</td>
+<td>TORK DESP HIGIENICO MINI ACEROINOXIDABLE</td>
+<td>1</td>
+<td>CJ</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>999009249</td>
+<td>DESPACHADOR TORK SMARTONE MAXIBLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>35</td>
+<td>35</td>
+</tr>
+<tr>
+<td>999009250</td>
+<td>DESPACHADOR TORK SMARTONE MAXINEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>40</td>
+<td>40</td>
+</tr>
+<tr>
+<td>999009254</td>
+<td>DESPACHADOR TORK SMARTONE MINITWIN BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999009255</td>
+<td>DESPACHADOR TORK SMARTONE MINITWIN NEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>999009259</td>
+<td>DESPACHADOR TORK HIGIENICO BOBMINI TWIN  (NEGRO)</td>
+<td>1</td>
+<td>PZ</td>
+<td>66</td>
+<td>66</td>
+</tr>
+<tr>
+<td>999009267</td>
+<td>TORK DESPACHADOR HIGINICO BOBNEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>107</td>
+<td>107</td>
+</tr>
+<tr>
+<td>999009274</td>
+<td>TORK ELEVATION JAB AUTOM  NGROTORK ELEVATION JAB AUT ESPUM</td>
+<td>1</td>
+<td>PZ</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr>
+<td>999009278</td>
+<td>KC DESP HIG FC VERTICAL HUMOEXPERIENCE LIFE MANUAL</td>
+<td>1</td>
+<td>PZ</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>999009318</td>
+<td>TORK PEAK SERVE MAXI BCOSISTEMA TOALLACONTINUA</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999009329</td>
+<td>TORK PEAK SERVE MINI BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999009346</td>
+<td>KC DESP TOALLA EN ROLLO MARLIPALANCA HUMO (92276)</td>
+<td>1</td>
+<td>PZ</td>
+<td>185</td>
+<td>195</td>
+</tr>
+<tr>
+<td>999009347</td>
+<td>KC DESP HIG JUMBO JR MARLI HUMHUMO (92715)</td>
+<td>1</td>
+<td>PZ</td>
+<td>323</td>
+<td>250</td>
+</tr>
+<tr>
+<td>999009349</td>
+<td>KC DESP TOALLA  ROLLO AUTOCUTMARLI HUMO (92731)</td>
+<td>1</td>
+<td>PZ</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>999009351</td>
+<td>KC DESP HIG SR MARLI MANUALHUMO (94248)</td>
+<td>1</td>
+<td>PZ</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>999050028</td>
+<td>DOSIF.HERMETICO P/DETERG.LIQUI</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999050032</td>
+<td>DOSIFICADOR BIODIGESTOR8600397-07 CORRIENTE ALTERNA</td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999051418</td>
+<td>EQ.DOSIF.LIQ./LIQ.NOVA (HYDRO)</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999051430</td>
+<td>ORION C/7 BOMBAS 18 OZ.(HYDRO)</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999051620</td>
+<td>Valvula Solenoide de 24 volts</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999051683</td>
+<td>PORTAGALON SENCILLO GALVANIZAD </td>
+<td>1.00</td>
+<td>PZ</td>
+<td>137</td>
+<td>137</td>
+</tr>
+<tr>
+<td>999051685</td>
+<td>BASE DOBLE PARA PORRON 20 LT</td>
+<td>1.00</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999051785</td>
+<td>DOSIFICADOR PRODOSE(PRO DOSE -EPDM SEALES FOR GP)</td>
+<td>1</td>
+<td>PZ</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>999051801</td>
+<td>DOSIFICADOR LGS AUTOMATICO</td>
+<td>1</td>
+<td>PZ</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>999051816</td>
+<td>DOSIFICADOR 1 BOTON 4 GAL MINSEKO</td>
+<td>1</td>
+<td>PZ</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>999051890</td>
+<td>EQUIPO ELECTRICO P/TRAMPA GRAS A DRAIN PLUS       </td>
+<td>1</td>
+<td>PZ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999051891</td>
+<td>EQUIPO PRODOSE SILICON P/CLORO</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999051920</td>
+<td>JABONERA RELLENABLE JABON LIQ.900 ML</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999051926</td>
+<td>JABONERA RELLENABLE AUTOMATICABLANCA</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999051995</td>
+<td>DOSIFICADOR P/RACK 5 GAL7576 KEY PACK</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999051996</td>
+<td>DOSIFICADOR P/RACK 2.5 GAL7572 KEY PACK</td>
+<td>1</td>
+<td>PZ</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>999054022</td>
+<td>JABONERA DESIGNER AUTOM. JABONLIQ/ESPUMA CARTUCHO 1LT BLANCA</td>
+<td>1</td>
+<td>PZ</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>999054034</td>
+<td>TRAMPA ATRAPAMOSCAS FUTURASISTEMA FUTURA (VENTA)</td>
+<td>1</td>
+<td>CJ</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>999080017</td>
+<td>KEY O2 SERVICIO DE ODOCONTROLSISTEMA DE CONTROL DE OLORES</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999080030</td>
+<td>JABONERA KOP AUTOM BCA 1000 MLKOP 1000 ML COLOR BLANCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>999080031</td>
+<td>JABONERA KOP AUTOM NEG 1000 MLKOP 1000 ML COLOR NEGRO</td>
+<td>1</td>
+<td>PZ</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>999080056</td>
+<td>JABONERA KEY LS RELL MAN LIQ750 ML / STAR BCO</td>
+<td>1</td>
+<td>PZ</td>
+<td>13</td>
+<td>13</td>
+</tr>
+</font></table>
+</body>
+</html>
