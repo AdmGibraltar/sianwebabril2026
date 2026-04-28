@@ -1219,6 +1219,7 @@ namespace SIANWEB
             public int Id { get; set; }
             public bool Activo { get; set; }
             public int IdTerritorio { get; set; }
+            public int Id_CteDet { get; set; }
             public string Territorio { get; set; }
             //public int? IdUen { get; set; }
             //public string Uen { get; set; }
@@ -1473,6 +1474,7 @@ namespace SIANWEB
                         Id = x.Field<int>("Id_CteDet"),
                         Activo = x.Field<bool>("Cte_Activo"),
                         IdTerritorio = x.Field<int>("Id_Ter"),
+                        Id_CteDet = x.Field<int>("Id_CteDet"),
                         Territorio = x.Field<string>("Ter_Nombre"),
                         IdRik = x.Field<string>("Id_Rik"),
                         Rik = x.Field<string>("Rik"),
@@ -1672,7 +1674,7 @@ namespace SIANWEB
 
             try
             {
-                var row = DtTablaTerritorios_ViewModel.Select("Id_Ter='" + req.IdTerritorio + "'")[0];
+                var row = DtTablaTerritorios_ViewModel.Select("Id_CteDet='" + req.Id_CteDet + "'")[0];
                 row["Fec_Solicitud"] = DateTime.Now.ToShortDateString();
                 row["Fec_Autorizado"] = DBNull.Value;
                 row["Fec_Rechazado"] = DBNull.Value;

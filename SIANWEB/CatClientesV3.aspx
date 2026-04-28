@@ -810,7 +810,7 @@
                                                             <div class="form-check centerCheckbox">
                                                                 <input type="checkbox"
                                                                     :disabled="(sharedData.clienteSeleccionado && !sharedData.permisoModificarTerritorios) || (territorio.territoriosPendientesPorAceptar) || (territorios_sharedData.tabla.some((x) => x.Edit) && !item.Edit)"
-                                                                    @click="cambiarEstatusActivo($event, item.IdTerritorio)"
+                                                                    @click="cambiarEstatusActivo($event, item.Id_CteDet)"
                                                                     :checked="item.Activo"
                                                                     class="form-check-input" />
                                                             </div>
@@ -2860,10 +2860,10 @@
                 }
 
                 const cambiarEstatusActivo = (e, id) => {
-
                     showLoader()
-                    const territorioSeleccionado = territorios_sharedData.value.tabla.find(x => x.IdTerritorio == id)
+                    const territorioSeleccionado = territorios_sharedData.value.tabla.find(x => x.Id_CteDet == id)
                     const terServ = territorios_sharedData.value.territoriosServicio.find(x => x.Id == territorioSeleccionado.IdTerServ)
+                    console.log(territorios_sharedData.value.territorios)
                     const territorio = territorios_sharedData.value.territorios.find(x => x.Id == id)
                     const req = JSON.stringify({
                         req: {
@@ -2878,6 +2878,7 @@
                             terServ: terServ != null ? terServ.Descripcion : '',
                             idRikServ: territorioSeleccionado.IdRikServ || -1,
                             rikServ: territorioSeleccionado.RikServ,
+                            id_CteDet: territorioSeleccionado.Id_CteDet
                         },
                         status: e.target.checked
                     })
