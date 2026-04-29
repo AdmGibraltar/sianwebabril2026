@@ -809,7 +809,7 @@
                                                         <td>
                                                             <div class="form-check centerCheckbox">
                                                                 <input type="checkbox"
-                                                                    :disabled="(sharedData.clienteSeleccionado && !sharedData.permisoModificarTerritorios) || (territorio.territoriosPendientesPorAceptar) || (territorios_sharedData.tabla.some((x) => x.Edit) && !item.Edit)"
+                                                                    :disabled="(territorio.territoriosPendientesPorAceptar) || (territorios_sharedData.tabla.some((x) => x.Edit) && !item.Edit)"
                                                                     @click="cambiarEstatusActivo($event, item.Id_CteDet)"
                                                                     :checked="item.Activo"
                                                                     class="form-check-input" />
