@@ -24,6 +24,7 @@ namespace CapaEntidad
         string _Cte_FacTel;
         string _Cte_FacRfc;
         string _Cte_UsoCFDI;
+        bool _Cte_UsoCFDIDesdeCNac;
         string _Cte_MetodoPago;
         string _Cte_FacEstado;
         string _Cte_Calle;
@@ -544,6 +545,12 @@ namespace CapaEntidad
         {
             get { return _Cte_UsoCFDI; }
             set { _Cte_UsoCFDI = value; }
+        }
+
+        public bool Cte_UsoCFDIDesdeCNac
+        {
+            get { return _Cte_UsoCFDIDesdeCNac; }
+            set { _Cte_UsoCFDIDesdeCNac = value; }
         }
         public string Cte_MetodoPago
         {

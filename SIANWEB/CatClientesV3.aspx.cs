@@ -25,7 +25,7 @@ namespace SIANWEB
 {
     public partial class CatClientesV3 : System.Web.UI.Page
     {
-        public static Sesion MySesion { get; set; }
+        public Sesion MySesion { get; set; }
         static string Emp_CnxCen
         {
             get { return ConfigurationManager.AppSettings.Get("strConnectionCentral"); }
@@ -156,7 +156,11 @@ namespace SIANWEB
         }
         #endregion
 
-
+        private static Sesion GetCurrentSesion()
+        {
+            // Buscamos directamente en el contexto de la petición actual
+            return (Sesion)HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID];
+        }
 
 
 
@@ -187,24 +191,26 @@ namespace SIANWEB
             public bool TerritoriosPendientesPorAceptar { get; set; }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static Configuracion ObtenerConfiguracionInicial()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             return new Configuracion
             {
                 Title = PageTitle,
                 PermisosGuardar = PermisoGuardar,
                 PermisoModificar = PermisoModificar,
                 //PermisoModificarTerritorios = MySesion.Id_TU == 23 // jefe de operaciones
-                PermisoModificarTerritorios = MySesion.Id_TU == 3,
+                PermisoModificarTerritorios = sesionLocal.Id_TU == 3,
                 //PermisoModificarTerritorios = true,
-                MostrarTabBennets = MySesion.Id_Cd == 34120
+                MostrarTabBennets = sesionLocal.Id_Cd == 34120
             };
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson CambiarCentroDistribucion(string centroDistribucion, int idCentroDistribucion)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJson();
             if (!OpenSession())
             {
@@ -212,26 +218,27 @@ namespace SIANWEB
                 return result;
             }
 
-            MySesion.Id_Cd_Ver = idCentroDistribucion;
-            MySesion.Cd_Nombre = centroDistribucion;
+            sesionLocal.Id_Cd_Ver = idCentroDistribucion;
+            sesionLocal.Cd_Nombre = centroDistribucion;
             CN_CatCalendario cn_catcalendario = new CN_CatCalendario();
             Calendario calendario = new Calendario();
-            cn_catcalendario.ConsultaCalendarioActual(ref calendario, MySesion);
-            MySesion.CalendarioIni = calendario.Cal_FechaIni;
-            MySesion.CalendarioFin = calendario.Cal_FechaFin;
+            cn_catcalendario.ConsultaCalendarioActual(ref calendario, sesionLocal);
+            sesionLocal.CalendarioIni = calendario.Cal_FechaIni;
+            sesionLocal.CalendarioFin = calendario.Cal_FechaFin;
             result.Estatus = true;
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerCentros()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                int multiOfi = MySesion.U_MultiOfi ? 1 : 2;
-                new CD__Comun().LlenaCombo(multiOfi, MySesion.Id_Emp, MySesion.Id_U, "spCatCentroDistribucion_Combo", MySesion.Emp_Cnx, ref list);
+                int multiOfi = sesionLocal.U_MultiOfi ? 1 : 2;
+                new CD__Comun().LlenaCombo(multiOfi, sesionLocal.Id_Emp, sesionLocal.Id_U, "spCatCentroDistribucion_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -246,21 +253,22 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerClientes()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
                 new CD__Comun().LlenaCombo(
                     2,
-                    MySesion.Id_Emp,
-                    MySesion.Id_Cd_Ver,
+                    sesionLocal.Id_Emp,
+                    sesionLocal.Id_Cd_Ver,
                     null,
-                    MySesion.Id_Rik == -1 ? null : (int?)MySesion.Id_Rik,
+                    sesionLocal.Id_Rik == -1 ? null : (int?)sesionLocal.Id_Rik,
                     "spCatCliente_Combo",
-                    MySesion.Emp_Cnx,
+                    sesionLocal.Emp_Cnx,
                     ref list
                 );
 
@@ -277,13 +285,14 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerUEN()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
-                var list = new CD_CatUen().SelCatUen(MySesion.Id_Emp, 0, MySesion.Emp_Cnx);
+                var list = new CD_CatUen().SelCatUen(sesionLocal.Id_Emp, 0, sesionLocal.Emp_Cnx);
                 list.Insert(0, new Uen
                 {
                     Id_Uen = -1,
@@ -300,11 +309,12 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerUsosCfdi()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
-            using (var cn = new SqlConnection(MySesion.Emp_Cnx))
+            using (var cn = new SqlConnection(sesionLocal.Emp_Cnx))
             {
                 var usosCfdi = new List<string>();
                 try
@@ -333,13 +343,14 @@ namespace SIANWEB
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerSegmentos(int idUen)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
-                var list = new CD_CatSegmentos().SelCatSegmento(MySesion.Id_Emp, idUen, MySesion.Emp_Cnx);
+                var list = new CD_CatSegmentos().SelCatSegmento(sesionLocal.Id_Emp, idUen, sesionLocal.Emp_Cnx);
                 list.Insert(0, new eSegmento
                 {
                     Id_Seg = -1,
@@ -356,20 +367,21 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerPaises()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
                 new CD__Comun().LlenaCombo(
                     1,
-                    MySesion.Id_Emp,
-                    MySesion.Id_Cd_Ver,
+                    sesionLocal.Id_Emp,
+                    sesionLocal.Id_Cd_Ver,
                     2,
                     "spCatPaises_Combo",
-                    MySesion.Emp_Cnx,
+                    sesionLocal.Emp_Cnx,
                     ref list
                 );
 
@@ -386,9 +398,10 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerEstados(int idPais)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
@@ -396,7 +409,7 @@ namespace SIANWEB
                 new CD__Comun().LlenaCombo(
                     idPais,
                     "spCatEstados_Combo",
-                    MySesion.Emp_Cnx,
+                    sesionLocal.Emp_Cnx,
                     ref list
                 );
 
@@ -413,9 +426,10 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static DatosDelCliente ObtenerDatosDelCliente(int idCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             HttpContext.Current.Session["autorizoelcambiotipocliente"] = null;
             HttpContext.Current.Session["autorizo!"] = null;
             var result = new DatosDelCliente();
@@ -435,14 +449,14 @@ namespace SIANWEB
 
                 var cte = new Clientes
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Cte = idCliente,
                     Ignora_Inactivo = true
                 };
 
                 var catCliente = new CN_CatCliente();
-                catCliente.ConsultaClientes(ref cte, MySesion.Emp_Cnx);
+                catCliente.ConsultaClientes(ref cte, sesionLocal.Emp_Cnx);
                 result.IdCliente = cte.Id_Cte.Value;
                 result.FechaUltimaModificacion = cte.Cte_Modfecha.ToShortDateString();
                 result.Usuario = cte.U_Nombre;
@@ -489,7 +503,7 @@ namespace SIANWEB
                 result.TerritoriosPendientesPorAceptar = !ChecarTerritoriosPendientes(idCliente);
                 //<-----
 
-                catCliente.ConsultarClienteFormaPago(ref cte, MySesion.Emp_Cnx);
+                catCliente.ConsultarClienteFormaPago(ref cte, sesionLocal.Emp_Cnx);
                 //COBRANZA ----->
                 result.Cobranza = new Cobranza
                 {
@@ -571,7 +585,8 @@ namespace SIANWEB
                     SerieNCargo = cte.Cte_SerieNCa,
                     Adenda = cte.Id_Ade,
                     FormasDePago = cte.FormasPago == null ? new int[] { } : cte.FormasPago.Select(x => x.Id_Fpa).ToArray(),
-                    RevPago = cte.RevPago
+                    RevPago = cte.RevPago,
+                    UsoCFDIDesdeCNac = cte.Cte_UsoCFDIDesdeCNac
                 };
 
                 string h = "";
@@ -614,7 +629,7 @@ namespace SIANWEB
 
 
                 //DIRECCION ENTREGA ---->
-                if (MySesion.Id_Cd == 34120)
+                if (sesionLocal.Id_Cd == 34120)
                 {
                     result.CatalogoAdicionalBennets = ConsultarSeleccionCatalogoAdicional(cte.Id_Cte.Value);
                 }
@@ -622,11 +637,11 @@ namespace SIANWEB
 
                 var usu = new Usuario
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd,
-                    Id_U = MySesion.Id_U
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd,
+                    Id_U = sesionLocal.Id_U
                 };
-                new CN_CatUsuario().ConsultaUsuarios(ref usu, MySesion.Emp_Cnx);
+                new CN_CatUsuario().ConsultaUsuarios(ref usu, sesionLocal.Emp_Cnx);
 
                 int dias = cte.Cte_DiasVencidos;
                 //result.Cobranza.EnableCreditoSuspendido = usu.U_SusCredito && usu.U_DiasVencimiento >= dias;
@@ -639,8 +654,9 @@ namespace SIANWEB
 
         private static bool ValidarCheckCobranza(int id_cte)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             int verificador = 0;
-            new CN_CatUsuario().ConsultaModificarCredito(id_cte, MySesion, ref verificador);
+            new CN_CatUsuario().ConsultaModificarCredito(id_cte, sesionLocal, ref verificador);
 
             if (verificador == 0)
             {
@@ -652,7 +668,7 @@ namespace SIANWEB
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson InicializarValores()
         {
             var result = new ResponseJson();
@@ -711,10 +727,11 @@ namespace SIANWEB
 
         static bool ValidarCreditoSuspendido(int idCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
                 int verificador = 0;
-                new CN_CatUsuario().ConsultaModificarCredito(idCliente, MySesion, ref verificador);
+                new CN_CatUsuario().ConsultaModificarCredito(idCliente, sesionLocal, ref verificador);
 
                 return verificador == 1;
             }
@@ -724,7 +741,8 @@ namespace SIANWEB
 
         static bool OpenSession()
         {
-            return MySesion != null && DtTablaTerritorios != null && DtTablaTerritoriosAnt != null
+            Sesion sesionLocal = GetCurrentSesion();
+            return sesionLocal != null && DtTablaTerritorios != null && DtTablaTerritoriosAnt != null
                 && DtTablaTerritorios_ViewModel != null && DtTableDireccionEntrega != null;
         }
         #endregion
@@ -767,26 +785,28 @@ namespace SIANWEB
             public string Id { get; set; }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static MaximoId ObtenerMaximoId()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new MaximoId();
             try
             {
-                result.Id = new CN__Comun().Maximo(MySesion.Id_Emp, MySesion.Id_Cd_Ver, "CatCliente", "Id_Cte", MySesion.Emp_Cnx, "spCatLocal_Maximo");
+                result.Id = new CN__Comun().Maximo(sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, "CatCliente", "Id_Cte", sesionLocal.Emp_Cnx, "spCatLocal_Maximo");
             }
             catch { }
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerTiposDeCliente()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, MySesion.VersionTerritorio ? "spCatTCliente_ComboVTerritorio" : "spCatTCliente_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, sesionLocal.VersionTerritorio ? "spCatTCliente_ComboVTerritorio" : "spCatTCliente_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -801,14 +821,15 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerCuentasCorporativas()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(MySesion.Id_Emp, "spCatCuentaCorp_Combo", Emp_CnxCen, ref list);
+                new CD__Comun().LlenaCombo(sesionLocal.Id_Emp, "spCatCuentaCorp_Combo", Emp_CnxCen, ref list);
 
                 if (list.Count > 0)
                 {
@@ -823,14 +844,15 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerRegimenFiscal()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo("Sp_CatRegimenFiscal_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo("Sp_CatRegimenFiscal_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -845,7 +867,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerAsignacionDePedido()
         {
             return new List<ResponseJson_SelectFormat>()
@@ -872,9 +894,10 @@ namespace SIANWEB
         /// se ejecuta cuando es false el checkbox activo
         /// </summary>
         /// <returns></returns>
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson DeshabilitarCliente(int clienteId)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJson();
             if (!OpenSession())
             {
@@ -887,14 +910,14 @@ namespace SIANWEB
                 bool verificador = false;
                 var catalogo = new Catalogo
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id = clienteId,
                     Tabla = "CatCliente",
                     Columna = "Id_Cte"
                 };
 
-                new CN__Comun().Deshabilitar(catalogo, MySesion.Emp_Cnx, ref verificador);
+                new CN__Comun().Deshabilitar(catalogo, sesionLocal.Emp_Cnx, ref verificador);
                 result.Estatus = verificador;
                 result.Mensaje = !verificador ? "El registro está siendo utilizado por otro componente" : "";
             }
@@ -906,9 +929,10 @@ namespace SIANWEB
         /// se ejecuta cuando se selecciona tipo de cliente
         /// </summary>
         /// <returns></returns>
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson ConsultaTipoDeCliente(int tipoDeCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJson();
             if (!OpenSession())
             {
@@ -920,12 +944,12 @@ namespace SIANWEB
                 var list = new List<Comun>();
                 var cte = new Clientes
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_TCte = tipoDeCliente
                 };
 
-                new CN_CatCliente().ConsultaClienteTipo(cte, MySesion.Emp_Cnx, ref list);
+                new CN_CatCliente().ConsultaClienteTipo(cte, sesionLocal.Emp_Cnx, ref list);
                 if (list.Count > 0)
                 {
                     bool conCuentaCorporativa = list[0].ValorBool;
@@ -971,14 +995,15 @@ namespace SIANWEB
             public int PaisId { get; set; }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerRutas()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, 1, "spCatRutas_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, 1, "spCatRutas_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -993,7 +1018,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson AgregarDireccionEntrega(DireccionEntrega req)
         {
             var result = new ResponseJson();
@@ -1039,7 +1064,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<DireccionEntrega> ObtenerDtTableDireccionEntrega()
         {
             var result = new List<DireccionEntrega>();
@@ -1074,7 +1099,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson EliminarDireccionEntrega(int idDireccionEntrega)
         {
             var result = new ResponseJson();
@@ -1096,7 +1121,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson ActualizarDireccionEntrega(DireccionEntrega req)
         {
             var result = new ResponseJson();
@@ -1138,16 +1163,17 @@ namespace SIANWEB
 
         static void ObtenerDireccionEntregas_ClienteSeleccionado(int clienteId)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
                 var dt = InicializarDtTableDireccionEntrega();
                 var clienteDirEntrega = new ClienteDirEntrega
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Cte = clienteId
                 };
-                new CN_CatCliente().ConsultaClienteDirEntrega(clienteDirEntrega, MySesion.Emp_Cnx, ref dt, MySesion.VersionTerritorio);
+                new CN_CatCliente().ConsultaClienteDirEntrega(clienteDirEntrega, sesionLocal.Emp_Cnx, ref dt, sesionLocal.VersionTerritorio);
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -1257,15 +1283,16 @@ namespace SIANWEB
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerTerritoriosServicio()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo("spCatTerritorioServ_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo("spCatTerritorioServ_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -1280,14 +1307,15 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerTerritorios()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(MySesion.Id_Emp, MySesion.Id_Cd_Ver, "spCatTerritorio_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, "spCatTerritorio_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {
@@ -1302,7 +1330,7 @@ namespace SIANWEB
             return result;
         }
 
-        //[WebMethod]
+        //[WebMethod(EnableSession = true)]
         //public static List<ResponseJson_SelectFormat> ObtenerTipoGarantia()
         //{
         //    var result = new List<ResponseJson_SelectFormat>();
@@ -1320,9 +1348,10 @@ namespace SIANWEB
         //    return result;
         //}
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJsonTerritorios AgregarTerritorio(TerritorioReq req)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJsonTerritorios();
             if (!OpenSession())
             {
@@ -1340,9 +1369,9 @@ namespace SIANWEB
 
                 string fechaSolicitud = null;
                 int respuesta = 0;
-                new CN_CatCliente().ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta);
+                new CN_CatCliente().ValidaSucursal(sesionLocal, Emp_CnxCob, ref respuesta);
 
-                if (MySesion.Id_Cd_Ver == respuesta && req.IdTerritorio.ToString().Substring(0, 1) != "6")
+                if (sesionLocal.Id_Cd_Ver == respuesta && req.IdTerritorio.ToString().Substring(0, 1) != "6")
                 {
                     fechaSolicitud = DateTime.Now.ToShortDateString();
 
@@ -1431,9 +1460,10 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static RepresentantePorTerritorio ObtenerRepresentantePorTerritorio(int idTerritorio)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new RepresentantePorTerritorio();
             if (!OpenSession())
             {
@@ -1445,12 +1475,12 @@ namespace SIANWEB
             {
                 var terServ = new CapaEntidad.Territorios
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Ter = idTerritorio
                 };
                 Representantes rik = null;
-                new CN_CatRepresentantes().ConsultarRepresentantePorTerritorio(terServ, MySesion.Emp_Cnx, ref rik);
+                new CN_CatRepresentantes().ConsultarRepresentantePorTerritorio(terServ, sesionLocal.Emp_Cnx, ref rik);
                 if (rik != null)
                 {
                     result.Id = rik.Id_Rik;
@@ -1461,7 +1491,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<Territorios> ObtenerDtTableTerritorios()
         {
             var result = new List<Territorios>();
@@ -1497,9 +1527,10 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson ActualizarTerritorio(TerritorioReq req)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJsonTerritorios();
             if (!OpenSession())
             {
@@ -1517,9 +1548,9 @@ namespace SIANWEB
                 else
                 {
                     int respuesta = 0;
-                    new CN_CatCliente().ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta);
+                    new CN_CatCliente().ValidaSucursal(sesionLocal, Emp_CnxCob, ref respuesta);
 
-                    if (MySesion.Id_Cd_Ver == respuesta && req.IdTerritorio.ToString().Substring(0, 1) != "6")
+                    if (sesionLocal.Id_Cd_Ver == respuesta && req.IdTerritorio.ToString().Substring(0, 1) != "6")
                     {
                         CargarTerritoriosAutorizacionAnt(req, "edit", false);
                         CargarTerritoriosAutorizados(req, true, false, 1);
@@ -1607,7 +1638,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson EliminarTerritorio(int idCliente, int idTerritorio, bool nuevoClienteYTerritorioPadre)
         {
             var result = new ResponseJson();
@@ -1649,7 +1680,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson AgregarComentarioTerritorio()
         {
             string comentario = HttpContext.Current.Session["Comentarios" + HttpContext.Current.Session.SessionID].ToString();
@@ -1662,9 +1693,10 @@ namespace SIANWEB
             return new ResponseJson { Estatus = true };
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson CambiarStatusActivoTerritorio(TerritorioReq req, bool status)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJsonTerritorios();
             if (!OpenSession())
             {
@@ -1683,8 +1715,8 @@ namespace SIANWEB
                 row.AcceptChanges();
 
                 int respuesta = 0;
-                new CN_CatCliente().ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta);
-                if (req.IdTerritorio.ToString().Substring(0, 1) != "6" && MySesion.Id_Cd_Ver == respuesta)
+                new CN_CatCliente().ValidaSucursal(sesionLocal, Emp_CnxCob, ref respuesta);
+                if (req.IdTerritorio.ToString().Substring(0, 1) != "6" && sesionLocal.Id_Cd_Ver == respuesta)
                 {
                     CargarTerritoriosAutorizacionAnt(req, "activo", status);
                     CargarTerritoriosAutorizados(req, status, false, 1);
@@ -1718,24 +1750,25 @@ namespace SIANWEB
 
         static void ObtenerTerritorios_ClienteSeleccionado(int clienteId)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
                 var cc = new CN_CatCliente();
                 var dt = InicializarTablaTerritorios_ViewModel();
                 var clientedet = new ClienteDet
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Cte = clienteId
                 };
-                cc.ConsultaClienteDet(clientedet, MySesion.Emp_Cnx, ref dt, MySesion.VersionTerritorio);
+                cc.ConsultaClienteDet(clientedet, sesionLocal.Emp_Cnx, ref dt, sesionLocal.VersionTerritorio);
 
                 if (dt != null && dt.Rows.Count > 0 && !dt.AsEnumerable().Any(x => x.Field<bool>("TerritorioPadre")))
                 {
                     //no se han asignado territorio padre
                     DefaultTerritorioPadre(clienteId);
                     dt = InicializarTablaTerritorios_ViewModel();
-                    cc.ConsultaClienteDet(clientedet, MySesion.Emp_Cnx, ref dt, MySesion.VersionTerritorio);
+                    cc.ConsultaClienteDet(clientedet, sesionLocal.Emp_Cnx, ref dt, sesionLocal.VersionTerritorio);
                 }
 
                 DtTablaTerritorios_ViewModel = dt;
@@ -1807,11 +1840,12 @@ namespace SIANWEB
 
         static void CargarTerritoriosAutorizacionAnt(TerritorioReq terr, string tipo, bool estatus)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             if (terr == null)
             {
                 DtTablaTerritoriosAnt.Rows.Add(
-                    MySesion.Id_Emp,
-                    MySesion.Id_Cd_Ver,
+                    sesionLocal.Id_Emp,
+                    sesionLocal.Id_Cd_Ver,
                     0,
                     "No aplica",
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -1828,8 +1862,8 @@ namespace SIANWEB
             else activo = terr.Activo;
 
             DtTablaTerritoriosAnt.Rows.Add(
-                MySesion.Id_Emp,
-                MySesion.Id_Cd_Ver,
+                sesionLocal.Id_Emp,
+                sesionLocal.Id_Cd_Ver,
                 terr.IdCliente,
                 terr.Cliente,
                 terr.IdTerritorio,
@@ -1852,9 +1886,10 @@ namespace SIANWEB
 
         static void CargarTerritoriosAutorizados(TerritorioReq terr, bool activo, bool nuevo, int impacta)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             DtTablaTerritorios.Rows.Add(
-                MySesion.Id_Emp,
-                MySesion.Id_Cd_Ver,
+                sesionLocal.Id_Emp,
+                sesionLocal.Id_Cd_Ver,
                 terr.IdCliente,
                 terr.Cliente,
                 terr.IdTerritorio,
@@ -1872,8 +1907,8 @@ namespace SIANWEB
                 terr.Id,
                 -1, //id segmento
                 terr.IdTerServ,
-                MySesion.U_Nombre, //solicita
-                MySesion.U_Correo, // correo solicitante
+                sesionLocal.U_Nombre, //solicita
+                sesionLocal.U_Correo, // correo solicitante
                 "", //comentario
                 impacta
             );
@@ -1881,8 +1916,9 @@ namespace SIANWEB
 
         static bool ChecarTerritoriosPendientes(int idCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             int existe = 0;
-            new CN_CatCliente().ConsultarSolicitudesPdtesClienteTerr(MySesion.Id_Emp, MySesion.Id_Cd_Ver, idCliente, Emp_CnxCen, ref existe);
+            new CN_CatCliente().ConsultarSolicitudesPdtesClienteTerr(sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, idCliente, Emp_CnxCen, ref existe);
             if (existe == 1)
             {
 
@@ -1893,12 +1929,13 @@ namespace SIANWEB
 
         static bool EnviarComentarios(int idTerr)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             bool send = false;
             try
             {
                 int respuesta = 0;
-                new CN_CatCliente().ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta);
-                if (MySesion.Id_Cd_Ver == respuesta)
+                new CN_CatCliente().ValidaSucursal(sesionLocal, Emp_CnxCob, ref respuesta);
+                if (sesionLocal.Id_Cd_Ver == respuesta)
                 {
                     send = true;
                 }
@@ -1909,14 +1946,15 @@ namespace SIANWEB
 
         static bool PermisosParaEliminar(int idCliente, int idTerr)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             bool permiso = false;
-            using (var conn = new SqlConnection(MySesion.Emp_Cnx))
+            using (var conn = new SqlConnection(sesionLocal.Emp_Cnx))
             {
                 using (var cmd = new SqlCommand("spPermisosParaEliminarTerritorio", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@id_ter", SqlDbType.Int).Value = idTerr;
-                    cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = MySesion.Id_Cd;
+                    cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = sesionLocal.Id_Cd;
                     cmd.Parameters.Add("@id_cte", SqlDbType.Int).Value = idCliente;
 
                     conn.Open();
@@ -1936,12 +1974,13 @@ namespace SIANWEB
 
         static void DefaultTerritorioPadre(int idCliente)
         {
-            using (var conn = new SqlConnection(MySesion.Emp_Cnx))
+            Sesion sesionLocal = GetCurrentSesion();
+            using (var conn = new SqlConnection(sesionLocal.Emp_Cnx))
             {
                 using (var cmd = new SqlCommand("habilitarTerritorioPadre", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = MySesion.Id_Cd;
+                    cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = sesionLocal.Id_Cd;
                     cmd.Parameters.Add("@id_cte", SqlDbType.Int).Value = idCliente;
 
                     conn.Open();
@@ -2018,6 +2057,7 @@ namespace SIANWEB
             public string Portal { get; set; }
             public string UDigitos { get; set; }
             public string UsoCFDI { get; set; }
+            public bool UsoCFDIDesdeCNac { get; set; }
             public string MetodoPago { get; set; }
             public string PagoUsoCFDI { get; set; }
             public string PagoMetodoPago { get; set; }
@@ -2041,15 +2081,16 @@ namespace SIANWEB
             public string RevPago { get; set; }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerFormasDePago()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(MySesion.Id_Emp, -1, "spCatFormaPago_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(sesionLocal.Id_Emp, -1, "spCatFormaPago_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2060,15 +2101,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerTMoneda()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, "spCatTmoneda_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, "spCatTmoneda_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2079,15 +2121,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerVersionCFDI()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo("Sp_VersionCFDI_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo("Sp_VersionCFDI_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2098,15 +2141,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerBancos()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, "spCatBanco_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, "spCatBanco_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2117,7 +2161,7 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerMetodosPago()
         {
             return new List<ResponseJson_SelectFormat>()
@@ -2140,15 +2184,16 @@ namespace SIANWEB
             };
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerAdenda()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, "spCatAdenda_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, "spCatAdenda_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2159,15 +2204,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerSerieNotaCargo()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, 2, "spCatConsFactEle_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, 2, "spCatConsFactEle_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2178,15 +2224,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerSerieNotaCredito()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, 3, "spCatConsFactEle_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, 3, "spCatConsFactEle_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2197,15 +2244,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerSerieConsecutivo()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, 1, "spCatConsFactEle_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, 1, "spCatConsFactEle_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2216,15 +2264,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerRemisionesElectronicas()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo("Sp_CatCuentaContableNacional_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo("Sp_CatCuentaContableNacional_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2235,15 +2284,16 @@ namespace SIANWEB
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerDiasCondicionesDePago()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo(1, MySesion.Id_Emp, MySesion.Id_Cd_Ver, 1, "spCatDias_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo(1, sesionLocal.Id_Emp, sesionLocal.Id_Cd_Ver, 1, "spCatDias_Combo", sesionLocal.Emp_Cnx, ref list);
                 result = list.Select(x => new ResponseJson_SelectFormat()
                 {
                     Descripcion = x.Descripcion,
@@ -2280,15 +2330,16 @@ namespace SIANWEB
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<CatalogoAdicionalBennets> ObtenerCamposDeUsuario_Bennets()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var lstCampos = new List<Comun>();
             var lstCatalogo = new List<Comun>();
             var lstCatalogoDetalle = new List<Comun>();
             var result = new List<CatalogoAdicionalBennets>();
 
-            new CN_CatCliente().ConsultarCatalogoDinamico(MySesion.Id_Emp, MySesion.Id_Cd, MySesion.Emp_Cnx, ref lstCatalogo, ref lstCatalogoDetalle, ref lstCampos);
+            new CN_CatCliente().ConsultarCatalogoDinamico(sesionLocal.Id_Emp, sesionLocal.Id_Cd, sesionLocal.Emp_Cnx, ref lstCatalogo, ref lstCatalogoDetalle, ref lstCampos);
 
             if (lstCatalogo != null && lstCatalogo.Count > 0 && lstCatalogoDetalle != null && lstCatalogoDetalle.Count > 0 && lstCampos != null && lstCampos.Count > 0)
             {
@@ -2322,10 +2373,11 @@ namespace SIANWEB
 
         static CatalogoAdicional ConsultarSeleccionCatalogoAdicional(int idCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new CatalogoAdicional();
             var lstCatalogoSeleccion = new List<Comun>();
 
-            new CN_CatCliente().ConsultarSeleccionCatalogoAdicional(MySesion.Emp_Cnx, MySesion.Id_Cd, idCliente, ref lstCatalogoSeleccion);
+            new CN_CatCliente().ConsultarSeleccionCatalogoAdicional(sesionLocal.Emp_Cnx, sesionLocal.Id_Cd, idCliente, ref lstCatalogoSeleccion);
             if (lstCatalogoSeleccion != null && lstCatalogoSeleccion.Count > 0)
             {
                 result.IdCatGenerico = lstCatalogoSeleccion[0].Id;
@@ -2364,6 +2416,7 @@ namespace SIANWEB
 
         static void GuardarSeleccionCatalogoAdicional(int idCliente, CatalogoAdicional catalogo)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             int[] lstParametro = new int[13];
 
             lstParametro[0] = idCliente;
@@ -2378,7 +2431,7 @@ namespace SIANWEB
             lstParametro[9] = catalogo.Cat[4].IdCatGenerico;
             lstParametro[10] = catalogo.Cat[4].IdCatGenericoDetalle;
 
-            new CN_CatCliente().GuardarSeleccionCatalogoAdicional(MySesion.Emp_Cnx, MySesion.Id_Cd, lstParametro, catalogo.IdCatGenerico, catalogo.Sucursal);
+            new CN_CatCliente().GuardarSeleccionCatalogoAdicional(sesionLocal.Emp_Cnx, sesionLocal.Id_Cd, lstParametro, catalogo.IdCatGenerico, catalogo.Sucursal);
         }
         #endregion
 
@@ -2395,9 +2448,10 @@ namespace SIANWEB
             public CatalogoAdicional CatalogoAdicionalBennets { get; set; }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static ResponseJson GuardarCliente(ClienteModel model)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new ResponseJson();
             if (!OpenSession())
             {
@@ -2447,11 +2501,11 @@ namespace SIANWEB
             {
                 var cliente = new Clientes
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
-                    Id_UCd = MySesion.Id_Cd,
-                    Id_U = MySesion.Id_U,
-                    Id_UMod = MySesion.Id_U,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
+                    Id_UCd = sesionLocal.Id_Cd,
+                    Id_U = sesionLocal.Id_U,
+                    Id_UMod = sesionLocal.Id_U,
                     //datos generales
                     Id_Cte = model.IdCliente,
                     Estatus = model.DatosGenerales.Activo,
@@ -2574,7 +2628,7 @@ namespace SIANWEB
                     Cte_SerieNCre = model.Cobranza.SerieNC,
                     Cte_SerieNCa = model.Cobranza.SerieNCargo,
                     Id_Ade = model.Cobranza.Adenda,
-                    Db = (new SqlConnectionStringBuilder(MySesion.Emp_Cnx)).InitialCatalog,
+                    Db = (new SqlConnectionStringBuilder(sesionLocal.Emp_Cnx)).InitialCatalog,
                     Db_Cobranza = (new SqlConnectionStringBuilder(Emp_CnxCob)).InitialCatalog,
                     Cte_AutorizaPlazo_IdCd = null,
                     Cte_AutorizaPlazo_IdU = null,
@@ -2595,10 +2649,10 @@ namespace SIANWEB
                 var catCliente = new CN_CatCliente();
                 int verificador = 0;
 
-                if (model.Nuevo) catCliente.InsertarClientes(cliente, MySesion.Emp_Cnx, ref verificador, MySesion.VersionTerritorio);
-                else catCliente.ModificarClientes(cliente, MySesion.Emp_Cnx, ref verificador, MySesion.VersionTerritorio);
+                if (model.Nuevo) catCliente.InsertarClientes(cliente, sesionLocal.Emp_Cnx, ref verificador, sesionLocal.VersionTerritorio);
+                else catCliente.ModificarClientes(cliente, sesionLocal.Emp_Cnx, ref verificador, sesionLocal.VersionTerritorio);
 
-                if (MySesion.Id_Cd == 34120) GuardarSeleccionCatalogoAdicional(model.IdCliente, model.CatalogoAdicionalBennets);
+                if (sesionLocal.Id_Cd == 34120) GuardarSeleccionCatalogoAdicional(model.IdCliente, model.CatalogoAdicionalBennets);
 
                 if (verificador != 1 && model.Nuevo)
                 {
@@ -2613,10 +2667,10 @@ namespace SIANWEB
 
                 //catCliente.ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta); pendiente validar con rafa
 
-                if (model.Nuevo) catCliente.InsertarCteFormaPago(cliente, MySesion.Emp_Cnx, ref verificador);
+                if (model.Nuevo) catCliente.InsertarCteFormaPago(cliente, sesionLocal.Emp_Cnx, ref verificador);
 
                 int respuesta = 0;
-                new CN_CatCliente().ValidaSucursal(MySesion, Emp_CnxCob, ref respuesta);
+                new CN_CatCliente().ValidaSucursal(sesionLocal, Emp_CnxCob, ref respuesta);
 
                 //clientesDet
                 var _dtVentasDirectas = DtTablaTerritorios_ViewModel.AsEnumerable()
@@ -2661,9 +2715,9 @@ namespace SIANWEB
 
                 //Territorio si no existe insertarlo
                 if (dtVentasDirectas.Rows.Count > 0)
-                    catCliente.InsertarClientesDet(cliente, dtVentasDirectas, MySesion.Emp_Cnx, MySesion.VersionTerritorio);
+                    catCliente.InsertarClientesDet(cliente, dtVentasDirectas, sesionLocal.Emp_Cnx, sesionLocal.VersionTerritorio);
                 else if (clientesDet.Rows.Count > 0)
-                    catCliente.InsertarClientesDet(cliente, clientesDet, MySesion.Emp_Cnx, MySesion.VersionTerritorio);
+                    catCliente.InsertarClientesDet(cliente, clientesDet, sesionLocal.Emp_Cnx, sesionLocal.VersionTerritorio);
 
                 // Cambiar territorio activo
                 if (lstTerActivo.Count == 1)
@@ -2679,13 +2733,13 @@ namespace SIANWEB
                                 Id_Cte = (int)cliente.Id_Cte,
                                 Id_CteDet = item
                             };
-                            catCliente.ActualizaTerritorioActivo(MySesion.Emp_Cnx, clienteDet, lstTerActivo[0], MySesion.Id_U);
+                            catCliente.ActualizaTerritorioActivo(sesionLocal.Emp_Cnx, clienteDet, lstTerActivo[0], sesionLocal.Id_U);
                         }
                     }
                 }
 
-                catCliente.InsertarClientesDirEntrega(cliente, DtTableDireccionEntrega, MySesion.Emp_Cnx, MySesion.VersionTerritorio);
-                if (DtTablaTerritorios.Rows.Count > 0 && MySesion.Id_Cd_Ver == respuesta)
+                catCliente.InsertarClientesDirEntrega(cliente, DtTableDireccionEntrega, sesionLocal.Emp_Cnx, sesionLocal.VersionTerritorio);
+                if (DtTablaTerritorios.Rows.Count > 0 && sesionLocal.Id_Cd_Ver == respuesta)
                 {
                     GuardarCliente_Territorio(model.IdCliente);
                 }
@@ -2712,27 +2766,28 @@ namespace SIANWEB
 
         static bool ValidarDatos_PreGuardar(ClienteModel model, ref ResponseJson json)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             //HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID + "autorizacionVinculacion"] = 0;
 
             var centroDistribuciones = new List<CentroDistribucion>();
-            new CN_CatCentroDistribucion().ConsultaCentrosPropios(ref centroDistribuciones, MySesion.Id_Emp, Emp_CnxCen);
+            new CN_CatCentroDistribucion().ConsultaCentrosPropios(ref centroDistribuciones, sesionLocal.Id_Emp, Emp_CnxCen);
 
             bool cambioCondicionesDePago = false;
             bool cambioTipoCliente = false;
             int condicionPagoDias = model.Cobranza.CondicionPagoDias;
             bool permiteGuardar = true;
 
-            if (!model.Nuevo && centroDistribuciones.Count(x => x.Id_Cd == MySesion.Id_Cd_Ver) > 0)
+            if (!model.Nuevo && centroDistribuciones.Count(x => x.Id_Cd == sesionLocal.Id_Cd_Ver) > 0)
             {
                 var cte = new Clientes
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Cte = model.IdCliente,
                     Ignora_Inactivo = true
                 };
                 var catCliente = new CN_CatCliente();
-                catCliente.ConsultaClientes(ref cte, MySesion.Emp_Cnx);
+                catCliente.ConsultaClientes(ref cte, sesionLocal.Emp_Cnx);
 
 
                 if (cte.Cte_CondPago != condicionPagoDias)
@@ -2760,10 +2815,10 @@ namespace SIANWEB
             var listPeriodoGracia = new List<PeriodoGracia>();
             var listAlertas = new List<Alertas>();
             var configCobranza = new CN_ConfiguracionCobranza();
-            string db = new SqlConnectionStringBuilder(MySesion.Emp_Cnx).InitialCatalog;
+            string db = new SqlConnectionStringBuilder(sesionLocal.Emp_Cnx).InitialCatalog;
             var reglas = new Reglas();
 
-            configCobranza.Consultar(ref listPeriodoGracia, ref listAcciones, ref listAlertas, MySesion.Id_Emp, db, ref reglas, Emp_CnxCob);
+            configCobranza.Consultar(ref listPeriodoGracia, ref listAcciones, ref listAlertas, sesionLocal.Id_Emp, db, ref reglas, Emp_CnxCob);
 
             if (condicionPagoDias >= (double?)reglas.Val1 && condicionPagoDias <= (double?)reglas.Val2)
                 id_tu = $",{reglas.Id_Tu1},{reglas.Id_Tu2},{reglas.Id_Tu3},";
@@ -2775,7 +2830,7 @@ namespace SIANWEB
             if (permiteGuardar && !model.Nuevo) id_tu = "";
 
 
-            if (id_tu != "" && centroDistribuciones.Count(x => x.Id_Cd == MySesion.Id_Cd_Ver) > 0)
+            if (id_tu != "" && centroDistribuciones.Count(x => x.Id_Cd == sesionLocal.Id_Cd_Ver) > 0)
             {
                 HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID + "Id_Tu"] = id_tu;
 
@@ -2785,7 +2840,7 @@ namespace SIANWEB
                     Id_TCte = model.DatosGenerales.TipoCliente
                 };
                 int verificador = 1;
-                clsTipoCliente.ConsultaAutorizadores(tipoCliente, MySesion.Emp_Cnx, ref verificador);
+                clsTipoCliente.ConsultaAutorizadores(tipoCliente, sesionLocal.Emp_Cnx, ref verificador);
 
                 if (tipoCliente.TCte_Autorizadores == ",")
                 {
@@ -2830,15 +2885,16 @@ namespace SIANWEB
 
         static string EnviaEmailAutorizacionTerritorios(int idCliente, DataTable dt)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             string result = "";
             try
             {
                 var configuracion = new ConfiguracionGlobal
                 {
-                    Id_Cd = MySesion.Id_Cd_Ver,
-                    Id_Emp = MySesion.Id_Emp
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp
                 };
-                new CN_Configuracion().Consulta(ref configuracion, MySesion.Emp_Cnx);
+                new CN_Configuracion().Consulta(ref configuracion, sesionLocal.Emp_Cnx);
 
                 for (int x = 0; x < dt.Rows.Count; x++)
                 {
@@ -2855,9 +2911,9 @@ namespace SIANWEB
                     cuerpo_correo.Append("<td colspan='2'><b><font face='Tahoma' size='2'>");
                     cuerpo_correo.Append("Se ha solicitado cambio en el Territorio del cliente # " + dt.Rows[x]["Id_Cte"]);
                     cuerpo_correo.Append("</td></tr><tr><td><b><font face='Tahoma' size='2'>");
-                    cuerpo_correo.Append("Centro de distribución:  " + MySesion.Id_Cd_Ver + " - " + MySesion.Cd_Nombre);
+                    cuerpo_correo.Append("Centro de distribución:  " + sesionLocal.Id_Cd_Ver + " - " + sesionLocal.Cd_Nombre);
                     cuerpo_correo.Append("</td></tr><tr><td><b><font face='Tahoma' size='2'>");
-                    cuerpo_correo.Append("Solicitó : " + MySesion.Id_U + " - " + MySesion.U_Nombre);
+                    cuerpo_correo.Append("Solicitó : " + sesionLocal.Id_U + " - " + sesionLocal.U_Nombre);
                     cuerpo_correo.Append("</td></tr><tr><td colspan='2'>");
                     string[] url = HttpContext.Current.Request.Url.ToString().Split(new char[] { '/' });
 
@@ -2877,7 +2933,7 @@ namespace SIANWEB
                     };
                     m.To.Add(new MailAddress(configuracion.Mail_Autorizaterritorios));
 
-                    m.Subject = "Solicitud de autorización para cambios en los territorios del cliente #" + idCliente + " del centro " + MySesion.Id_Cd_Ver;
+                    m.Subject = "Solicitud de autorización para cambios en los territorios del cliente #" + idCliente + " del centro " + sesionLocal.Id_Cd_Ver;
                     m.IsBodyHtml = true;
                     string body = cuerpo_correo.ToString();
                     AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
@@ -2936,14 +2992,15 @@ namespace SIANWEB
 
         static ConvenioDet ObtenerDatosConvenio(int idCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var convdet = new ConvenioDet();
 
             try
             {
                 var conv = new ConvenioDet()
                 {
-                    Id_Emp = MySesion.Id_Emp,
-                    Id_Cd = MySesion.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp,
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
                     Id_Cte = idCliente
                 };
                 new CN_Convenio().Convenio_ConsultaClienteVinculado(conv, ref convdet, Emp_CnxCen);
@@ -2954,6 +3011,7 @@ namespace SIANWEB
 
         static void EnviaMailAviso(int cte, string nombreactual, string nombrenuevo, ConvenioDet conv)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             string Asunto = "Cambios en nombre de cliente";
             int adicionales = 0;  //Gerente JO
             int anexos = 0;
@@ -2985,21 +3043,22 @@ namespace SIANWEB
             cuerpo_correo.Append("</table>");
 
 
-            EnviaMailConvenio enviarcorreo = new EnviaMailConvenio(conv.Id_PC, Asunto, cuerpo_correo, "", 1, destinatarios, adicionales, anexos, administradores, 0, MySesion, tipo_Habilitar, detalle, "");
+            EnviaMailConvenio enviarcorreo = new EnviaMailConvenio(conv.Id_PC, Asunto, cuerpo_correo, "", 1, destinatarios, adicionales, anexos, administradores, 0, sesionLocal, tipo_Habilitar, detalle, "");
             enviarcorreo.EnviaMail();
 
         }
 
         static void EliminarClienteDet(int idCliente, int idTerr)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
-                using (var conn = new SqlConnection(MySesion.Emp_Cnx))
+                using (var conn = new SqlConnection(sesionLocal.Emp_Cnx))
                 {
                     using (var cmd = new SqlCommand("spCatClienteDet_Eliminar", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = MySesion.Id_Cd;
+                        cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = sesionLocal.Id_Cd;
                         cmd.Parameters.Add("@id_cte", SqlDbType.Int).Value = idCliente;
                         cmd.Parameters.Add("@id_ter", SqlDbType.Int).Value = idTerr;
 
@@ -3013,14 +3072,15 @@ namespace SIANWEB
 
         static void ActualizarClienteDet(int idCliente, int idClienteDet, int idTerr, DateTime fecSolicitud, bool status, int idTerServ, int idTerServTecnico = -1)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
-                using (var conn = new SqlConnection(MySesion.Emp_Cnx))
+                using (var conn = new SqlConnection(sesionLocal.Emp_Cnx))
                 {
                     using (var cmd = new SqlCommand("spCatClienteDet_ActualizarStatus", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = MySesion.Id_Cd;
+                        cmd.Parameters.Add("@id_cd", SqlDbType.Int).Value = sesionLocal.Id_Cd;
                         cmd.Parameters.Add("@id_cte", SqlDbType.Int).Value = idCliente;
                         cmd.Parameters.Add("@id_cteDet", SqlDbType.Int).Value = idClienteDet;
                         cmd.Parameters.Add("@id_ter", SqlDbType.Int).Value = idTerr;
@@ -3039,22 +3099,23 @@ namespace SIANWEB
 
         static void EnviaEmailViculacion(string rfc, string nombreCliente)
         {
+            Sesion sesionLocal = GetCurrentSesion();
             try
             {
                 var configuracion = new ConfiguracionGlobal
                 {
-                    Id_Cd = MySesion.Id_Cd_Ver,
-                    Id_Emp = MySesion.Id_Emp
+                    Id_Cd = sesionLocal.Id_Cd_Ver,
+                    Id_Emp = sesionLocal.Id_Emp
                 };
 
-                new CN_Configuracion().Consulta(ref configuracion, MySesion.Emp_Cnx);
+                new CN_Configuracion().Consulta(ref configuracion, sesionLocal.Emp_Cnx);
                 StringBuilder cuerpo_correo = new StringBuilder();
 
                 cuerpo_correo.Append("<div align='center'>");
                 cuerpo_correo.Append(" <table>");
                 cuerpo_correo.Append("  <tr>");
                 cuerpo_correo.Append("   <td><img src=\"cid:companylogo\"></td>");
-                cuerpo_correo.Append("   <td valign='middle' style='text-decoration: underline'><b><font face= 'Tahoma' size = '2'>Se ha creado un nuevo cliente corporativo con el RFC " + rfc + " Razón social " + nombreCliente + " en la sucursal " + MySesion.Id_Cd_Ver + " " + MySesion.Cd_Nombre + ". <br/> Favor de agregarlo a la estructura para la sucursal proceda a la vinculación  </font></b></td>");
+                cuerpo_correo.Append("   <td valign='middle' style='text-decoration: underline'><b><font face= 'Tahoma' size = '2'>Se ha creado un nuevo cliente corporativo con el RFC " + rfc + " Razón social " + nombreCliente + " en la sucursal " + sesionLocal.Id_Cd_Ver + " " + sesionLocal.Cd_Nombre + ". <br/> Favor de agregarlo a la estructura para la sucursal proceda a la vinculación  </font></b></td>");
                 cuerpo_correo.Append("  </tr>");
                 cuerpo_correo.Append("  <tr>");
                 cuerpo_correo.Append("   <td colspan='2'><br><br><br></td>");
@@ -3085,7 +3146,7 @@ namespace SIANWEB
                     From = new MailAddress(configuracion.Mail_Remitente)
                 };
 
-                var configMail = new CN_Configuracion().Obtener(MySesion, 52);
+                var configMail = new CN_Configuracion().Obtener(sesionLocal, 52);
                 if (configMail.Conf_Valor == "")
                 {
                     return;
@@ -3116,15 +3177,16 @@ namespace SIANWEB
             catch { }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static List<ResponseJson_SelectFormat> ObtenerTerritoriosServicioTecnico()
         {
+            Sesion sesionLocal = GetCurrentSesion();
             var result = new List<ResponseJson_SelectFormat>();
 
             try
             {
                 var list = new List<Comun>();
-                new CD__Comun().LlenaCombo("spCatTerritorioServTecnico_Combo", MySesion.Emp_Cnx, ref list);
+                new CD__Comun().LlenaCombo("spCatTerritorioServTecnico_Combo", sesionLocal.Emp_Cnx, ref list);
 
                 if (list.Count > 0)
                 {

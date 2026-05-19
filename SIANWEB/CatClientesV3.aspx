@@ -1337,6 +1337,7 @@
                                                                                 {{ u.descripcion }}
                                                                             </option>
                                                                         </select>
+                                                                        <p class="text-danger font-weight-bold mb-0" v-if="cobranza.usoCFDIDesdeCNac">Cliente vinculado: si no cuenta con valor central, se puede establecer valor local</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col">
@@ -3030,7 +3031,8 @@
                     serieNC: -1,
                     serieNCargo: -1,
                     adenda: -1,
-                    revPago: ''
+                    revPago: '',
+                    usoCFDIDesdeCNac: false
                 })
 
                 const obtenerFormasDePago = () => {
@@ -3255,7 +3257,8 @@
                         serieNC: cobranza.value.serieNC,
                         serieNCargo: cobranza.value.serieNCargo,
                         adenda: cobranza.value.adenda,
-                        revPago: cobranza.value.revPago
+                        revPago: cobranza.value.revPago,
+                        usoCFDIDesdeCNac: cobranza.value.UsoCFDIDesdeCNac
                     }
 
                     return model
@@ -3386,6 +3389,7 @@
                     cobranza.value.serieNCargo = data.SerieNCargo
                     cobranza.value.adenda = data.Adenda
                     cobranza.value.revPago = data.RevPago
+                    cobranza.value.usoCFDIDesdeCNac = data.UsoCFDIDesdeCNac
                 }
 
                 const limpiarCobranza = () => {
@@ -3450,6 +3454,7 @@
                     cobranza.value.adenda = -1
                     cobranza.value.revPago = ''
                     cobranza.value.enableCreditoSuspendido = true
+                    cobranza.value.usoCFDIDesdeCNac = false
                 }
                 //#endregion
 

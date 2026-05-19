@@ -1800,7 +1800,7 @@ namespace CapaDatos
                     cte.Cte_PagoCorreos = dr.IsDBNull(dr.GetOrdinal("Cte_PagoCorreos")) ? "" : dr.GetValue(dr.GetOrdinal("Cte_PagoCorreos")).ToString();
 
                     cte.Cte_UsoCFDI = dr.IsDBNull(dr.GetOrdinal("Cte_UsoCFDI")) ? "" : dr.GetValue(dr.GetOrdinal("Cte_UsoCFDI")).ToString();
-
+                    cte.Cte_UsoCFDIDesdeCNac = Convert.IsDBNull(dr.GetValue(dr.GetOrdinal("UsoCFDIDesdeCNac"))) ? false : (bool)dr.GetValue(dr.GetOrdinal("UsoCFDIDesdeCNac"));
 
 
                     //TODO: QUITAR COMENTARIOS
