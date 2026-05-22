@@ -132,7 +132,7 @@ namespace SIANWEB.GestionPrecios
         }
 
         [WebMethod]
-        public static String GetClientes(List<Cliente> clientes, int dias, int id_cte, string nom_comercial, string representante)
+        public static String GetClientes(List<Cliente> clientes,int dias,int id_cte, string nom_comercial, string representante)
         {
 
             // Crear DataTable desde la lista
@@ -143,11 +143,11 @@ namespace SIANWEB.GestionPrecios
             string Outgoingfile = "Cotizacion" + id_cte + "-" + DateTime.Now.ToString("ddMMyyyy") + ".xlsx";
             //string rutaArchivo = HttpContext.Current.Server.MapPath("~/Reportes/Clientes.xlsx");
             string rutaRelativa = $"~/Reportes/{Outgoingfile}";
-            string rutaArchivo = HttpContext.Current.Server.MapPath("~/Reportes/" + Outgoingfile);
+            string rutaArchivo = HttpContext.Current.Server.MapPath("~/Reportes/"+Outgoingfile);
             string rutaCompleta = HttpContext.Current.Server.MapPath(rutaRelativa);
 
 
-            GenerarExcel(dt, rutaArchivo, dias, id_cte, nom_comercial, representante);
+            GenerarExcel(dt, rutaArchivo,dias,id_cte,nom_comercial,representante);
 
             // Construir URL de retorno
             Uri requestUrl = HttpContext.Current.Request.Url;
@@ -184,13 +184,13 @@ namespace SIANWEB.GestionPrecios
 
             foreach (var cliente in clientes)
             {
-                dt.Rows.Add(cliente.Id_Prd, cliente.NomProducto, cliente.PrecioNegociadoProy);
+                dt.Rows.Add( cliente.Id_Prd, cliente.NomProducto, cliente.PrecioNegociadoProy);
             }
 
             return dt;
         }
 
-        private static void GenerarExcel(DataTable dt, string rutaArchivo, int dias, int id_cte, string nom_comercial, string representante)
+        private static void GenerarExcel(DataTable dt, string rutaArchivo,int dias, int id_cte, string nom_comercial, string representante)
         {
             // Crear archivo Excel con EPPlus
             using (ExcelPackage package = new ExcelPackage())
@@ -229,7 +229,7 @@ namespace SIANWEB.GestionPrecios
 
 
         [WebMethod]
-        public static string GenerarHoja2(List<Cliente> clientes, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio)
+        public static string GenerarHoja2(List<Cliente> clientes, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante,string telefonorik,string fechainicio)
         {
             try
             {
@@ -446,7 +446,7 @@ namespace SIANWEB.GestionPrecios
                     row++;
                     hoja.Cells[row, 1].Value = "* Entrega a domicilio";
                     row++;
-                    hoja.Cells[row, 1].Value = "* Precios entran en vigor a partir del " + fechainicio;
+                    hoja.Cells[row, 1].Value = "* Precios entran en vigor a partir del "+ fechainicio;
                     row++;
                     hoja.Cells[row, 1].Value = "* Los precios convenidos se respetarán y cualquier cambio será comunicado al cliente con 15 días de anticipación.";
                     row++;
@@ -469,7 +469,7 @@ namespace SIANWEB.GestionPrecios
                     row++;
                     //hoja.Cells[row, 3].Value = "Agradeciendo la oportunidad para poder presentarle nuestra propuesta, me despido de usted esperando poder atenderle próximamente";
 
-                    string rango = $"C{row}:F{row + 1}";
+                    string rango = $"C{row}:F{row+1}";
 
                     hoja.Cells[rango].Merge = true; // Combinar celdas dentro del rango
                     hoja.Cells[rango].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -485,7 +485,7 @@ namespace SIANWEB.GestionPrecios
                     hoja.Cells[rango].Style.Font.Bold = true;
                     hoja.Cells[rango].Style.WrapText = true; // Habilita el ajuste automático de texto
                     hoja.Cells[rango].Merge = true; // Combinar celdas dentro del rango
-                    hoja.Cells[rango].Value = nombrerepresentante + " , " + telefonorik;
+                    hoja.Cells[rango].Value = nombrerepresentante+ " , " + telefonorik;
 
                     hoja.PrinterSettings.PrintArea = hoja.Cells["A1:J200"]; // Ajusta el rango de impresión según tus datos
 
@@ -900,7 +900,7 @@ namespace SIANWEB.GestionPrecios
         }
 
         [WebMethod]
-        public static string Guardar(List<GestionIncrementoPrecios> clientes, string id_tamaño, string tipocuenta, int id_matriz, string nombre_matriz, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio)
+        public static string Guardar (List<GestionIncrementoPrecios> clientes, string id_tamaño, string tipocuenta, int id_matriz, string nombre_matriz,  int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio)
         {
             try
             {
@@ -957,7 +957,7 @@ namespace SIANWEB.GestionPrecios
 
                 //reporteGAP.Id_Cd = Convert.ToInt32(CmbSucursal.Value.ToString());
                 encabezado.Id_Cd = MySesion.Id_Cd_Ver;
-                encabezado.Id_Emp = MySesion.Id_Emp;
+                encabezado.Id_Emp= MySesion.Id_Emp;
                 encabezado.Id_Rik = Convert.ToInt32(representante);
                 encabezado.Id_Cte = id_cte;
                 encabezado.Cte_NomComercial = nombrecom;
@@ -979,10 +979,10 @@ namespace SIANWEB.GestionPrecios
                 encabezado.DiasVigencia = dias;
                 encabezado.FechaInicioIncremento = Convert.ToDateTime(fechainicio);
                 encabezado.PorcentualIncremental = 0.00;
-                encabezado.IdUsuario = MySesion.Id_U;
+                encabezado.IdUsuario= MySesion.Id_U;
 
                 int verificador = 0;
-                verificador = CN_ReporteGAP.InsertarGestionIncremento(encabezado, clientes, Conexion, ref verificador);
+               verificador  = CN_ReporteGAP.InsertarGestionIncremento(encabezado, clientes, Conexion, ref verificador );
 
                 return verificador.ToString();
             }
@@ -994,7 +994,7 @@ namespace SIANWEB.GestionPrecios
 
 
         [WebMethod]
-        public static object GetPropuesta(int id_cte, string representante, int idreportegp)
+            public static object GetPropuesta(int id_cte, string representante,int idreportegp)
         {
             try
             {
@@ -1018,7 +1018,7 @@ namespace SIANWEB.GestionPrecios
                 int idreportegap = idreportegp;
                 object datos = new object();
                 object dd = new object();
-                dd = CN_ReporteGAP.ConsultaPropuesta(id_cte, Convert.ToInt32(representante), MySesion.Id_Cd_Ver, MySesion.Emp_Cnx, ref idreportegap, ref datos);
+                dd= CN_ReporteGAP.ConsultaPropuesta(id_cte, Convert.ToInt32(representante) , MySesion.Id_Cd_Ver, MySesion.Emp_Cnx, ref idreportegap , ref datos);
                 return datos;
             }
             catch (Exception ex)
@@ -1043,7 +1043,7 @@ namespace SIANWEB.GestionPrecios
 
 
         [WebMethod]
-        public static string Cerrar(List<GestionIncrementoPrecios> clientes, string id_tamaño, string tipocuenta, int id_matriz, string nombre_matriz, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio, int IdPropuestaGP)
+        public static string Cerrar(List<GestionIncrementoPrecios> clientes, string id_tamaño, string tipocuenta, int id_matriz, string nombre_matriz, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio , int IdPropuestaGP)
         {
             try
             {
@@ -1132,7 +1132,7 @@ namespace SIANWEB.GestionPrecios
         }
 
         [WebMethod]
-        public static string EnviarPropuesta(int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio, int idPropuestaGP)
+        public static string EnviarPropuesta(  int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio,int idPropuestaGP)
         {
             try
             {
@@ -1248,7 +1248,7 @@ namespace SIANWEB.GestionPrecios
                 HttpContext.Current.Response.Write(ex.Message);
                 HttpContext.Current.Response.End();
             }
-        }
+}
         [WebMethod]
         public void ExportarAExcel2(List<Dictionary<string, object>> clientes)
         {
@@ -1294,6 +1294,22 @@ namespace SIANWEB.GestionPrecios
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// ete metodo genera la carta del envio del PDF 
+        /// y es la versión ultima de mayo 2026 
+        /// </summary>
+        /// <param name="clientes"></param>
+        /// <param name="dias"></param>
+        /// <param name="id_cte"></param>
+        /// <param name="nom_comercial"></param>
+        /// <param name="representante"></param>
+        /// <param name="nombrerepresentante"></param>
+        /// <param name="telefonorik"></param>
+        /// <param name="fechainicio"></param>
+        /// <param name="correo"></param>
+        /// <returns></returns>
         [WebMethod]
         public static string GenerarPDF(List<Cliente> clientes, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio, string correo)
         {
@@ -1447,64 +1463,139 @@ namespace SIANWEB.GestionPrecios
                 renglon1 += 60;
 
                 // Párrafo 2
-                textoParrafo = "Como es de su conocimiento, la situación geopolítica internacional ha generado una alta volatilidad en los precios internacionales del petróleo (ver anexos), el cual constituye el principal insumo base para la producción de solventes. A ello se suman incrementos significativos en los costos de fletes internacionales y locales, derivados tanto de la coyuntura geopolítica como del cierre de rutas estratégicas, como el Canal de Ormuz, así como del incremento sostenido en el precio del diésel. Todos estos factores impactan de manera directa nuestros costos logísticos y operativos.";
+                textoParrafo = "Como es de su conocimiento, la situación geopolítica internacional ha generado una alta volatilidad en los precios internacionales del petróleo, el cual constituye el principal insumo base para la producción de solventes. Asimismo, estos incrementos han impactado de manera directa a otras materias primas relevantes como el polietileno, afectando de forma general a nuestros envases y empaques. Entre los insumos con mayor presión destacan también los desincrustantes, los alcoholes grasos, los tensoactivos y diversos aditivos, todos ellos con aumentos sustanciales en sus costos.";
 
-                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 120);
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 140);
                 paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
-
                 renglon1 += 90;
 
+
+
                 // Párrafo 3
-                textoParrafo = "Adicionalmente, se ha presentado una afectación relevante debido a los aranceles aplicados en México a los derivados de hidrocarburos, lo que complica la disponibilidad y eleva el costo de las principales materias primas utilizadas en la elaboración de solventes. En conjunto, estos elementos generan un entorno de alta presión sobre toda la cadena de suministro.";
-
-                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 80);
-                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
-
-                renglon1 += 60;
-
-                // Párrafo 4
-                textoParrafo = "Derivado de lo anterior, nos vemos en la necesidad de informarle que será indispensable realizar ajustes inmediatos en los precios de ciertos productos. Asimismo, no nos es posible comprometernos a mantener precios fijos en el mediano y largo plazo, ya que los ajustes en materias primas y logística continúan presentándose de manera acelerada e impredecible.";
-
-                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
-                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
-
-                renglon1 += 60;
-
-                // Párrafo 5
-                textoParrafo = "En este contexto, recomendamos evitar órdenes abiertas, así como convenios de suministro a largo plazo bajo esquemas de precio fijo, ya que no podríamos garantizar su sostenibilidad bajo las condiciones actuales del mercado. De igual forma, nos será imposible respetar back orders que contemplen condiciones de precio previamente acordadas.";
-
-                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
-                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
-
-                renglon1 += 60;
-
-                // Párrafo 6
-                textoParrafo = "Queremos dejar en claro que, en caso de que el precio del petróleo muestre una tendencia sostenida a la baja, realizaremos los ajustes correspondientes en nuestros precios de venta, reflejando dichas condiciones de mercado de manera responsable y transparente. No obstante, es importante considerar que, históricamente, los precios del petróleo tienden a incrementarse de forma más rápida de lo que disminuyen, por lo que los ajustes a la baja suelen darse de manera gradual.";
+                textoParrafo = "A lo anterior se suman incrementos significativos en los costos de fletes internacionales y locales, derivados tanto de la coyuntura geopolítica como del cierre de rutas estratégicas —como el Canal de Ormuz— y del incremento sostenido en el precio del diésel, factores que impactan directamente nuestros costos logísticos y operativos.";
 
                 rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 80);
                 paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
 
                 renglon1 += 80;
 
-                // Cierre
-                textoParrafo = "Agradecemos sinceramente su comprensión y la confianza que ha depositado en nosotros. Quedamos a su disposición para analizar alternativas de suministro, esquemas de compra y soluciones que se adapten a esta coyuntura, con el objetivo de continuar fortaleciendo nuestra relación comercial.";
+                // Párrafo 4
+                textoParrafo = "Adicionalmente, se ha presentado una afectación relevante por los aranceles aplicados en México a los derivados de hidrocarburos, lo que ha complicado la disponibilidad y elevado el costo de las principales materias primas utilizadas en nuestros procesos productivos. En conjunto, estos elementos generan un entorno de alta presión a lo largo de toda la cadena de suministro.";
 
-                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 60);
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
                 paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+                renglon1 += 80;
+
+                // Párrafo 5
+                textoParrafo = "Como referencia, durante los últimos meses nuestros costos han registrado incrementos significativos en las principales materias primas, entre los que destacan:";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+                renglon1 += 40;
+
+                // Párrafo 6 costos
+                textoParrafo = "• Petróleo: +115  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 50, 20);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+
+                renglon1 += 20;
+                textoParrafo = "• Alcoholes: +21  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 50, 20);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+                textoParrafo = "• Tensoactivo aniónico: +36  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 20);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+                textoParrafo = "• Hidrocarburos aromáticos: incrementos entre 11  % y 14  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 20);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+                textoParrafo = "• Aditivos: +32 % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 20);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+                textoParrafo = "• Polietileno (envases y empaque): +31  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 40);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+                textoParrafo = "• Etiquetas: +9  % ";
+
+                rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 40);
+                paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoIzquierda);
+                renglon1 += 20;
+
+                PdfPageBase pagina2 = pdf.Pages.Add();
+
+                renglon1 = 100;
+                //if (File.Exists(rutaLogo2))
+                //{
+                //    //var imagen = hoja.Drawings.AddPicture("Logo2", new FileInfo(rutaLogo2));
+                //    //imagen.SetPosition(0, 0, 0, 0); // Posicionar en la esquina superior izquierda
+                //    //                                //imagen.SetSize(100, 50); // Ajustar tamaño
+                //    PdfImage imagen = PdfImage.FromFile(rutaLogo2);
+                //    pagina2.Canvas.DrawImage(imagen, new RectangleF(0, 0, 140, 80));
+
+
+                //}
+
+                if (File.Exists(rutaLogo))
+                {
+                    PdfImage imagenpresentacion2 = PdfImage.FromFile(rutaLogo);
+                    pagina2.Canvas.DrawImage(imagenpresentacion2, new RectangleF(0, 0, 580, 70));
+                }
+                // Obtener el ancho y alto de la página
+                float anchoPagina2 = pagina2.Canvas.ClientSize.Width;
+                float altoImagen2 = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina2;
+
+                // Dibujar la imagen en la parte inferior de la página
+                float posicionY2 = paginapresentacion.Canvas.ClientSize.Height - altoImagen2;
+                pagina2.Canvas.DrawImage(imagenPiedepagina, 0, posicionY2, anchoPagina2, altoImagen2);
+
+
+                // brinco de hoja y Párrafo  1 2da hoja 
+                textoParrafo = "Derivado de lo anterior, nos vemos en la necesidad de informarle que será indispensable realizar ajustes inmediatos en los precios de ciertos productos, los cuales se verán reflejados conforme a la composición y materias primas involucradas en cada formulación y presentación. Asimismo, no nos es posible comprometernos a mantener precios fijos en el mediano y largo plazo, ya que los ajustes en materias primas y logística continúan presentándose de manera acelerada e impredecible.";
+
+                rect = new RectangleF(50, renglon1, pagina2.Canvas.ClientSize.Width - 100, 150);
+                pagina2.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+                renglon1 += 80;
+
+                //   Párrafo  2 2da hoja 
+                textoParrafo = "Queremos dejar en claro que, en caso de que el precio del petróleo y de las principales materias primas muestre una tendencia sostenida a la baja, realizaremos los ajustes correspondientes en nuestros precios de venta, reflejando dichas condiciones de mercado de manera responsable y transparente. No obstante, es importante considerar que, históricamente, estos precios tienden a incrementarse de forma más rápida de lo que disminuyen, por lo que los ajustes a la baja suelen darse de manera gradual.";
+
+                rect = new RectangleF(50, renglon1, pagina2.Canvas.ClientSize.Width - 100, 150);
+                pagina2.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+                renglon1 += 80;
+
+                // Cierre
+                textoParrafo = "Agradecemos sinceramente su comprensión y la confianza que ha depositado en nosotros. Quedamos a su disposición para analizar alternativas de suministro, esquemas de compra y soluciones comerciales que se adapten a esta coyuntura, con el objetivo de continuar fortaleciendo nuestra relación comercial.";
+
+                rect = new RectangleF(50, renglon1, pagina2.Canvas.ClientSize.Width - 100, 60);
+                pagina2.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
 
                 renglon1 += 70;
 
                 // Despedida
-                paginapresentacion.Canvas.DrawString("Reciba un cordial saludo,", fuenteTexto, brocha, 50, renglon1);
+                pagina2.Canvas.DrawString("Reciba un cordial saludo,", fuenteTexto, brocha, 50, renglon1);
 
                 renglon1 += 30;
 
                 // Firma
-                paginapresentacion.Canvas.DrawString("ATENTAMENTE", textoFontBold, brocha, 50, renglon1);
+                pagina2.Canvas.DrawString("ATENTAMENTE", textoFontBold, brocha, 50, renglon1);
 
                 renglon1 += 30;
 
-                paginapresentacion.Canvas.DrawString("Equipo Comercial Key Química", fuenteTexto, brocha, 50, renglon1);
+                pagina2.Canvas.DrawString("Equipo Comercial Key Química", fuenteTexto, brocha, 50, renglon1);
 
 
                 #endregion pagina 1 
@@ -1661,8 +1752,8 @@ namespace SIANWEB.GestionPrecios
                         altoImagen = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina;
 
                         // Dibujar la imagen en la parte inferior de la página
-                        float posicionY2 = pagina.Canvas.ClientSize.Height - altoImagen;
-                        pagina.Canvas.DrawImage(imagenPiedepagina, 0, posicionY2 + 5, anchoPagina, altoImagen);
+                        float posicionY3 = pagina.Canvas.ClientSize.Height - altoImagen;
+                        pagina.Canvas.DrawImage(imagenPiedepagina, 0, posicionY3 + 5, anchoPagina, altoImagen);
                         pagina = pdf.Pages.Add();
                         renglon = 30;
                     }
@@ -1900,6 +1991,612 @@ namespace SIANWEB.GestionPrecios
             }
         }
 
+
+        //[WebMethod]
+        //public static string GenerarPDFAbril2026_anterior(List<Cliente> clientes, int dias, int id_cte, string nom_comercial, string representante, string nombrerepresentante, string telefonorik, string fechainicio, string correo)
+        //{
+
+        //    try
+        //    {
+
+        //        PdfDocument pdf = new PdfDocument();
+
+        //        PdfPageBase paginapresentacion = pdf.Pages.Add();
+        //        PdfFont tituloFont = new PdfFont(PdfFontFamily.Helvetica, 16f, PdfFontStyle.Bold);
+        //        PdfFont textoFont = new PdfFont(PdfFontFamily.TimesRoman, 10f);
+        //        PdfFont textoFontBold = new PdfFont(PdfFontFamily.TimesRoman, 10f, PdfFontStyle.Bold);
+        //        PdfFont textoFontBoldPresentacion = new PdfFont(PdfFontFamily.TimesRoman, 12f, PdfFontStyle.Bold);
+        //        PdfStringFormat formatoCentrado = new PdfStringFormat(PdfTextAlignment.Center);
+        //        PdfStringFormat formatoDerecha = new PdfStringFormat(PdfTextAlignment.Right);
+        //        PdfStringFormat formatoIzquierda = new PdfStringFormat(PdfTextAlignment.Left);
+        //        PdfStringFormat formatojustificado = new PdfStringFormat(PdfTextAlignment.Justify);
+        //        PdfBrush brocha = PdfBrushes.Black;
+        //        //declarar 
+        //        PdfTrueTypeFont fuenteTextofinal = new PdfTrueTypeFont(new Font("Arial", 9f), true);
+
+
+        //        string nombreArchivo = "Cotizacion" + id_cte + "-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".pdf";
+        //        string rutaRelativa = $"~/Reportes/{nombreArchivo}";
+        //        string rutaArchivo = HttpContext.Current.Server.MapPath("~/Reportes/" + nombreArchivo);
+        //        string rutaCompleta = HttpContext.Current.Server.MapPath(rutaRelativa);
+
+        //        string rutaLogo = HttpContext.Current.Server.MapPath("~/Img/KeyActprecios.png");
+        //        string rutaLogo2 = HttpContext.Current.Server.MapPath("~/Img/key_logo_reciente.png");
+        //        string piedepagina = HttpContext.Current.Server.MapPath("~/Img/piedepagina.png");
+        //        string rutapiedepagina = HttpContext.Current.Server.MapPath("~/Img/piedepagina.png");
+        //        PdfImage imagenPiedepagina = PdfImage.FromFile(rutapiedepagina);
+
+        //        string rutaImagen1 = HttpContext.Current.Server.MapPath("~/Img/aum2025.png");
+        //        string rutaimagen2 = HttpContext.Current.Server.MapPath("~/Img/inegi.png");
+
+        //        MySesion = (Sesion)HttpContext.Current.Session["Sesion" + HttpContext.Current.Session.SessionID];
+        //        //if (MySesion == null)
+        //        //{
+        //        //    response.Message = "connection close";
+        //        //    return response;
+        //        //}
+
+
+        //        string empresa = MySesion.Emp_Nombre;
+
+        //        //que envie el correo al que recibe de la pagina
+        //        //string correo = MySesion.U_Correo;
+
+        //        //Cargar datos cliente 
+
+        //        Clientes cte = new Clientes();
+        //        cte.Id_Cte = id_cte;
+        //        cte.Id_Emp = MySesion.Id_Emp;
+        //        cte.Id_Cd = MySesion.Id_Cd_Ver;
+        //        //cte.Id_Rik = txtRepresentante.Value.HasValue ? (int)txtRepresentante.Value.Value : (sesion.Id_Rik > 0 ? sesion.Id_Rik : 0);
+        //        CN_CatCliente cnCliente = new CN_CatCliente();
+        //        try
+        //        {
+        //            cnCliente.ConsultaClientes(ref cte, MySesion.Emp_Cnx);
+        //        }
+        //        catch (Exception ex)
+        //        {
+
+
+        //        }
+
+        //        string nombrecom = cte.Cte_NomComercial;
+        //        string calle = cte.Cte_FacCalle;
+        //        string colonia = cte.Cte_FacColonia;
+
+        //        string contacto = cte.Cte_Contacto;
+        //        //txtPuesto.Text = cte.ct;
+        //        string telefono_cliente = cte.Cte_Telefono;
+        //        int diascredito = cte.Cte_CondPago;
+        //        //que envie el correo al que recibe de la pagina
+        //        //correo = cte.Cte_Email;
+        //        #region Inicia a insertar datos en pdf 1
+        //        // Crear hoja
+
+
+
+
+        //        if (File.Exists(rutaLogo))
+        //        {
+        //            PdfImage imagenpresentacion = PdfImage.FromFile(rutaLogo);
+        //            paginapresentacion.Canvas.DrawImage(imagenpresentacion, new RectangleF(0, 0, 580, 70));
+        //        }
+
+
+        //        // Obtener el ancho y alto de la página
+        //        float anchoPagina1 = paginapresentacion.Canvas.ClientSize.Width;
+        //        float altoImagen1 = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina1;
+
+        //        // Dibujar la imagen en la parte inferior de la página
+        //        float posicionY1 = paginapresentacion.Canvas.ClientSize.Height - altoImagen1;
+        //        paginapresentacion.Canvas.DrawImage(imagenPiedepagina, 0, posicionY1, anchoPagina1, altoImagen1);
+
+        //        string titulo = "Reporte de Clientes";
+
+
+
+
+        //        // Crear cultura española
+        //        CultureInfo cultura = new CultureInfo("es-MX");
+
+
+        //        // Formatear la fecha 
+        //        string fechaFormateada = DateTime.Now.ToString("dd 'de' MMMM 'de' yyyy", cultura);
+
+
+        //        int renglon1 = 90;
+
+        //        //paginapresentacion.Canvas.DrawString($"        {fechaFormateada}", textoFontBold, brocha, 480, renglon1, formatoDerecha);
+
+        //        //renglon1 = renglon1 + 30;
+        //        //paginapresentacion.Canvas.DrawString("Estimado cliente", textoFontBoldPresentacion, brocha, 84, renglon1, formatoDerecha);
+
+        //        //renglon1 = renglon1 + 70; //20
+
+
+        //        //INICIO 
+
+        //        // Ciudad + fecha
+        //        paginapresentacion.Canvas.DrawString($" {fechaFormateada}.", textoFontBold, brocha, 400, renglon1, formatoDerecha);
+
+        //        renglon1 += 30;
+
+        //        // Saludo
+        //        paginapresentacion.Canvas.DrawString("Estimado cliente:", textoFontBoldPresentacion, brocha, 50, renglon1, formatoIzquierda);
+
+        //        renglon1 += 30;
+
+        //        // Configuración párrafos
+        //        PdfTrueTypeFont fuenteTexto = new PdfTrueTypeFont(new Font("Arial", 10f), true);
+        //        PdfStringFormat formatoJustificado = new PdfStringFormat { Alignment = PdfTextAlignment.Justify };
+
+        //        // Párrafo 1
+        //        string textoParrafo = "En primer lugar, queremos reiterarle nuestro firme compromiso de continuar ofreciéndole las mejores soluciones disponibles al precio más competitivo posible, así como nuestro acompañamiento y servicio constantes, aun en un entorno de mercado particularmente desafiante como el actual.";
+
+        //        RectangleF rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 60);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+        //        //anterior 
+        //        float anchoPagina = paginapresentacion.Canvas.ClientSize.Width;
+        //        float altoImagen;
+        //        altoImagen = 140; // Alto de las imágenes
+        //        float anchoColumna = anchoPagina; // / 2; // Dividir en dos columnas
+
+
+        //        renglon1 += 60;
+
+        //        // Párrafo 2
+        //        textoParrafo = "Como es de su conocimiento, la situación geopolítica internacional ha generado una alta volatilidad en los precios internacionales del petróleo (ver anexos), el cual constituye el principal insumo base para la producción de solventes. A ello se suman incrementos significativos en los costos de fletes internacionales y locales, derivados tanto de la coyuntura geopolítica como del cierre de rutas estratégicas, como el Canal de Ormuz, así como del incremento sostenido en el precio del diésel. Todos estos factores impactan de manera directa nuestros costos logísticos y operativos.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 120);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 90;
+
+        //        // Párrafo 3
+        //        textoParrafo = "Adicionalmente, se ha presentado una afectación relevante debido a los aranceles aplicados en México a los derivados de hidrocarburos, lo que complica la disponibilidad y eleva el costo de las principales materias primas utilizadas en la elaboración de solventes. En conjunto, estos elementos generan un entorno de alta presión sobre toda la cadena de suministro.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 80);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 60;
+
+        //        // Párrafo 4
+        //        textoParrafo = "Derivado de lo anterior, nos vemos en la necesidad de informarle que será indispensable realizar ajustes inmediatos en los precios de ciertos productos. Asimismo, no nos es posible comprometernos a mantener precios fijos en el mediano y largo plazo, ya que los ajustes en materias primas y logística continúan presentándose de manera acelerada e impredecible.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 60;
+
+        //        // Párrafo 5
+        //        textoParrafo = "En este contexto, recomendamos evitar órdenes abiertas, así como convenios de suministro a largo plazo bajo esquemas de precio fijo, ya que no podríamos garantizar su sostenibilidad bajo las condiciones actuales del mercado. De igual forma, nos será imposible respetar back orders que contemplen condiciones de precio previamente acordadas.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 70);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 60;
+
+        //        // Párrafo 6
+        //        textoParrafo = "Queremos dejar en claro que, en caso de que el precio del petróleo muestre una tendencia sostenida a la baja, realizaremos los ajustes correspondientes en nuestros precios de venta, reflejando dichas condiciones de mercado de manera responsable y transparente. No obstante, es importante considerar que, históricamente, los precios del petróleo tienden a incrementarse de forma más rápida de lo que disminuyen, por lo que los ajustes a la baja suelen darse de manera gradual.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 80);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 80;
+
+        //        // Cierre
+        //        textoParrafo = "Agradecemos sinceramente su comprensión y la confianza que ha depositado en nosotros. Quedamos a su disposición para analizar alternativas de suministro, esquemas de compra y soluciones que se adapten a esta coyuntura, con el objetivo de continuar fortaleciendo nuestra relación comercial.";
+
+        //        rect = new RectangleF(50, renglon1, paginapresentacion.Canvas.ClientSize.Width - 100, 60);
+        //        paginapresentacion.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rect, formatoJustificado);
+
+        //        renglon1 += 70;
+
+        //        // Despedida
+        //        paginapresentacion.Canvas.DrawString("Reciba un cordial saludo,", fuenteTexto, brocha, 50, renglon1);
+
+        //        renglon1 += 30;
+
+        //        // Firma
+        //        paginapresentacion.Canvas.DrawString("ATENTAMENTE", textoFontBold, brocha, 50, renglon1);
+
+        //        renglon1 += 30;
+
+        //        paginapresentacion.Canvas.DrawString("Equipo Comercial Key Química", fuenteTexto, brocha, 50, renglon1);
+
+
+        //        #endregion pagina 1 
+
+        //        #region Inicia a insertar datos en pdf pagina2
+        //        PdfPageBase pagina = pdf.Pages.Add();
+
+
+        //        if (File.Exists(rutaLogo2))
+        //        {
+        //            //var imagen = hoja.Drawings.AddPicture("Logo2", new FileInfo(rutaLogo2));
+        //            //imagen.SetPosition(0, 0, 0, 0); // Posicionar en la esquina superior izquierda
+        //            //                                //imagen.SetSize(100, 50); // Ajustar tamaño
+        //            PdfImage imagen = PdfImage.FromFile(rutaLogo2);
+        //            pagina.Canvas.DrawImage(imagen, new RectangleF(0, 0, 140, 80));
+
+
+        //        }
+
+
+
+        //        pagina.Canvas.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy}", textoFontBold, brocha, 510, 10, formatoDerecha);
+        //        pagina.Canvas.DrawString("Key Química SA de CV", textoFontBold, brocha, 510, 25, formatoDerecha);
+        //        pagina.Canvas.DrawString("KQU6911016X5", textoFontBold, brocha, 510, 40, formatoDerecha);
+        //        PdfStringFormat formatoaDerecha = new PdfStringFormat(PdfTextAlignment.Right, PdfVerticalAlignment.Middle);
+
+
+        //        titulo = "PROPUESTA ECONÓMICA";
+        //        pagina.Canvas.DrawString(titulo, textoFontBold, brocha, 10, 80, formatojustificado);
+
+        //        pagina.Canvas.DrawString("Empresa: ", textoFontBold, brocha, 10, 100, formatojustificado);
+        //        pagina.Canvas.DrawString("Atención: ", textoFontBold, brocha, 10, 110, formatojustificado);
+
+        //        pagina.Canvas.DrawString(nom_comercial, textoFont, brocha, 110, 100, formatoIzquierda);
+        //        pagina.Canvas.DrawString(contacto, textoFont, brocha, 110, 110, formatoIzquierda);
+
+
+        //        //parrafo
+
+        //        textoParrafo = "Key es una empresa 100% mexicana con más de 50 años de experiencia en la industria, lo que nos ha dado el conocimiento para "
+        //           + "entender que en la actualidad los clientes son más demandantes con la limpieza y con espacios más limpios y sanos, por lo que "
+        //           + "nos hemos especializado en no solo ofrecer químicos y accesorios, sino en desarrollar un programa completo de higiene, "
+        //           + "personalizado, según las necesidades de cada cliente, que les ayude a cumplir con altos estándares de limpieza de manera simple y a "
+        //           + "un costo óptimo. ";
+
+
+        //        int renglon = 140;
+        //        formatoJustificado.Alignment = PdfTextAlignment.Justify;
+        //        RectangleF rectanguloTexto = new RectangleF(10, renglon, pagina.Canvas.ClientSize.Width - 20, 100);
+
+        //        // Dibujar el párrafo en el PDF
+        //        pagina.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, rectanguloTexto, formatoJustificado);
+
+
+        //        titulo = "Esperando podamos colaborar e integrar un equipo, nos reiteramos a sus órdenes. ";
+        //        pagina.Canvas.DrawString(titulo, fuenteTexto, brocha, 10, 200, formatojustificado);
+
+
+
+        //        PdfTable tablaPDF = new PdfTable
+        //        {
+        //            Style =
+        //            {
+        //                ShowHeader = true,
+        //                HeaderStyle = { Font = new PdfFont(PdfFontFamily.Helvetica, 10f, PdfFontStyle.Bold), BackgroundBrush = PdfBrushes.LightGray },
+        //                DefaultStyle = { Font = fuenteTexto, TextBrush = brocha }
+        //            }
+        //        };
+
+        //        tablaPDF.Style.HeaderSource = PdfHeaderSource.ColumnCaptions;
+        //        tablaPDF.Style.DefaultStyle.Font = new PdfTrueTypeFont(new Font("Arial", 8f), true);
+
+        //        var tablaDatos = new DataTable();
+        //        tablaDatos.Columns.Add("Producto");
+        //        tablaDatos.Columns.Add("Descripción");
+        //        tablaDatos.Columns.Add("Precio");
+
+        //        renglon = 230;
+        //        int iclientes = 0;
+        //        foreach (var cliente in clientes)
+        //        {
+        //            renglon = renglon + 10;
+        //            iclientes++;
+        //            tablaDatos.Rows.Add(cliente.Id_Prd, cliente.NomProducto, cliente.PrecioNegociadoProy.ToString("N2", CultureInfo.CreateSpecificCulture("es-MX")));
+        //        }
+
+
+        //        tablaPDF.DataSource = tablaDatos;
+
+
+        //        tablaPDF.Columns[0].Width = 70;
+        //        tablaPDF.Columns[1].Width = 280;
+        //        tablaPDF.Columns[2].Width = 70;
+        //        tablaPDF.Columns[2].StringFormat = formatoaDerecha;
+
+        //        //PdfLayoutResult resultadoTabla = tablaPDF.Draw(pagina, new PointF(20, 220));
+
+        //        //as lo tenia en mi c´digo 27ene2025
+        //        //tablaPDF.Draw(pagina, new PointF(20, 220));
+
+        //        float altoDisponible = pagina.Canvas.ClientSize.Height - 200; // Espacio disponible
+        //                                                                      //while (resultadoTabla.Bounds.Bottom + 30 > altoDisponible)
+        //                                                                      //{
+        //                                                                      //    pagina = pdf.Pages.Add(); // Agregar nueva página
+        //                                                                      //    renglon = 20; // Reiniciar renglón en la nueva página
+        //                                                                      //    resultadoTabla = tablaPDF.Draw(pagina, new PointF(20, renglon));
+        //                                                                      //    renglon = 20 + (iclientes*10);
+        //                                                                      //}
+        //                                                                      // Variables de control
+        //        int totalRenglones = tablaDatos.Rows.Count;
+        //        int renglonesPorPagina = 25;
+        //        int renglonesMostrados = 0;
+        //        renglon = 220;
+
+        //        while (renglonesMostrados < totalRenglones)
+        //        {
+        //            // Definir cuántos renglones mostrar en esta página
+        //            int renglonesEnEstaPagina = renglonesMostrados == 0 ? 25 : 70;
+        //            renglonesEnEstaPagina = Math.Min(renglonesEnEstaPagina, totalRenglones - renglonesMostrados);
+
+        //            // Extraer los datos de la tabla para esta página
+        //            DataTable tablaPagina = tablaDatos.Clone();
+        //            for (int i = renglonesMostrados; i < renglonesMostrados + renglonesEnEstaPagina; i++)
+        //            {
+        //                tablaPagina.ImportRow(tablaDatos.Rows[i]);
+        //            }
+
+        //            // Dibujar la tabla
+        //            PdfTable tablaTemp = new PdfTable { DataSource = tablaPagina };
+        //            tablaTemp.Style = tablaPDF.Style;
+
+        //            tablaTemp.Columns[0].Width = 70;
+        //            tablaTemp.Columns[1].Width = 260;
+        //            tablaTemp.Columns[2].Width = 70;
+        //            tablaTemp.Columns[2].StringFormat = formatoaDerecha;
+
+        //            PdfLayoutResult resultadoTabla = tablaTemp.Draw(pagina, new PointF(20, renglon));
+
+        //            // Agregar pie de página con imagen
+        //            //string rutaImagen = "footer_image.jpg";
+        //            //PdfImage imagenPiedepagina = PdfImage.FromFile(rutaImagen);
+        //            //float anchoPagina = pagina.Canvas.ClientSize.Width;
+        //            //float altoImagen = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina;
+        //            //float posicionY = pagina.Canvas.ClientSize.Height - altoImagen - 20;
+        //            //pagina.Canvas.DrawImage(imagenPiedepagina, 0, posicionY, anchoPagina, altoImagen);
+
+        //            // Actualizar el número de renglones mostrados
+        //            renglonesMostrados += renglonesEnEstaPagina;
+
+        //            // Si quedan más registros, crear una nueva página
+        //            if (renglonesMostrados < totalRenglones)
+        //            {
+
+        //                altoImagen = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina;
+
+        //                // Dibujar la imagen en la parte inferior de la página
+        //                float posicionY2 = pagina.Canvas.ClientSize.Height - altoImagen;
+        //                pagina.Canvas.DrawImage(imagenPiedepagina, 0, posicionY2 + 5, anchoPagina, altoImagen);
+        //                pagina = pdf.Pages.Add();
+        //                renglon = 30;
+        //            }
+        //            else
+        //            {
+        //                renglon = (int)resultadoTabla.Bounds.Bottom + 10;
+        //            }
+        //        }
+
+
+
+        //        // Agregar texto final después de la tabla
+
+
+
+        //        //agregar el texto de la despedida debajo del grid 
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("Beneficios Tangibles", textoFontBold, brocha, 90, renglon, formatoDerecha);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("Logro de estándares de limpieza: ", textoFontBold, brocha, 0, renglon, formatojustificado);
+        //        pagina.Canvas.DrawString("Instalaciones limpias que de manera sostenida cumplan con todos los estándares de higiene.", fuenteTextofinal, brocha, 145, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("Costo óptimo:  ", textoFontBold, brocha, 0, renglon, formatojustificado);
+        //        pagina.Canvas.DrawString("Reducción de costo mensual integral de la limpieza.", fuenteTextofinal, brocha, 67, renglon, formatojustificado);
+        //        renglon = renglon + 20;
+        //        pagina.Canvas.DrawString("Términos y Condiciones", textoFontBold, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Vigencia de esta cotización es de " + dias + " días a partir de la fecha presentada.", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Precios No Incluyen IVA", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Entrega a domicilio", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Precios entran en vigor a partir del " + fechainicio, fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Los precios convenidos se respetarán y cualquier cambio será comunicado al cliente con 15 días de anticipación.", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        textoParrafo = "* En caso de que nuestra solución contemple la instalación de equipos dosificadores, éstos se ofrecerán en calidad de préstamo, para lo cual se firmará un Contrato de Comodato entre ambas partes.";
+        //        formatoJustificado.Alignment = PdfTextAlignment.Justify;
+        //        rectanguloTexto = new RectangleF(0, renglon, pagina.Canvas.ClientSize.Width - 20, 30);
+
+        //        // Dibujar el párrafo en el PDF
+        //        pagina.Canvas.DrawString(textoParrafo, fuenteTextofinal, brocha, rectanguloTexto, formatoJustificado);
+        //        renglon = renglon + 20;
+        //        pagina.Canvas.DrawString("* Se establece que las condiciones de crédito serán de " + diascredito + " días naturales a partir de la fecha de revisión de nuestra factura.", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* En caso de que haya demora en los pagos, Key Soluciones de Limpieza suspenderá el suministro de productos y servicios.", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+        //        renglon = renglon + 10;
+        //        pagina.Canvas.DrawString("* Para formalizar los términos, condiciones y alcance de nuestro servicio, se firmará un Convenio que garantice el cumplimiento.", fuenteTextofinal, brocha, 0, renglon, formatojustificado);
+
+        //        //parrafo de agradecimiento
+        //        renglon = renglon + 20;
+        //        textoParrafo = "Agradeciendo la oportunidad para poder presentarle nuestra propuesta, me despido de usted esperando poder atenderle próximamente";
+        //        //PdfTrueTypeFont fuenteTexto = new PdfTrueTypeFont(new Font("Arial", 10f), true);
+        //        //PdfStringFormat formatoJustificado = new PdfStringFormat();
+        //        formatoJustificado.Alignment = PdfTextAlignment.Justify;
+        //        RectangleF agradecimiento = new RectangleF(0, renglon, paginapresentacion.Canvas.ClientSize.Width - 20, 200);
+
+        //        // Dibujar el párrafo en el PDF nombre del rik y telefono
+        //        pagina.Canvas.DrawString(textoParrafo, fuenteTexto, brocha, agradecimiento, formatoJustificado);
+        //        renglon = renglon + 40;
+        //        textoParrafo = nombrerepresentante + "  ,  " + telefonorik;
+        //        formatoJustificado.Alignment = PdfTextAlignment.Justify;
+        //        rectanguloTexto = new RectangleF(0, renglon, pagina.Canvas.ClientSize.Width, 30);
+
+        //        // Dibujar el párrafo en el PDF
+        //        pagina.Canvas.DrawString(textoParrafo, fuenteTextofinal, brocha, rectanguloTexto, formatoCentrado);
+
+
+
+        //        // Obtener el ancho y alto de la página
+
+        //        altoImagen = (imagenPiedepagina.PhysicalDimension.Height / imagenPiedepagina.PhysicalDimension.Width) * anchoPagina;
+
+        //        // Dibujar la imagen en la parte inferior de la página
+        //        float posicionY = pagina.Canvas.ClientSize.Height - altoImagen;
+        //        pagina.Canvas.DrawImage(imagenPiedepagina, 0, posicionY + 5, anchoPagina, altoImagen);
+
+        //        pdf.SaveToFile(rutaCompleta);
+        //        // Cerrar el documento
+        //        pdf.Close();
+
+        //        Console.WriteLine($"PDF generado en: {rutaCompleta}");
+
+
+
+        //        #endregion termina insertar datos en pdf 
+
+
+
+        //        //pruebas de archivo 
+        //        string rutaBase = AppDomain.CurrentDomain.BaseDirectory;
+        //        string subCarpeta = "Reportes";
+        //        string rutaCompleta2 = Path.Combine(rutaBase, subCarpeta, nombreArchivo);
+        //        string archivoUrl = rutaCompleta2;
+        //        //pruebas de archivo fin 
+
+        //        Uri requestUrl = HttpContext.Current.Request.Url;
+        //        string baseUrl = $"{requestUrl.Scheme}://{requestUrl.Host}:{requestUrl.Port}";
+        //        string archivoUrl2 = $"{baseUrl}/Reportes/{nombreArchivo}";
+        //        Console.WriteLine(baseUrl);
+        //        Console.WriteLine(archivoUrl2);
+        //        Console.WriteLine(archivoUrl);
+        //        string urlBase = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + HttpContext.Current.Request.ApplicationPath;
+        //        Console.WriteLine("urlBase", urlBase);
+        //        // Construir la URL completa del archivo
+        //        string archivoUrl3 = $"{urlBase}/Reportes/{nombreArchivo}";
+        //        Console.WriteLine(archivoUrl3);
+
+
+
+
+        //        #region enviar correo 
+
+
+        //        string correoUsuario = MySesion.U_Correo;
+
+        //        // ENVIO DE CORREO 
+
+        //        ConfiguracionGlobal configuracion = new ConfiguracionGlobal();
+        //        configuracion.Id_Cd = MySesion.Id_Cd_Ver;
+        //        configuracion.Id_Emp = MySesion.Id_Emp;
+        //        CN_Configuracion cn_configuracion = new CN_Configuracion();
+        //        cn_configuracion.Consulta(ref configuracion, MySesion.Emp_Cnx);
+
+
+        //        string s_temp_file = "";
+        //        s_temp_file = HttpContext.Current.Server.MapPath("~/GestionPrecios/GestionIncrementoEmailTemplate.htm");
+        //        string Tmp = string.Empty;
+        //        StringBuilder SB = new StringBuilder();
+
+        //        using (StreamReader reader = new StreamReader(s_temp_file))
+        //        {
+        //            Tmp = reader.ReadToEnd();
+        //            SB.Append(Tmp);
+        //        }
+        //        //string LigaServidor = "http://40.84.229.61/siancentral/CL_Autorizaciones.aspx?";
+
+        //        //SB.Replace("{AUT_PARAMESTROS}", LigaServidor + "SolFolio=" + SolFolio.ToString() + "&Id_Cd=" + Id_Cd.ToString() + "&TipoCompra=" + TipoCompra + "&TipoSolicitud=" + TipoSolicitud.ToString());
+        //        SB.Replace("{TITULO}", "Aviso de Ajuste en Nuestros Precios");
+        //        SB.Replace("{EMPRESA}", MySesion.Emp_Nombre);
+        //        SB.Replace("{ATENCION}", contacto);
+        //        SB.Replace("{CENTRO}", MySesion.Id_Cd.ToString() + " - " + MySesion.Cd_Nombre);
+        //        SB.Replace("{REPRESENTANTE}", nombrerepresentante);
+        //        SB.Replace("{TELEFONO}", telefonorik);
+        //        SB.Replace("{FECHAINICIO}", fechainicio);
+        //        //   SB.Replace("{CORREO_AUTORIZADOR}", LstAutorizadores[0].Responsable + " (" + LstAutorizadores[0].Correo + ")");
+        //        string body = SB.ToString();
+
+        //        AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+        //        //this.RespaldoCorreo(hfNumSolicitudAbasto.Value, body, correo);
+        //        SmtpClient sm = new SmtpClient(configuracion.Mail_Servidor, Convert.ToInt32(2525));
+        //        sm.Credentials = new NetworkCredential(configuracion.Mail_Usuario, configuracion.Mail_Contraseña);
+        //        sm.EnableSsl = false;
+        //        MailMessage m = new MailMessage();
+        //        //  string[] eVirtual = configuracion.Mail_EVirtual.Split(',');
+        //        m.From = new MailAddress(configuracion.Mail_Remitente);
+
+
+        //        string rutaPDF = rutaCompleta; //  @"C:\ruta\del\archivo.pdf";
+        //        Attachment adjunto = new Attachment(rutaPDF, MediaTypeNames.Application.Pdf);
+        //        m.Attachments.Add(adjunto);
+        //        //string correo = "ing.rborquez@gmail.com, raul.borquez@gibraltar.com.mx,dianela.morales@key.com.mx,servicios.informatica@gibraltar.com.mx";
+
+        //        //this.CorreosAutorizadorxMotivoxApp(ref correo, TipoSolicitud, IdAplicacion);
+
+        //        //descomentar para pruebas 
+        //        //correo = "whylfredo.valero@gibraltar.com.mx,orlando.guzman@gibraltar.com.mx";
+        //        //correo = "francisco.cepeda@gibraltar.com.mx";
+        //        correo = correo.Replace(";", ",");
+        //        string[] eVirtual2 = correo.Split(',');
+        //        int reng = 1;
+
+        //        reng = 0;
+
+        //        foreach (string core in eVirtual2)
+        //        {
+        //            if (core != " ")
+        //            {
+        //                if (reng == 0)
+        //                {
+        //                    m.To.Add(new MailAddress(core));
+        //                    reng = 1;
+        //                }
+        //                else
+        //                {
+        //                    m.CC.Add(new MailAddress(core));
+        //                }
+        //            }
+        //        }
+
+        //        //m.Bcc.Add(new MailAddress("dianela.morales@key.com.mx"));
+        //        // m.Bcc.Add(new MailAddress("francisco.cepeda@gibraltar.com.mx"));
+        //        if (correo != correoUsuario)
+        //        {
+        //            m.CC.Add(new MailAddress(correoUsuario));
+        //        }
+
+
+        //        m.Subject = "Propuesta económica para  " + nom_comercial;
+        //        m.IsBodyHtml = true;
+        //        try
+        //        {
+        //            //LinkedResource logo = new LinkedResource(MapPath(@"Imagenes/logo.jpg"), MediaTypeNames.Image.Jpeg);
+        //            //logo.ContentId = "companylogo";
+        //            //vistaHtml.LinkedResources.Add(logo);
+        //        }
+        //        catch (Exception)
+        //        {
+        //        }
+        //        m.AlternateViews.Add(vistaHtml);
+
+        //        int CorreoEnviado = 0;
+        //        try
+        //        {
+        //            sm.Send(m);
+        //            CorreoEnviado = 1;
+
+        //        }
+        //        catch (Exception exx)
+        //        {
+        //            CorreoEnviado = -1;
+        //        }
+
+
+        //        #endregion enviar correo
+
+
+        //        return archivoUrl3;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return $"Error: {ex.Message}";
+        //    }
+        //}
 
 
         //[WebMethod]
